@@ -35,7 +35,7 @@ EXTRAS_REQUIRE["dev"] = EXTRAS_REQUIRE["docs"] + EXTRAS_REQUIRE["tests"] + EXTRA
 
 setup(
     name="workbench_core",
-    version="0.1.0",
+    version="0.0.1",
     description="Workbench core concepts and classes.",
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",

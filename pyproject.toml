@@ -1,7 +1,19 @@
+[tool.poetry]
+name = "workbench-core"
+version = "0.0.1"
+description = "Core library for the Workbench project"
+authors = ["Jean Dos Santos <jeandsantos88@gmail.com>"]
+readme = "README.md"
+packages = [{ include = "workbench_core", from = "src" }]
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.12"
+
 [tool.black]
 line-length = 120
 
 [tool.isort]
+profile = "black"
 line_length = 120
 multi_line_output = 3
 include_trailing_comma = true
@@ -20,9 +32,13 @@ ignore_missing_imports = true # not supported yet
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-ra -q"        # test summary for (a)ll except passed
+pythonpath = ["src"]
 testpaths = ["tests"]
 log_cli = true
 log_cli_level = "WARNING"
+
+[tool.pydocstyle]
+convention = "google"
 
 [tool.tox]
 legacy_tox_ini = """

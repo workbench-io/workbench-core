@@ -7,9 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.1.0] - 2024-02-10
+## [0.0.1] - 2024-02-10
 
 Initial public release
 
-[Unreleased]: https://github.com/workbench-io/workbench-core/0.1.0...HEAD
-[0.1.0]: https://github.com/workbench-io/workbench-core/releases/tag/0.1.0
+[Unreleased]: https://github.com/workbench-io/workbench-core/0.0.1...HEAD
+[0.0.1]: https://github.com/workbench-io/workbench-core/releases/tag/0.0.1
