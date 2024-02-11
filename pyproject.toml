@@ -1,13 +1,34 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
 [tool.poetry]
 name = "workbench-core"
 version = "0.0.1"
 description = "Core library for the Workbench project"
 authors = ["Jean Dos Santos <jeandsantos88@gmail.com>"]
 readme = "README.md"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+]
 packages = [{ include = "workbench_core", from = "src" }]
 
 [tool.poetry.dependencies]
-python = ">=3.11,<3.12"
+python = ">=3.11,<4.0"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.6.0"
+black = "^24.1.1"
+flake8 = "^7.0.0"
+mypy = "^1.8.0"
+pydocstyle = "^6.3.0"
+pylint = "^3.0.3"
+pytest = "^8.0.0"
+pytest-cov = "^4.1.0"
+ruff = "^0.2.1"
+tox = "^4.12.1"
 
 [tool.black]
 line-length = 120
@@ -19,19 +40,25 @@ multi_line_output = 3
 include_trailing_comma = true
 use_parentheses = true
 
-[tool.pylint.message_control]
-disable = ["import-error", "bad-continuation", "logging-fstring-interpolation"]
+[tool.ruff]
+line-length = 120
+src = ["src", "tests"]
 
-[tool.pylint.format]
+[tool.pylint]
 max-line-length = 120
-good-names = ["logger"]
-
+disable = [
+    "missing-module-docstring",
+    "missing-function-docstring",
+    "missing-class-docstring",
+    "too-few-public-methods",
+]
 [tool.mypy]
-ignore_missing_imports = true # not supported yet
+mypy_path = "src"
+ignore_missing_imports = false
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra -q"        # test summary for (a)ll except passed
+addopts = "-ra -q --verbose --cov=src --cov-config=pyproject.toml"
 pythonpath = ["src"]
 testpaths = ["tests"]
 log_cli = true
@@ -39,57 +66,42 @@ log_cli_level = "WARNING"
 
 [tool.pydocstyle]
 convention = "google"
+match_dir = "src"
+add_ignore = [
+    "D100",
+    "D104",
+    "D105",
+    "D107",
+    "D203",
+    "D212",
+    "D213",
+    "D404",
+    "D406",
+    "D407",
+    "D413",
+]
 
 [tool.tox]
 legacy_tox_ini = """
 [tox]
-envlist = black, isort, pylint, mypy, py311 coverage-report, docs
-
-[testenv:black]
-skip_install = true
-deps = black
-commands =
-    black --diff src/
-    black --check src/
-
-[testenv:isort]
-skip_install = true
-deps = isort>5
-commands =
-    isort --diff src/
-    isort --check-only src/
-
-[testenv:pylint]
-skip_install = true
-deps = pylint
-commands = pylint src/
-
-[testenv:mypy]
-skip_install = true
-deps = mypy
-commands = mypy --ignore-missing-imports src/
+minversion = 4.12.1
+envlist = py311, py312
+isolated_build = true
 
 [testenv]
-extras = tests
-deps = toml
-commands = 
-    coverage run --parallel -m pytest
-
-[testenv:coverage-report]
-skip_install = true
+# https://python-poetry.org/docs/faq/#usecase-1
+allowlist_externals = poetry
 deps =
-    coverage>=5
-    toml
+    pytest
 commands =
-    - coverage combine
-    coverage report
+    poetry run pytest  --verbose --import-mode importlib --cov=src --cov-config=pyproject.toml tests
 
-[testenv:docs]
-extras = docs
-changedir = docs
-commands =
-    sphinx-build -b linkcheck . _build
-    sphinx-build -b dummy . _build
+# # https://python-poetry.org/docs/faq/#usecase-2
+# allowlist_externals = poetry
+# commands_pre =
+#     poetry install --no-root --sync
+# commands =
+#     poetry run pytest  --verbose --import-mode importlib --cov=src --cov-config=pyproject.toml tests
 """
 
 [tool.coverage.run]

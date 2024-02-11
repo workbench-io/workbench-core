@@ -1,0 +1,43 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v3.2.0
+      hooks:
+          - id: trailing-whitespace
+          - id: end-of-file-fixer
+          - id: check-yaml
+          - id: check-added-large-files
+          - id: check-toml
+          - id: check-docstring-first
+          - id: detect-private-key
+          - id: mixed-line-ending
+    - repo: local
+      hooks:
+          - id: isort-hook
+            name: isort
+            entry: poetry run isort src tests
+            language: system
+            types: [python]
+          - id: black-hook
+            name: black
+            entry: poetry run black src tests
+            language: system
+            types: [python]
+          - id: flake8-hook
+            name: flake8
+            entry: poetry run flake8 src tests
+            language: system
+            types: [python]
+          - id: pylint-hook
+            name: pylint
+            entry: poetry run pylint src tests
+            language: system
+            types: [python]
+          - id: pytest-cov-hook
+            name: pytest with coverage
+            entry: poetry run pytest --full-trace tests
+            pass_filenames: false
+            always: true
+            language: system
+            types: [python]
