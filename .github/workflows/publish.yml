@@ -24,12 +24,12 @@ jobs:
         echo "$HOME/.local/bin" >> $GITHUB_PATH
 
     - name: Configure Poetry
-      run: |
-        poetry config http-basic.azure <username> <password>
-        poetry config repositories.azure https://pkgs.dev.azure.com/workbench-io/_packaging/workbench-io/pypi/upload/
       env:
         <username>: ${{ secrets.AZURE_DEVOPS_USERNAME }}
         <password>: ${{ secrets.AZURE_DEVOPS_PAT }}
+      run: |
+        poetry config http-basic.azure "$AZURE_DEVOPS_USERNAME" "$AZURE_DEVOPS_PAT"
+        poetry config repositories.azure https://pkgs.dev.azure.com/workbench-io/_packaging/workbench-io/pypi/upload/
 
     - name: Build and Publish
       run: |
