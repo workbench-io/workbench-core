@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "workbench-core"
-version = "0.0.1"
+version = "0.0.3"
 description = "Core library for the Workbench project"
 authors = ["Jean Dos Santos <jeandsantos88@gmail.com>"]
 readme = "README.md"
@@ -14,6 +14,10 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
 ]
 packages = [{ include = "workbench_core", from = "src" }]
+
+[http-basic]
+[http-basic.azure]
+url = "https://pkgs.dev.azure.com/workbench-io/_packaging/workbench-io/pypi/upload/"
 
 [tool.poetry.dependencies]
 python = ">=3.11,<4.0"
@@ -29,6 +33,9 @@ pytest = "^8.0.0"
 pytest-cov = "^4.1.0"
 ruff = "^0.2.1"
 tox = "^4.12.1"
+keyring = "^24.3.0"
+artifacts-keyring = "^0.3.4"
+twine = "^5.0.0"
 
 [tool.black]
 line-length = 120

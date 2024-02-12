@@ -1,29 +1,37 @@
 name: Publish
 
-on: push
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-  publish:
-    name: Build and publish Python package to PyPI and Test PyPI
-    runs-on: ubuntu-18.04
+  build-and-publish:
+    runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@master
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.11
-      - name: Install pypa/build
-        run: python -m pip install build --user
-      - name: Build a source tarball
-        run: python -m build --sdist --outdir dist/ .
-      - name: Publish package to Test PyPI
-        uses: pypa/gh-action-pypi-publish@master
-        with:
-          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-          repository_url: https://test.pypi.org/legacy/
-          skip_existing: true
-      - name: Publish package to PyPI
-        if: startsWith(github.ref, 'refs/tags')
-        uses: pypa/gh-action-pypi-publish@master
-        with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.11'
+
+    - name: Install Poetry
+      run: |
+        curl -sSL https://install.python-poetry.org | python -
+        echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+    - name: Configure Poetry
+      run: |
+        poetry config http-basic.azure <username> <password>
+        poetry config repositories.azure https://pkgs.dev.azure.com/workbench-io/_packaging/workbench-io/pypi/upload/
+      env:
+        <username>: ${{ secrets.AZURE_DEVOPS_USERNAME }}
+        <password>: ${{ secrets.AZURE_DEVOPS_PAT }}
+
+    - name: Build and Publish
+      run: |
+        poetry build
+        poetry publish -r azure
