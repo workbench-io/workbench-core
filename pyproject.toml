@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "workbench-core"
-version = "0.0.4"
+version = "0.0.5"
 description = "Core library for the Workbench project"
 authors = ["Jean Dos Santos <jeandsantos88@gmail.com>"]
 readme = "README.md"
