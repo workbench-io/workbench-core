@@ -25,13 +25,11 @@ jobs:
 
     - name: Configure Poetry
       run: |
-        poetry config http-basic.azure <username> <password>
+        poetry config repositories.azure "https://pkgs.dev.azure.com/workbench-io/_packaging/workbench-io/pypi/upload/"
+        poetry config http-basic.azure ${{ secrets.AZURE_DEVOPS_USERNAME }} ${{ secrets.AZURE_DEVOPS_PAT }}
         poetry config repositories.azure https://pkgs.dev.azure.com/workbench-io/_packaging/workbench-io/pypi/upload/
-      env:
-        <username>: ${{ secrets.AZURE_DEVOPS_USERNAME }}
-        <password>: ${{ secrets.AZURE_DEVOPS_PAT }}
 
     - name: Build and Publish
       run: |
-        poetry build
-        poetry publish -r azure
+        poetry build -f wheel --no-interaction
+        poetry publish -r azure --skip-existing
