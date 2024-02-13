@@ -23,6 +23,9 @@ jobs:
         curl -sSL https://install.python-poetry.org | python -
         echo "$HOME/.local/bin" >> $GITHUB_PATH
 
+    - name: Update package version
+      run: poetry version patch
+
     - name: Configure Poetry
       run: |
         poetry config repositories.azure "https://pkgs.dev.azure.com/workbench-io/_packaging/workbench-io/pypi/upload/"
