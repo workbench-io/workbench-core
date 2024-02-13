@@ -95,7 +95,7 @@ isolated_build = true
 # https://python-poetry.org/docs/faq/#usecase-1
 allowlist_externals = poetry
 deps =
-    pytest
+    [pytest, pytest-cov]`
 commands =
     poetry run pytest  --verbose --import-mode importlib --cov=src --cov-config=pyproject.toml tests
 
@@ -104,7 +104,7 @@ commands =
 # commands_pre =
 #     poetry install --no-root --sync
 # commands =
-#     poetry run pytest  --verbose --import-mode importlib --cov=src --cov-config=pyproject.toml tests
+#     poetry run pytest --verbose --import-mode importlib --cov=src --cov-config=pyproject.toml tests
 """
 
 [tool.coverage.run]
