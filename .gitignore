@@ -203,3 +203,6 @@ pyrightconfig.json
 .history
 .ionide
 .DS_Store
+
+logs/
+logs/*
