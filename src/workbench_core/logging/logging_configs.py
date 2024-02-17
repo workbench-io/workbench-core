@@ -1,11 +1,9 @@
-import atexit
 import json
 import logging
 import os
 import pathlib
 from enum import StrEnum, auto
 from logging.config import dictConfig
-from logging.handlers import QueueHandler
 
 from workbench_core.settings import DEFAULT_LOG_FILEPATH
 
@@ -27,15 +25,12 @@ LOG_LEVEL_MAP: dict[EnvState, int] = {
     EnvState.PROD: logging.INFO,
 }
 
-
-def get_handler_by_name(logger: logging.Logger, handler_name: str):
-    for handler in logger.handlers:
-        if handler.name == handler_name:
-            return handler
-    return None
+LOG_MESSAGE_TEMPLATE = "{class_name}.{function_name}: {message}"
 
 
-def setup_logging(logger: logging.Logger):
+def setup_logging() -> None:
+    """Set up the logging configuration."""
+
     config_file = pathlib.Path(__file__).parent.joinpath("logging_config.json")
 
     with open(config_file, encoding="utf-8") as file:
@@ -43,7 +38,4 @@ def setup_logging(logger: logging.Logger):
 
     dictConfig(config)
 
-    queue_handler: QueueHandler = get_handler_by_name(logger, "queue_handler")
-    if queue_handler is not None:
-        queue_handler.listener.start()
-        atexit.register(queue_handler.listener.stop)
+    logging.getLogger().setLevel(LOG_LEVEL_MAP[ENV_STATE])
