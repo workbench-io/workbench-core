@@ -93,7 +93,7 @@ add_ignore = [
 legacy_tox_ini = """
 [tox]
 minversion = 4.12.1
-envlist = py310, py311
+envlist = py311
 isolated_build = true
 
 [testenv]
@@ -103,13 +103,6 @@ deps =
     [pytest, pytest-cov]
 commands =
     poetry run pytest  --verbose --import-mode importlib --cov=src --cov-config=pyproject.toml tests
-
-# # https://python-poetry.org/docs/faq/#usecase-2
-# allowlist_externals = poetry
-# commands_pre =
-#     poetry install --no-root --sync
-# commands =
-#     poetry run pytest --verbose --import-mode importlib --cov=src --cov-config=pyproject.toml tests
 """
 
 [tool.coverage.run]

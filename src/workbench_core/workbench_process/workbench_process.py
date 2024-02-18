@@ -13,7 +13,7 @@ class WorkbenchProcess(ABC, WorkbenchLogger):
         self.create_logger()
 
     @abstractmethod
-    def run(self, data_object: WorkbenchData) -> bool:  # pylint: disable=unused-argument
+    def run(self, workbench_data: WorkbenchData) -> bool:  # pylint: disable=unused-argument
         """
         Run process with provided data and configuration object.
 
