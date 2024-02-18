@@ -1,6 +1,6 @@
 """Test WorkbenchTransformer class."""
 
-from workbench_core.workbench_transformer.workbench_transfomer import WorkbenchTransformer
+from workbench_core.workbench_transformer.workbench_transformer import WorkbenchTransformer
 
 
 class TestWorkbenchTransformer:

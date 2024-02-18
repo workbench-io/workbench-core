@@ -2,6 +2,7 @@
 
 from abc import ABC, abstractmethod
 
+from workbench_core.workbench_config.workbench_config import WorkbenchConfig
 from workbench_core.workbench_data.workbench_data import WorkbenchData
 from workbench_core.workbench_logging.workbench_logger import WorkbenchLogger
 
@@ -13,7 +14,7 @@ class WorkbenchProcess(ABC, WorkbenchLogger):
         self.create_logger()
 
     @abstractmethod
-    def run(self, workbench_data: WorkbenchData) -> bool:  # pylint: disable=unused-argument
+    def run(self, data: WorkbenchData, config: WorkbenchConfig) -> bool:  # pylint: disable=unused-argument
         """
         Run process with provided data and configuration object.
 

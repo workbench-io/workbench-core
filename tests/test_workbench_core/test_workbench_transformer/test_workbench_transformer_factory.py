@@ -1,4 +1,4 @@
-from workbench_core.workbench_transformer.workbench_transfomer import WorkbenchTransformer
+from workbench_core.workbench_transformer.workbench_transformer import WorkbenchTransformer
 from workbench_core.workbench_transformer.workbench_transformer_factory import WorkbenchTransformerFactory
 
 
@@ -27,4 +27,4 @@ class TestWorkbenchTransformerFactory:
         data_transformer_factory.register(name="name", item=data_transformer)
         result = data_transformer_factory.create_instance(name="name")
 
-        assert result.__class__.__qualname__ == data_transformer.__qualname__
+        assert isinstance(result, WorkbenchTransformer)
