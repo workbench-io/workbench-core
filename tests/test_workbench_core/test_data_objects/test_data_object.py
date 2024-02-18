@@ -1,8 +1,8 @@
-from workbench_core.data_object.data_object import DataObject
+from workbench_core.workbench_data.workbench_data import WorkbenchData
 
 
-class TestDataObject:
+class TestWorkbenchData:
 
     def test___init__(self):
-        data_object = DataObject()
+        data_object = WorkbenchData()
         assert data_object is not None

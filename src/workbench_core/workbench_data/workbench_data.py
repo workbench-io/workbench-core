@@ -5,7 +5,7 @@ from abc import ABC
 from workbench_core.workbench_logging.workbench_logger import WorkbenchLogger
 
 
-class DataObject(ABC, WorkbenchLogger):
+class WorkbenchData(ABC, WorkbenchLogger):
     """Base class for data objects."""
 
     def __init__(self) -> None:

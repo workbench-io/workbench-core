@@ -1,7 +1,7 @@
 import pytest
 
-from workbench_core.data_object.data_object import DataObject
-from workbench_core.data_object.data_object_factory import DataObjectFactory
+from workbench_core.workbench_data.workbench_data import WorkbenchData
+from workbench_core.workbench_data.workbench_data_factory import WorkbenchDataFactory
 from workbench_core.workbench_factory import WorkbenchFactory
 from workbench_core.workbench_transformer.workbench_transfomer import WorkbenchTransformer
 from workbench_core.workbench_transformer.workbench_transformer_factory import WorkbenchTransformerFactory
@@ -28,13 +28,13 @@ def workbench_object() -> WorkbenchObject:
 
 
 @pytest.fixture
-def data_object() -> DataObject:
-    return DataObject
+def data_object() -> WorkbenchData:
+    return WorkbenchData
 
 
 @pytest.fixture
-def data_object_factory() -> DataObjectFactory:
-    return DataObjectFactory()
+def data_object_factory() -> WorkbenchDataFactory:
+    return WorkbenchDataFactory()
 
 
 @pytest.fixture
