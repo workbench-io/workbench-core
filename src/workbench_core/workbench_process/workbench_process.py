@@ -6,7 +6,7 @@ from workbench_core.data_object.data_object import DataObject
 from workbench_core.logging.workbench_logger import WorkbenchLogger
 
 
-class Process(ABC, WorkbenchLogger):
+class WorkbenchProcess(ABC, WorkbenchLogger):
     """Base class for processes."""
 
     def __init__(self) -> None:
