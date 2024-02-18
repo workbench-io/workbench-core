@@ -10,23 +10,17 @@ class TestWorkbenchFactory:
     """Test the WorkbenchFactory class."""
 
     def test_register(self, workbench_factory: WorkbenchFactory, workbench_object: WorkbenchObject):
-
-        workbench_factory = WorkbenchFactory()
         workbench_factory.register(name="name", item=workbench_object)
 
         assert workbench_factory._items["name"] == workbench_object  # pylint: disable=protected-access
 
     def test_create(self, workbench_factory: WorkbenchFactory, workbench_object: WorkbenchObject):
-
-        workbench_factory = WorkbenchFactory()
         workbench_factory.register(name="name", item=workbench_object)
         result = workbench_factory.create(name="name")
 
         assert result == workbench_object
 
     def test_create_instance(self, workbench_factory: WorkbenchFactory, workbench_object: WorkbenchObject):
-
-        workbench_factory = WorkbenchFactory()
         workbench_factory.register(name="name", item=workbench_object)
         result = workbench_factory.create_instance(name="name")
 
@@ -36,7 +30,6 @@ class TestWorkbenchFactory:
     def test_create_instance_not_registered(self, workbench_factory: WorkbenchFactory):
 
         object_name = "name"
-        workbench_factory = WorkbenchFactory()
 
         with pytest.raises(WorkbenchFactoryError, match=f"Item {object_name} not found in factory."):
             workbench_factory.create_instance(name=object_name)
@@ -57,8 +50,6 @@ class TestWorkbenchFactory:
         name: str,
         expected: bool,
     ):
-
-        workbench_factory = WorkbenchFactory()
         workbench_factory.register(name="name", item=workbench_object)
         workbench_factory.register(name="other_name", item=workbench_object)
 
