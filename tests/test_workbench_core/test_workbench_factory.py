@@ -9,6 +9,12 @@ from workbench_core.workbench_factory import WorkbenchFactory, WorkbenchFactoryE
 class TestWorkbenchFactory:
     """Test the WorkbenchFactory class."""
 
+    def test___init__(self, workbench_factory: WorkbenchFactory):
+        workbench_factory = WorkbenchFactory()
+
+        assert isinstance(workbench_factory, WorkbenchFactory)
+        assert not workbench_factory._items  # pylint: disable=protected-access
+
     def test_register(self, workbench_factory: WorkbenchFactory, workbench_object: WorkbenchObject):
         workbench_factory.register(name="name", item=workbench_object)
 
@@ -72,3 +78,21 @@ class TestWorkbenchFactory:
 
         result = workbench_factory.list_items()
         assert result == names
+
+    def test___str__(self, workbench_factory: WorkbenchFactory, workbench_object: WorkbenchObject):
+
+        workbench_factory.register(name="name", item=workbench_object)
+
+        result = str(workbench_factory)
+
+        assert isinstance(result, str)
+        assert "WorkbenchFactory(items={'name': " in result
+
+    def test___repr__(self, workbench_factory: WorkbenchFactory, workbench_object: WorkbenchObject):
+
+        workbench_factory.register(name="name", item=workbench_object)
+
+        result = repr(workbench_factory)
+
+        assert isinstance(result, str)
+        assert "WorkbenchFactory(items={'name': " in result
