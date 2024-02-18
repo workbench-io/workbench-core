@@ -47,12 +47,12 @@ def workbench_data_factory() -> WorkbenchDataFactory:
 
 
 @pytest.fixture
-def data_transformer() -> WorkbenchTransformer:
+def workbench_transformer() -> WorkbenchTransformer:
     return ConcreteWorkbenchTransfomer
 
 
 @pytest.fixture
-def data_transformer_factory() -> WorkbenchTransformerFactory:
+def workbench_transformer_factory() -> WorkbenchTransformerFactory:
     return WorkbenchTransformerFactory()
 
 
