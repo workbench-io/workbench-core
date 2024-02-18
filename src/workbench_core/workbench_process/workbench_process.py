@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 
 from workbench_core.data_object.data_object import DataObject
-from workbench_core.logging.workbench_logger import WorkbenchLogger
+from workbench_core.workbench_logging.workbench_logger import WorkbenchLogger
 
 
 class WorkbenchProcess(ABC, WorkbenchLogger):
