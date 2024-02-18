@@ -1,5 +1,5 @@
-from workbench_core.data_objects.data_object import DataObject
-from workbench_core.data_objects.data_object_factory import DataObjectFactory
+from workbench_core.data_object.data_object import DataObject
+from workbench_core.data_object.data_object_factory import DataObjectFactory
 
 
 class TestDataObjectFactory:

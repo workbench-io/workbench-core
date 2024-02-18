@@ -1,5 +1,5 @@
-from workbench_core.data_transformers.data_transfomer import DataTransformer
-from workbench_core.data_transformers.data_transformer_factory import DataTransformerFactory
+from workbench_core.data_transformer.data_transfomer import DataTransformer
+from workbench_core.data_transformer.data_transformer_factory import DataTransformerFactory
 
 
 class TestDataTransformerFactory:

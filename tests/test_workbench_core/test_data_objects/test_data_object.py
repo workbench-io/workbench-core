@@ -1,4 +1,4 @@
-from workbench_core.data_objects.data_object import DataObject
+from workbench_core.data_object.data_object import DataObject
 
 
 class TestDataObject:
