@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 from workbench_core.workbench_logging.workbench_logger import WorkbenchLogger
 
 
-class DataTransformer(ABC, WorkbenchLogger):
+class WorkbenchTransformer(ABC, WorkbenchLogger):
     """Base class for data transformers"""
 
     def __init__(self) -> None:

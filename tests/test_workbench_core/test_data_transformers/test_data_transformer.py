@@ -1,17 +1,17 @@
-"""Test DataTransformer class."""
+"""Test WorkbenchTransformer class."""
 
-from workbench_core.data_transformer.data_transfomer import DataTransformer
+from workbench_core.workbench_transformer.workbench_transfomer import WorkbenchTransformer
 
 
-class TestDataTransformer:
-    """Test DataTransformer class."""
+class TestWorkbenchTransformer:
+    """Test WorkbenchTransformer class."""
 
     def test_transform(self):
 
-        class ConcreteDataTransformer(DataTransformer):
+        class ConcreteWorkbenchTransformer(WorkbenchTransformer):
             def transform(self, data) -> bool:
                 return True
 
-        data_transformer = ConcreteDataTransformer()
+        data_transformer = ConcreteWorkbenchTransformer()
         result = data_transformer.transform("data")
         assert result is True
