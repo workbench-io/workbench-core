@@ -206,3 +206,5 @@ pyrightconfig.json
 
 logs/
 logs/*
+
+main.py
