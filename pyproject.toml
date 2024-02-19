@@ -18,7 +18,6 @@ packages = [{ include = "workbench_core", from = "src" }]
 [tool.poetry.dependencies]
 python = ">=3.10,<4.0"
 rich = "^13.7.0"
-flake8-pyproject = "^1.2.3"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.6.0"
@@ -33,6 +32,7 @@ ruff = "^0.2.1"
 tox = "^4.12.1"
 keyring = "^24.3.0"
 artifacts-keyring = "^0.3.4"
+flake8-pyproject = "^1.2.3"
 twine = "^5.0.0"
 
 [tool.black]
