@@ -13,11 +13,16 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
 ]
-packages = [{ include = "workbench_core", from = "src" }]
+packages = [
+    { include = "workbench_core", from = "src" },
+    { include = "workbench_process", from = "src" },
+]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<4.0"
 rich = "^13.7.0"
+pydantic = "^2.6.1"
+pandas = "^2.2.0"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.6.0"

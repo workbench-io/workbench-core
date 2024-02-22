@@ -1,0 +1,5 @@
+{
+    "sources": {
+        "compressive_strength": "https://archive.ics.uci.edu/static/public/165/concrete+compressive+strength.zip"
+    }
+}
