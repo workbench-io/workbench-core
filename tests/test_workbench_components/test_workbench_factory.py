@@ -2,7 +2,7 @@
 
 import pytest
 
-from tests.test_workbench_core.conftest import WorkbenchObject
+from tests.test_workbench_components.conftest import WorkbenchObject
 from workbench_components.workbench_factory import WorkbenchFactory, WorkbenchFactoryError
 
 

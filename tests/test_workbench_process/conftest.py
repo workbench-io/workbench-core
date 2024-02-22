@@ -7,7 +7,7 @@ from workbench_process.process_config import ProcessConfig
 from workbench_process.process_config_model import ProcessConfigModel
 from workbench_process.process_data import ProcessData
 
-DIR_RESOURCES = Path(__file__).parent.parent.joinpath("resources")
+DIR_RESOURCES = Path(__file__).parent.joinpath("resources")
 DIR_CONFIGS_EXAMPLE = DIR_RESOURCES.joinpath("configs_example.json")
 
 
