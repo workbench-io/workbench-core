@@ -1,6 +1,6 @@
 import logging
 
-from workbench_core.workbench_logging.workbench_logger import WorkbenchLogger
+from workbench_components.workbench_logging.workbench_logger import WorkbenchLogger
 
 
 class TestWorkbenchLogger:

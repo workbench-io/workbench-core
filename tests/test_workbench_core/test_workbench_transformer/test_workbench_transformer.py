@@ -1,7 +1,7 @@
 """Test WorkbenchTransformer class."""
 
-from workbench_core.workbench_data.workbench_data import WorkbenchData
-from workbench_core.workbench_transformer.workbench_transformer import WorkbenchTransformer
+from workbench_components.workbench_data.workbench_data import WorkbenchData
+from workbench_components.workbench_transformer.workbench_transformer import WorkbenchTransformer
 
 
 class TestWorkbenchTransformer:

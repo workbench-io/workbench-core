@@ -1,4 +1,4 @@
-from workbench_core.workbench_data.workbench_data import WorkbenchData
+from workbench_components.workbench_data.workbench_data import WorkbenchData
 
 
 class TestWorkbenchData:

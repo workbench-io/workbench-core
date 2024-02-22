@@ -1,5 +1,5 @@
-from workbench_core.workbench_data.workbench_data import WorkbenchData
-from workbench_core.workbench_data.workbench_data_factory import WorkbenchDataFactory
+from workbench_components.workbench_data.workbench_data import WorkbenchData
+from workbench_components.workbench_data.workbench_data_factory import WorkbenchDataFactory
 
 
 class TestWorkbenchDataFactory:

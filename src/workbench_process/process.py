@@ -1,4 +1,4 @@
-from workbench_core.workbench_process.workbench_process import WorkbenchProcess
+from workbench_components.workbench_process.workbench_process import WorkbenchProcess
 from workbench_process.process_config import ProcessConfig
 from workbench_process.process_data import ProcessData
 

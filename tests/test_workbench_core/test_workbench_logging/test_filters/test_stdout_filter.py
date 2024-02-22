@@ -1,6 +1,6 @@
 import logging
 
-from workbench_core.workbench_logging.filters.stdout_filter import StdoutFilter
+from workbench_components.workbench_logging.filters.stdout_filter import StdoutFilter
 
 
 class TestStdoutFilter:

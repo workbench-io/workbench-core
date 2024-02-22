@@ -3,7 +3,7 @@
 import logging
 from typing import Callable
 
-from workbench_core.workbench_logging.logging_configs import LOG_MESSAGE_TEMPLATE
+from workbench_components.workbench_logging.logging_configs import LOG_MESSAGE_TEMPLATE
 
 
 class WorkbenchLogger:

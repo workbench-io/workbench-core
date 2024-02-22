@@ -1,5 +1,5 @@
-from workbench_core.workbench_factory import WorkbenchFactory
-from workbench_core.workbench_process.workbench_process import WorkbenchProcess
+from workbench_components.workbench_factory import WorkbenchFactory
+from workbench_components.workbench_process.workbench_process import WorkbenchProcess
 
 
 class WorkbenchProcessFactory(WorkbenchFactory):

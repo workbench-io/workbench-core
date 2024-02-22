@@ -1,5 +1,5 @@
-from workbench_core.workbench_transformer.workbench_transformer import WorkbenchTransformer
-from workbench_core.workbench_transformer.workbench_transformer_factory import WorkbenchTransformerFactory
+from workbench_components.workbench_transformer.workbench_transformer import WorkbenchTransformer
+from workbench_components.workbench_transformer.workbench_transformer_factory import WorkbenchTransformerFactory
 
 
 class TestWorkbenchTransformerFactory:

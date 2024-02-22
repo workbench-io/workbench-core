@@ -1,8 +1,8 @@
 """Test WorkbenchProcess class."""
 
-from workbench_core.workbench_config.workbench_config import WorkbenchConfig
-from workbench_core.workbench_data.workbench_data import WorkbenchData
-from workbench_core.workbench_process.workbench_process import WorkbenchProcess
+from workbench_components.workbench_config.workbench_config import WorkbenchConfig
+from workbench_components.workbench_data.workbench_data import WorkbenchData
+from workbench_components.workbench_process.workbench_process import WorkbenchProcess
 
 
 class TestWorkbenchProcess:

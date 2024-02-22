@@ -5,7 +5,7 @@ import pathlib
 from enum import StrEnum, auto
 from logging.config import dictConfig
 
-from workbench_core.workbench_settings import DEFAULT_LOG_FILEPATH
+from workbench_components.workbench_settings import DEFAULT_LOG_FILEPATH
 
 
 class EnvState(StrEnum):

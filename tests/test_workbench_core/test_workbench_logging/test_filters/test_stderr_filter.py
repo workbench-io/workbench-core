@@ -1,6 +1,6 @@
 import logging
 
-from workbench_core.workbench_logging.filters.stderr_filter import StderrFilter
+from workbench_components.workbench_logging.filters.stderr_filter import StderrFilter
 
 
 class TestStderrFilter:

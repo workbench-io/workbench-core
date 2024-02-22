@@ -1,7 +1,7 @@
 import os
 from typing import Union
 
-from workbench_core.workbench_source.workbench_source import WorkbenchSource
+from workbench_components.workbench_source.workbench_source import WorkbenchSource
 from workbench_process.process_config import ProcessConfig
 from workbench_process.process_data import ProcessData
 

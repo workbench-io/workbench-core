@@ -14,7 +14,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
 ]
 packages = [
-    { include = "workbench_core", from = "src" },
+    { include = "workbench_components", from = "src" },
     { include = "workbench_process", from = "src" },
 ]
 
@@ -112,7 +112,7 @@ commands =
 
 [tool.coverage.run]
 branch = true
-source = ["workbench_core"]
+source = ["workbench_components", "workbench_process"]
 
 [tool.coverage.paths]
 source = ["src", ".tox/*/site-packages"]
