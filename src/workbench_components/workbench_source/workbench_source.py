@@ -4,7 +4,7 @@ import os
 from abc import ABC, abstractmethod
 from typing import Union
 
-from workbench_components.workbench_config.workbench_config import WorkbenchConfig
+from workbench_components.workbench_config.workbench_config import WorkbenchSettings
 from workbench_components.workbench_data.workbench_data import WorkbenchData
 from workbench_components.workbench_logging.workbench_logger import WorkbenchLogger
 
@@ -20,7 +20,7 @@ class WorkbenchSource(ABC, WorkbenchLogger):
         self,
         source: Union[str, os.PathLike],
         data: WorkbenchData,
-        config: WorkbenchConfig,
+        config: WorkbenchSettings,
     ) -> bool:
         """Load data from source and return True if successful, False otherwise."""
         return True

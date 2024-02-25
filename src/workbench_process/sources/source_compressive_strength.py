@@ -9,7 +9,7 @@ import wget
 
 from workbench_components.workbench_source.workbench_source import WorkbenchSource
 from workbench_process.common import Source
-from workbench_process.process_config import ProcessConfig
+from workbench_process.process_config import ProcessSettings
 from workbench_process.process_data import ProcessData
 
 
@@ -23,7 +23,7 @@ class SourceCompressiveStrength(WorkbenchSource):
         self,
         source: Union[str, os.PathLike],
         data: ProcessData,
-        config: ProcessConfig,
+        config: ProcessSettings,
     ) -> bool:
         self.log_info(self.load, f"Loading data from {source}")
 

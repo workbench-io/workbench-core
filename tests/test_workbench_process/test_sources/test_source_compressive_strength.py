@@ -3,7 +3,7 @@ from pathlib import Path
 import pandas as pd
 
 from workbench_process.common import Source
-from workbench_process.process_config import ProcessConfig
+from workbench_process.process_config import ProcessSettings
 from workbench_process.process_data import ProcessData
 from workbench_process.sources.source_compressive_strength import SourceCompressiveStrength
 
@@ -20,7 +20,7 @@ class TestSourceCompressiveStrength:
         self,
         filepath_compressive_strength: Path,
         process_data: ProcessData,
-        process_config: ProcessConfig,
+        process_config: ProcessSettings,
     ) -> None:
         source = SourceCompressiveStrength()
         result = source.load(filepath_compressive_strength, process_data, process_config)
@@ -31,7 +31,7 @@ class TestSourceCompressiveStrength:
         self,
         filepath_compressive_strength: Path,
         process_data: ProcessData,
-        process_config: ProcessConfig,
+        process_config: ProcessSettings,
     ) -> None:
         source = SourceCompressiveStrength()
 
@@ -43,7 +43,7 @@ class TestSourceCompressiveStrength:
         self,
         filepath_compressive_strength: Path,
         process_data: ProcessData,
-        process_config: ProcessConfig,
+        process_config: ProcessSettings,
     ) -> None:
         source = SourceCompressiveStrength()
 

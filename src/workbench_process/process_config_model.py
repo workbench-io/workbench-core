@@ -11,5 +11,5 @@ class SourcesModel(BaseModel):
     compressive_strength: ZipFileModel
 
 
-class ProcessConfigModel(BaseModel):
+class ProcessSettingsModel(BaseModel):
     sources: SourcesModel

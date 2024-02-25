@@ -2,8 +2,8 @@ import logging
 
 import pytest
 
-from workbench_components.workbench_config.workbench_config import WorkbenchConfig
-from workbench_components.workbench_config.workbench_config_factory import WorkbenchConfigFactory
+from workbench_components.workbench_config.workbench_config import WorkbenchSettings
+from workbench_components.workbench_config.workbench_config_factory import WorkbenchSettingsFactory
 from workbench_components.workbench_data.workbench_data import WorkbenchData
 from workbench_components.workbench_data.workbench_data_factory import WorkbenchDataFactory
 from workbench_components.workbench_factory import WorkbenchFactory
@@ -26,12 +26,12 @@ class ConcreteWorkbenchTransfomer(WorkbenchTransformer):
 
 
 class ConcreteWorkbenchProcess(WorkbenchProcess):
-    def run(self, data: WorkbenchData, config: WorkbenchConfig) -> bool:  # pylint: disable=unused-argument
+    def run(self, data: WorkbenchData, config: WorkbenchSettings) -> bool:  # pylint: disable=unused-argument
         return True
 
 
 class ConcreteWorkbenchSource(WorkbenchSource):
-    def load(self, source, data: WorkbenchData, config: WorkbenchConfig) -> bool:  # pylint: disable=unused-argument
+    def load(self, source, data: WorkbenchData, config: WorkbenchSettings) -> bool:  # pylint: disable=unused-argument
         return True
 
 
@@ -66,13 +66,13 @@ def workbench_transformer_factory() -> WorkbenchTransformerFactory:
 
 
 @pytest.fixture
-def workbench_config() -> WorkbenchConfig:
-    return WorkbenchConfig
+def workbench_config() -> WorkbenchSettings:
+    return WorkbenchSettings
 
 
 @pytest.fixture
-def workbench_config_factory() -> WorkbenchConfigFactory:
-    return WorkbenchConfigFactory()
+def workbench_config_factory() -> WorkbenchSettingsFactory:
+    return WorkbenchSettingsFactory()
 
 
 @pytest.fixture

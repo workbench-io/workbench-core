@@ -3,8 +3,8 @@ from pathlib import Path
 
 import pytest
 
-from workbench_process.process_config import ProcessConfig
-from workbench_process.process_config_model import ProcessConfigModel
+from workbench_process.process_config import ProcessSettings
+from workbench_process.process_config_model import ProcessSettingsModel
 from workbench_process.process_data import ProcessData
 
 URL = "https://archive.ics.uci.edu/static/public/165/concrete+compressive+strength.zip"
@@ -25,14 +25,14 @@ def config_dict() -> dict:
 
 
 @pytest.fixture(scope="session")
-def configs_model() -> ProcessConfigModel:
+def configs_model() -> ProcessSettingsModel:
     config_dict_ = json.load(dir_configs_example)
-    return ProcessConfigModel(**config_dict_)
+    return ProcessSettingsModel(**config_dict_)
 
 
 @pytest.fixture(scope="session")
-def process_config() -> ProcessConfig:
-    process_config_ = ProcessConfig()
+def process_config() -> ProcessSettings:
+    process_config_ = ProcessSettings()
     process_config_.load_configs(dir_configs_example)
     return process_config_
 

@@ -1,8 +1,8 @@
-from workbench_components.workbench_config.workbench_config import WorkbenchConfig
+from workbench_components.workbench_config.workbench_config import WorkbenchSettings
 from workbench_components.workbench_factory import WorkbenchFactory
 
 
-class WorkbenchConfigFactory(WorkbenchFactory):
+class WorkbenchSettingsFactory(WorkbenchFactory):
     """Factory for Config classes."""
 
-    _items: dict[str, WorkbenchConfig] | None = None
+    _items: dict[str, WorkbenchSettings] | None = None

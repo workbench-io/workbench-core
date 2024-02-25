@@ -1,22 +1,24 @@
-from workbench_components.workbench_config.workbench_config import WorkbenchConfig
-from workbench_components.workbench_config.workbench_config_factory import WorkbenchConfigFactory
+from workbench_components.workbench_config.workbench_config import WorkbenchSettings
+from workbench_components.workbench_config.workbench_config_factory import WorkbenchSettingsFactory
 
 
-class TestWorkbenchConfigFactory:
+class TestWorkbenchSettingsFactory:
 
-    def test_register(self, workbench_config_factory: WorkbenchConfigFactory, workbench_config: WorkbenchConfig):
+    def test_register(self, workbench_config_factory: WorkbenchSettingsFactory, workbench_config: WorkbenchSettings):
         workbench_config_factory.register(name="name", item=workbench_config)
 
         assert workbench_config_factory._items["name"] == workbench_config  # pylint: disable=protected-access
 
-    def test_create(self, workbench_config_factory: WorkbenchConfigFactory, workbench_config: WorkbenchConfig):
+    def test_create(self, workbench_config_factory: WorkbenchSettingsFactory, workbench_config: WorkbenchSettings):
 
         workbench_config_factory.register(name="name", item=workbench_config)
         result = workbench_config_factory.create(name="name")
 
         assert result == workbench_config
 
-    def test_create_instance(self, workbench_config_factory: WorkbenchConfigFactory, workbench_config: WorkbenchConfig):
+    def test_create_instance(
+        self, workbench_config_factory: WorkbenchSettingsFactory, workbench_config: WorkbenchSettings
+    ):
 
         workbench_config_factory.register(name="name", item=workbench_config)
         result = workbench_config_factory.create_instance(name="name")

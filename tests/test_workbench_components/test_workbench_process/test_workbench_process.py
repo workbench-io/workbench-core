@@ -1,6 +1,6 @@
 """Test WorkbenchProcess class."""
 
-from workbench_components.workbench_config.workbench_config import WorkbenchConfig
+from workbench_components.workbench_config.workbench_config import WorkbenchSettings
 from workbench_components.workbench_data.workbench_data import WorkbenchData
 from workbench_components.workbench_process.workbench_process import WorkbenchProcess
 
@@ -14,7 +14,7 @@ class TestWorkbenchProcess:
         assert result is None
 
     def test_run(
-        self, workbench_process: WorkbenchProcess, workbench_data: WorkbenchData, workbench_config: WorkbenchConfig
+        self, workbench_process: WorkbenchProcess, workbench_data: WorkbenchData, workbench_config: WorkbenchSettings
     ):
 
         result = workbench_process().run(workbench_data, workbench_config)
