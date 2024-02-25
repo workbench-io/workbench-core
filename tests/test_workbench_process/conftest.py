@@ -8,8 +8,6 @@ from workbench_process.process_config_model import ProcessSettingsModel
 from workbench_process.process_data import ProcessData
 from workbench_process.process_settings import ProcessSettings
 
-URL = "https://archive.ics.uci.edu/static/public/165/concrete+compressive+strength.zip"
-
 dir_resources = Path(__file__).parent.joinpath("resources")
 dir_configs_example = dir_resources.joinpath("configs_example.json")
 

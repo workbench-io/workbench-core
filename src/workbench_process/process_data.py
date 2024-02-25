@@ -10,3 +10,6 @@ from workbench_process.utils.utils_dataframes import generate_dataframe
 class ProcessData(WorkbenchData):
 
     compressive_strength: pd.DataFrame = field(default_factory=generate_dataframe)
+
+    def __post_init__(self):
+        super().__init__()
