@@ -12,7 +12,7 @@
                 "Coarse Aggregate  (component 6)(kg in a m^3 mixture)": "coarse_aggregate",
                 "Fine Aggregate (component 7)(kg in a m^3 mixture)": "fine_aggregate",
                 "Age (day)": "age",
-                "Concrete compressive strength(MPa, megapascals": "compressive_strength"
+                "Concrete compressive strength(MPa, megapascals) ": "compressive_strength"
             }
         }
     }

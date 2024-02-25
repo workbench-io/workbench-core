@@ -28,6 +28,20 @@ class SourceCompressiveStrength(WorkbenchSource):
 
         self.log_info(self.load, f"Loading data from {source}")
 
+        df = self._get_data(settings)
+        data.set_data(Source.COMPRESSIVE_STRENGTH, df)
+
+        self.log_info(self.load, f"Loaded data for {Source.COMPRESSIVE_STRENGTH}")
+
+        return True
+
+    def _get_data(
+        self,
+        settings: ProcessSettings,
+    ) -> pd.DataFrame:
+
+        source = settings.model.sources.compressive_strength.path
+
         with tempfile.TemporaryDirectory() as temp_dir:
             if isinstance(source, str) and source.startswith("http"):
                 filepath = os.path.join(temp_dir, "downloaded_file.zip")
@@ -48,6 +62,4 @@ class SourceCompressiveStrength(WorkbenchSource):
 
             df = pd.read_excel(selected_file)
 
-            setattr(data, Source.COMPRESSIVE_STRENGTH, df)
-
-        return True
+            return df
