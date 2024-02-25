@@ -50,6 +50,6 @@ repos:
         name: Run tests with tox
         entry: poetry run tox
         pass_filenames: false
-        always: true
+        always: false
         language: system
         types: [python]
