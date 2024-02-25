@@ -33,3 +33,16 @@ class TestProcess:
             assert source_data is not None
             assert not source_data.empty
             assert isinstance(source_data, pd.DataFrame)
+
+    def test_run_should_transform_the_data(
+        self,
+        process_data: ProcessData,
+        process_settings: ProcessSettings,
+    ):
+        process = ProcessLogic()
+        process.run(process_data, process_settings)
+
+        for source in Source:
+            source_data = process_data.get_data(source)
+
+            (source_data.columns == process_settings.model.sources.compressive_strength.columns.values()).all()
