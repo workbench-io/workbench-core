@@ -14,8 +14,8 @@ class TestWorkbenchLogic:
         assert result is None
 
     def test_run(
-        self, workbench_process: WorkbenchLogic, workbench_data: WorkbenchData, workbench_config: WorkbenchSettings
+        self, workbench_process: WorkbenchLogic, workbench_data: WorkbenchData, workbench_settings: WorkbenchSettings
     ):
 
-        result = workbench_process().run(workbench_data, workbench_config)
+        result = workbench_process().run(workbench_data, workbench_settings)
         assert result is True

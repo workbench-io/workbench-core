@@ -21,7 +21,7 @@ class WorkbenchObject:
 
 class ConcreteWorkbenchTransfomer(WorkbenchTransformer):
 
-    def transform(self, data: WorkbenchData) -> bool:  # pylint: disable=unused-argument
+    def transform(self, data: WorkbenchData, settings: WorkbenchSettings) -> bool:  # pylint: disable=unused-argument
         return True
 
 
@@ -66,7 +66,7 @@ def workbench_transformer_factory() -> WorkbenchTransformerFactory:
 
 
 @pytest.fixture
-def workbench_config() -> WorkbenchSettings:
+def workbench_settings() -> WorkbenchSettings:
     return WorkbenchSettings
 
 

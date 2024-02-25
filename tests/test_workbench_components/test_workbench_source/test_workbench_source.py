@@ -12,8 +12,8 @@ class TestWorkbenchTransformer:
         self,
         workbench_source: WorkbenchSource,
         workbench_data: WorkbenchData,
-        workbench_config: WorkbenchSettings,
+        workbench_settings: WorkbenchSettings,
     ):
 
-        result = workbench_source().load(workbench_data, workbench_config)
+        result = workbench_source().load(workbench_data, workbench_settings)
         assert result is True
