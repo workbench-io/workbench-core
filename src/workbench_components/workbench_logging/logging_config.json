@@ -18,7 +18,7 @@
             "datefmt": "%Y-%m-%d %H:%M:%S%z"
         },
         "json": {
-            "()": "src.workbench_core.logging.formatters.json_formatter.JSONFormatter",
+            "()": "src.workbench_components.workbench_logging.formatters.json_formatter.JSONFormatter",
             "fmt_keys": {
                 "level": "levelname",
                 "message": "message",
@@ -64,7 +64,7 @@
             "class": "logging.handlers.RotatingFileHandler",
             "level": "DEBUG",
             "formatter": "json",
-            "filename": "logs/my_app.log.jsonl",
+            "filename": "logs/workbench.log.jsonl",
             "maxBytes": 1000000,
             "backupCount": 3,
             "encoding": "utf8"
@@ -72,10 +72,10 @@
     },
     "filters": {
         "stderr_filter": {
-            "()": "src.workbench_core.logging.filters.stderr_filter.StderrFilter"
+            "()": "src.workbench_components.workbench_logging.filters.stderr_filter.StderrFilter"
         },
         "stdout_filter": {
-            "()": "src.workbench_core.logging.filters.stdout_filter.StdoutFilter"
+            "()": "src.workbench_components.workbench_logging.filters.stdout_filter.StdoutFilter"
         }
     },
     "loggers": {
