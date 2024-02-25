@@ -45,9 +45,3 @@ repos:
         pass_filenames: false
         language: system
         types: [python]
-      - id: tox
-        name: Run tests with tox
-        entry: poetry run tox
-        pass_filenames: false
-        language: system
-        types: [python]
