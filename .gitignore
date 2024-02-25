@@ -212,5 +212,3 @@ logs/*
 
 *.ipynb
 .ipynb
-
-main.py
