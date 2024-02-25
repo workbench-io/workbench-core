@@ -20,5 +20,5 @@ class WorkbenchData(ABC, WorkbenchLogger):
             data = getattr(self, name)
             return data
         except AttributeError as error:
-            self.log_error(self.get_data, f"No data with name of {name}")
+            self.log_error(self.get_data, f"No data with name of '{name}'")
             raise WorkbenchDataException(f"AttributeError: {error}") from error
