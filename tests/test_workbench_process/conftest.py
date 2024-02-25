@@ -3,9 +3,9 @@ from pathlib import Path
 
 import pytest
 
-from workbench_process.process_config import ProcessSettings
 from workbench_process.process_config_model import ProcessSettingsModel
 from workbench_process.process_data import ProcessData
+from workbench_process.process_settings import ProcessSettings
 
 URL = "https://archive.ics.uci.edu/static/public/165/concrete+compressive+strength.zip"
 

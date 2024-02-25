@@ -4,8 +4,8 @@
 
 
 from workbench_process.process import Process
-from workbench_process.process_config import ProcessSettings
 from workbench_process.process_data import ProcessData
+from workbench_process.process_settings import ProcessSettings
 
 
 class TestProcess:

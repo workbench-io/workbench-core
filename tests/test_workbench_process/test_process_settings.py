@@ -1,5 +1,5 @@
-from workbench_process.process_config import ProcessSettings
 from workbench_process.process_config_model import SourcesModel
+from workbench_process.process_settings import ProcessSettings
 
 
 class TestProcessSettings:

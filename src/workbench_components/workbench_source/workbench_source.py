@@ -4,9 +4,9 @@ import os
 from abc import ABC, abstractmethod
 from typing import Union
 
-from workbench_components.workbench_config.workbench_config import WorkbenchSettings
 from workbench_components.workbench_data.workbench_data import WorkbenchData
 from workbench_components.workbench_logging.workbench_logger import WorkbenchLogger
+from workbench_components.workbench_settings.workbench_settings import WorkbenchSettings
 
 
 class WorkbenchSource(ABC, WorkbenchLogger):

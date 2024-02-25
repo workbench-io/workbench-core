@@ -9,8 +9,8 @@ import wget
 
 from workbench_components.workbench_source.workbench_source import WorkbenchSource
 from workbench_process.common import Source
-from workbench_process.process_config import ProcessSettings
 from workbench_process.process_data import ProcessData
+from workbench_process.process_settings import ProcessSettings
 
 
 class SourceCompressiveStrength(WorkbenchSource):

@@ -1,5 +1,5 @@
-from workbench_components.workbench_config.workbench_config import WorkbenchSettings
 from workbench_components.workbench_factory import WorkbenchFactory
+from workbench_components.workbench_settings.workbench_settings import WorkbenchSettings
 
 
 class WorkbenchSettingsFactory(WorkbenchFactory):

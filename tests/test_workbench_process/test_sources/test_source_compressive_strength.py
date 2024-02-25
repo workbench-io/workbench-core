@@ -3,8 +3,8 @@ from pathlib import Path
 import pandas as pd
 
 from workbench_process.common import Source
-from workbench_process.process_config import ProcessSettings
 from workbench_process.process_data import ProcessData
+from workbench_process.process_settings import ProcessSettings
 from workbench_process.sources.source_compressive_strength import SourceCompressiveStrength
 
 

@@ -2,9 +2,9 @@
 
 from abc import ABC, abstractmethod
 
-from workbench_components.workbench_config.workbench_config import WorkbenchSettings
 from workbench_components.workbench_data.workbench_data import WorkbenchData
 from workbench_components.workbench_logging.workbench_logger import WorkbenchLogger
+from workbench_components.workbench_settings.workbench_settings import WorkbenchSettings
 
 
 class WorkbenchProcess(ABC, WorkbenchLogger):
