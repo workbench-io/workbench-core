@@ -1,5 +1,5 @@
-from workbench_components.workbench_process.workbench_process import WorkbenchLogic
-from workbench_components.workbench_process.workbench_process_factory import WorkbenchLogicFactory
+from workbench_components.workbench_logic.workbench_logic import WorkbenchLogic
+from workbench_components.workbench_logic.workbench_logic_factory import WorkbenchLogicFactory
 
 
 class TestWorkbenchLogicFactory:
