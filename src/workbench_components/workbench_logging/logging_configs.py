@@ -5,7 +5,7 @@ import pathlib
 from enum import StrEnum, auto
 from logging.config import dictConfig
 
-from workbench_components.common.common_configs import DEFAULT_LOG_FILEPATH
+from workbench_components.common.common_configs import DEFAULT_LOG_FILEPATH, ENCODING
 
 
 class EnvState(StrEnum):
@@ -33,7 +33,7 @@ def setup_logging() -> None:
 
     config_file = pathlib.Path(__file__).parent.joinpath("logging_config.json")
 
-    with open(config_file, encoding="utf-8") as file:
+    with open(config_file, encoding=ENCODING) as file:
         config = json.load(file)
 
     dictConfig(config)

@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pytest
 
+from workbench_components.common.common_configs import ENCODING
 from workbench_process.process_config_model import ProcessSettingsModel
 from workbench_process.process_data import ProcessData
 from workbench_process.process_settings import ProcessSettings
@@ -20,7 +21,7 @@ def configs_path() -> Path:
 
 @pytest.fixture(scope="session")
 def config_dict() -> dict:
-    with open(dir_configs_example, "r", encoding="utf-8") as file:
+    with open(dir_configs_example, "r", encoding=ENCODING) as file:
         return json.load(file)
 
 
