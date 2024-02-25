@@ -1,4 +1,4 @@
-"""Base class for processes."""
+"""Base class for logic."""
 
 from abc import ABC, abstractmethod
 
@@ -7,8 +7,8 @@ from workbench_components.workbench_logging.workbench_logger import WorkbenchLog
 from workbench_components.workbench_settings.workbench_settings import WorkbenchSettings
 
 
-class WorkbenchProcess(ABC, WorkbenchLogger):
-    """Base class for processes."""
+class WorkbenchLogic(ABC, WorkbenchLogger):
+    """Base class for logic."""
 
     def __init__(self) -> None:
         self.create_logger()
@@ -16,7 +16,7 @@ class WorkbenchProcess(ABC, WorkbenchLogger):
     @abstractmethod
     def run(self, data: WorkbenchData, config: WorkbenchSettings) -> bool:  # pylint: disable=unused-argument
         """
-        Run process with provided data and configuration object.
+        Run logic with provided data and configuration object.
 
         Return True if successful, False otherwise.
         """

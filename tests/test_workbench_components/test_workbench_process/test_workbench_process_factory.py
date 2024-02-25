@@ -1,17 +1,15 @@
-from workbench_components.workbench_process.workbench_process import WorkbenchProcess
-from workbench_components.workbench_process.workbench_process_factory import WorkbenchProcessFactory
+from workbench_components.workbench_process.workbench_process import WorkbenchLogic
+from workbench_components.workbench_process.workbench_process_factory import WorkbenchLogicFactory
 
 
-class TestWorkbenchProcessFactory:
+class TestWorkbenchLogicFactory:
 
-    def test_register(
-        self, workbench_process_factory: WorkbenchProcessFactory, workbench_transformer: WorkbenchProcess
-    ):
+    def test_register(self, workbench_process_factory: WorkbenchLogicFactory, workbench_transformer: WorkbenchLogic):
         workbench_process_factory.register(name="name", item=workbench_transformer)
 
         assert workbench_process_factory._items["name"] == workbench_transformer  # pylint: disable=protected-access
 
-    def test_create(self, workbench_process_factory: WorkbenchProcessFactory, workbench_transformer: WorkbenchProcess):
+    def test_create(self, workbench_process_factory: WorkbenchLogicFactory, workbench_transformer: WorkbenchLogic):
 
         workbench_process_factory.register(name="name", item=workbench_transformer)
         result = workbench_process_factory.create(name="name")
@@ -19,7 +17,7 @@ class TestWorkbenchProcessFactory:
         assert result == workbench_transformer
 
     def test_create_instance(
-        self, workbench_process_factory: WorkbenchProcessFactory, workbench_transformer: WorkbenchProcess
+        self, workbench_process_factory: WorkbenchLogicFactory, workbench_transformer: WorkbenchLogic
     ):
 
         workbench_process_factory.register(name="name", item=workbench_transformer)
