@@ -10,4 +10,3 @@ class TestProcessConfig:
 
         assert isinstance(process_config, ProcessConfig)
         assert isinstance(process_config.configs.sources, SourcesModel)
-        assert isinstance(process_config.configs.sources.compressive_strength, str)

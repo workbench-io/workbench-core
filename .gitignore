@@ -204,7 +204,13 @@ pyrightconfig.json
 .ionide
 .DS_Store
 
+### Project files
+notes.txt
+
 logs/
 logs/*
+
+*.ipynb
+.ipynb
 
 main.py

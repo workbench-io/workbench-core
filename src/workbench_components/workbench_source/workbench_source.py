@@ -16,6 +16,11 @@ class WorkbenchSource(ABC, WorkbenchLogger):
         self.create_logger()
 
     @abstractmethod
-    def load(self, source: Union[str, os.PathLike], data: WorkbenchData, config: WorkbenchConfig) -> bool:
+    def load(
+        self,
+        source: Union[str, os.PathLike],
+        data: WorkbenchData,
+        config: WorkbenchConfig,
+    ) -> bool:
         """Load data from source and return True if successful, False otherwise."""
         return True
