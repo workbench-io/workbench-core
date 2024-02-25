@@ -1,0 +1,6 @@
+from workbench_components.workbench_source.workbench_source_factory import WorkbenchSourceFactory
+from workbench_process.common import Source
+from workbench_process.sources.source_compressive_strength import SourceCompressiveStrength
+
+source_factory = WorkbenchSourceFactory()
+source_factory.register(name=Source.COMPRESSIVE_STRENGTH, item=SourceCompressiveStrength)

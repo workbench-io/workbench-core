@@ -8,6 +8,7 @@ import pandas as pd
 import wget
 
 from workbench_components.workbench_source.workbench_source import WorkbenchSource
+from workbench_process.common import Source
 from workbench_process.process_config import ProcessConfig
 from workbench_process.process_data import ProcessData
 
@@ -41,7 +42,8 @@ class SourceCompressiveStrength(WorkbenchSource):
             selected_file = files[0]
 
             df = pd.read_excel(selected_file)
-            data.compressive_strength = df
+
+            setattr(data, Source.COMPRESSIVE_STRENGTH, df)
 
         return True
 
