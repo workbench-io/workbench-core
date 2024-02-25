@@ -26,12 +26,12 @@ class ConcreteWorkbenchTransfomer(WorkbenchTransformer):
 
 
 class ConcreteWorkbenchLogic(WorkbenchLogic):
-    def run(self, data: WorkbenchData, config: WorkbenchSettings) -> bool:  # pylint: disable=unused-argument
+    def run(self, data: WorkbenchData, settings: WorkbenchSettings) -> bool:  # pylint: disable=unused-argument
         return True
 
 
 class ConcreteWorkbenchSource(WorkbenchSource):
-    def load(self, source, data: WorkbenchData, config: WorkbenchSettings) -> bool:  # pylint: disable=unused-argument
+    def load(self, data: WorkbenchData, settings: WorkbenchSettings) -> bool:  # pylint: disable=unused-argument
         return True
 
 

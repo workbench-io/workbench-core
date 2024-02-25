@@ -15,5 +15,5 @@ class TestWorkbenchTransformer:
         workbench_config: WorkbenchSettings,
     ):
 
-        result = workbench_source().load("./path/to/file", workbench_data, workbench_config)
+        result = workbench_source().load(workbench_data, workbench_config)
         assert result is True

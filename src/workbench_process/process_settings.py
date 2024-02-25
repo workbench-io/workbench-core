@@ -7,14 +7,14 @@ from workbench_process.process_config_model import ProcessSettingsModel
 
 
 class ProcessSettings(WorkbenchSettings):
-    """Configuration for data extraction."""
+    """Settings for data processing step."""
 
-    configs: ProcessSettingsModel
+    model: ProcessSettingsModel
 
-    def load_configs(self, filepath: os.PathLike) -> None:
-        """Load configuration from a file."""
+    def load_settings_from_file(self, filepath: os.PathLike) -> None:
+        """Load settings from a file."""
 
         with open(filepath, "r", encoding=ENCODING) as file:
             config_dict = json.load(file)
 
-        self.configs = ProcessSettingsModel(**config_dict)
+        self.model = ProcessSettingsModel(**config_dict)

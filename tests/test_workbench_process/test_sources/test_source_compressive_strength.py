@@ -1,5 +1,3 @@
-from pathlib import Path
-
 import pandas as pd
 
 from workbench_process.common import Source
@@ -18,36 +16,33 @@ class TestSourceCompressiveStrength:
 
     def test_load_should_return_true(
         self,
-        filepath_compressive_strength: Path,
         process_data: ProcessData,
-        process_config: ProcessSettings,
+        process_settings: ProcessSettings,
     ) -> None:
         source = SourceCompressiveStrength()
-        result = source.load(filepath_compressive_strength, process_data, process_config)
+        result = source.load(process_data, process_settings)
 
         assert result is True
 
     def test_load_should_add_dataframe_as_attribute_to_data_object(
         self,
-        filepath_compressive_strength: Path,
         process_data: ProcessData,
-        process_config: ProcessSettings,
+        process_settings: ProcessSettings,
     ) -> None:
         source = SourceCompressiveStrength()
 
-        source.load(filepath_compressive_strength, process_data, process_config)
+        source.load(process_data, process_settings)
 
         assert hasattr(process_data, Source.COMPRESSIVE_STRENGTH)
 
     def test_load_should_add_non_empty_dataframe_as_attribute_to_data_object(
         self,
-        filepath_compressive_strength: Path,
         process_data: ProcessData,
-        process_config: ProcessSettings,
+        process_settings: ProcessSettings,
     ) -> None:
         source = SourceCompressiveStrength()
 
-        source.load(filepath_compressive_strength, process_data, process_config)
+        source.load(process_data, process_settings)
 
         data_attribute = getattr(process_data, Source.COMPRESSIVE_STRENGTH)
 

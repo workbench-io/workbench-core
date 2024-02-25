@@ -43,13 +43,11 @@ repos:
         name: pytest with coverage
         entry: poetry run pytest --full-trace tests
         pass_filenames: false
-        always: true
         language: system
         types: [python]
       - id: tox
         name: Run tests with tox
         entry: poetry run tox
         pass_filenames: false
-        always: false
         language: system
         types: [python]

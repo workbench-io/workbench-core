@@ -14,9 +14,9 @@ class WorkbenchLogic(ABC, WorkbenchLogger):
         self.create_logger()
 
     @abstractmethod
-    def run(self, data: WorkbenchData, config: WorkbenchSettings) -> bool:  # pylint: disable=unused-argument
+    def run(self, data: WorkbenchData, settings: WorkbenchSettings) -> bool:  # pylint: disable=unused-argument
         """
-        Run logic with provided data and configuration object.
+        Run logic with provided data and settings object.
 
         Return True if successful, False otherwise.
         """

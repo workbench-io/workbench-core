@@ -32,9 +32,9 @@ def configs_model() -> ProcessSettingsModel:
 
 
 @pytest.fixture(scope="session")
-def process_config() -> ProcessSettings:
+def process_settings() -> ProcessSettings:
     process_config_ = ProcessSettings()
-    process_config_.load_configs(dir_configs_example)
+    process_config_.load_settings_from_file(dir_configs_example)
     return process_config_
 
 

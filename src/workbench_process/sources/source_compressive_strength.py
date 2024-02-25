@@ -1,7 +1,6 @@
 import os
 import tempfile
 from pathlib import Path
-from typing import Union
 from zipfile import ZipFile
 
 import pandas as pd
@@ -21,19 +20,25 @@ class SourceCompressiveStrength(WorkbenchSource):
 
     def load(
         self,
-        source: Union[str, os.PathLike],
         data: ProcessData,
-        config: ProcessSettings,
+        settings: ProcessSettings,
     ) -> bool:
+
+        source = settings.model.sources.compressive_strength.path
+
         self.log_info(self.load, f"Loading data from {source}")
 
         with tempfile.TemporaryDirectory() as temp_dir:
-            filepath = self._get_filepath(source)
+            if isinstance(source, str) and source.startswith("http"):
+                filepath = os.path.join(temp_dir, "downloaded_file.zip")
+                wget.download(source, out=filepath)
+            elif isinstance(source, Path):
+                filepath = str(source)
 
             with ZipFile(filepath, "r") as zip_file:
                 zip_file.extractall(temp_dir)
 
-            pattern = config.configs.sources.compressive_strength.pattern
+            pattern = settings.model.sources.compressive_strength.pattern
             files = list(Path(temp_dir).glob(pattern))
 
             if not files:
@@ -46,14 +51,3 @@ class SourceCompressiveStrength(WorkbenchSource):
             setattr(data, Source.COMPRESSIVE_STRENGTH, df)
 
         return True
-
-    def _get_filepath(self, source: Union[str, os.PathLike]) -> str:
-        if isinstance(source, str) and source.startswith("http"):
-            with tempfile.TemporaryDirectory() as temp_dir:
-                filepath = os.path.join(temp_dir, "downloaded_file.zip")
-                wget.download(source, out=filepath)
-                return filepath
-        elif isinstance(source, Path):
-            return str(source)
-        else:
-            return source

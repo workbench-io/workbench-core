@@ -8,7 +8,7 @@ class ProcessLogic(WorkbenchLogic):
     def run(
         self,
         data: ProcessData,
-        config: ProcessSettings,
+        settings: ProcessSettings,
     ):  # pylint: disable=unused-argument
         self.log_info(self.run, "Running process")
         return True
