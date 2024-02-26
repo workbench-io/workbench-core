@@ -1,13 +1,13 @@
-from workbench_components.workbench_data.workbench_data import WorkbenchData
-from workbench_components.workbench_settings.workbench_settings import WorkbenchSettings
 from workbench_components.workbench_transformer.workbench_transformer import WorkbenchTransformer
 from workbench_process.common import Source
+from workbench_process.process_data import ProcessData
+from workbench_process.process_settings import ProcessSettings
 
 
 class RenameColumns(WorkbenchTransformer):
     """Rename columns in a DataFrame."""
 
-    def transform(self, data: WorkbenchData, settings: WorkbenchSettings) -> bool:  # pylint: disable=unused-argument
+    def transform(self, data: ProcessData, settings: ProcessSettings) -> bool:
         """Renames columns in a DataFrame."""
 
         for source in Source:
