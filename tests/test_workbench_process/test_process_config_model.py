@@ -1,6 +1,6 @@
 import pytest
 
-from workbench_process.process_settings_model import ProcessSettingsModel, SourcesModel, ZipFileModel
+from workbench_process.process_settings_model import ProcessSettingsModel, SourceFileModel, SourcesModel
 
 
 class TestProcessSettingsModel:
@@ -10,7 +10,7 @@ class TestProcessSettingsModel:
 
         assert isinstance(process_settings_model, ProcessSettingsModel)
         assert isinstance(process_settings_model.sources, SourcesModel)
-        assert isinstance(process_settings_model.sources.compressive_strength, ZipFileModel)
+        assert isinstance(process_settings_model.sources.compressive_strength, SourceFileModel)
 
     def test_process_config_model_type(self, config_dict: dict):
 

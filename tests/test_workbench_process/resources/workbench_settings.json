@@ -13,38 +13,40 @@
                 "fine_aggregate": "Fine Aggregate (component 7)(kg in a m^3 mixture)",
                 "age": "Age (day)",
                 "compressive_strength": "Concrete compressive strength(MPa, megapascals) "
-            },
-            "features": {
-                "target": "compressive_strength",
-                "numerical": [
-                    "cement",
-                    "slag",
-                    "fly_ash",
-                    "water",
-                    "superplasticizer",
-                    "coarse_aggregate",
-                    "fine_aggregate",
-                    "age"
-                ],
-                "categorical": [],
-                "discrete": [
-                    "age"
-                ],
-                "text": [],
-                "date": [],
-                "ignore": [],
-                "id": [],
-                "geo": [],
-                "composition": [
-                    "cement",
-                    "slag",
-                    "fly_ash",
-                    "water",
-                    "superplasticizer",
-                    "coarse_aggregate",
-                    "fine_aggregate"
-                ]
             }
         }
+    },
+    "features": {
+        "targets": [
+            "compressive_strength"
+        ],
+        "numerical": [
+            "cement",
+            "slag",
+            "fly_ash",
+            "water",
+            "superplasticizer",
+            "coarse_aggregate",
+            "fine_aggregate",
+            "age"
+        ],
+        "categorical": [],
+        "discrete": [
+            "age"
+        ],
+        "text": [],
+        "date": [],
+        "ignore": [],
+        "id": [],
+        "geo": [],
+        "composition": [
+            "cement",
+            "slag",
+            "fly_ash",
+            "water",
+            "superplasticizer",
+            "coarse_aggregate",
+            "fine_aggregate"
+        ]
     }
 }
