@@ -18,7 +18,7 @@ class RenameColumns(WorkbenchTransformer):
                 self.log_debug(self.transform, f"No column map found for {source.value}")
                 continue
 
-            column_mapping = source_data.columns
+            column_mapping = {value: key for key, value in source_data.columns.items()}
             self.log_debug(self.transform, f"Using column map:{column_mapping}")
 
             data_renamed = data.get_data(source).rename(columns=column_mapping)

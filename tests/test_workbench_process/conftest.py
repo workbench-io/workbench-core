@@ -5,9 +5,9 @@ import pandas as pd
 import pytest
 
 from workbench_components.common.common_configs import ENCODING
-from workbench_process.process_config_model import ProcessSettingsModel
 from workbench_process.process_data import ProcessData
 from workbench_process.process_settings import ProcessSettings
+from workbench_process.process_settings_model import ProcessSettingsModel
 
 dir_resources = Path(__file__).parent.joinpath("resources")
 dir_configs_example = dir_resources.joinpath("workbench_settings.json")

@@ -3,7 +3,7 @@ import os
 
 from workbench_components.common.common_configs import ENCODING
 from workbench_components.workbench_settings.workbench_settings import WorkbenchSettings
-from workbench_process.process_config_model import ProcessSettingsModel
+from workbench_process.process_settings_model import ProcessSettingsModel
 
 
 class ProcessSettings(WorkbenchSettings):
