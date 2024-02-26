@@ -10,7 +10,7 @@ from workbench_process.process_data import ProcessData
 from workbench_process.process_settings import ProcessSettings
 
 dir_resources = Path(__file__).parent.joinpath("resources")
-dir_configs_example = dir_resources.joinpath("configs_example.json")
+dir_configs_example = dir_resources.joinpath("workbench_settings.json")
 
 
 @pytest.fixture(scope="session")
@@ -68,7 +68,7 @@ def concrete_compressive_strength_raw() -> pd.DataFrame:
 
 
 @pytest.fixture
-def concrete_compressive_strength_after_name_change() -> pd.DataFrame:
+def concrete_compressive_strength_after_rename_columns() -> pd.DataFrame:
     df = pd.DataFrame(
         {
             "cement": [540.0, 540.0, 332.5],

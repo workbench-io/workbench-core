@@ -7,7 +7,7 @@ def run_process() -> None:
     """Run the loading and processing of the data."""
     process_logic, process_data, process_settings = factory_process.create_instance(name=STEP_PROCESS)
 
-    process_settings.load_settings_from_file("tests/test_workbench_process/resources/configs_example.json")
+    process_settings.load_settings_from_file("tests/test_workbench_process/resources/workbench_settings.json")
 
     process_logic.run(process_data, process_settings)
 

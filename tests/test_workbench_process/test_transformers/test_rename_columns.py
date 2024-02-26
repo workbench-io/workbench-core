@@ -21,7 +21,7 @@ class TestRenameColumns:
     def test_transform_changes_the_column_names(
         self,
         concrete_compressive_strength_raw: pd.DataFrame,
-        concrete_compressive_strength_after_name_change: pd.DataFrame,
+        concrete_compressive_strength_after_rename_columns: pd.DataFrame,
         process_data: ProcessData,
         process_settings: ProcessSettings,
     ):
@@ -30,6 +30,6 @@ class TestRenameColumns:
         RenameColumns().transform(process_data, process_settings)
 
         assert (
-            process_data.compressive_strength.columns == concrete_compressive_strength_after_name_change.columns
+            process_data.compressive_strength.columns == concrete_compressive_strength_after_rename_columns.columns
         ).all()
-        assert process_data.compressive_strength.equals(concrete_compressive_strength_after_name_change)
+        assert process_data.compressive_strength.equals(concrete_compressive_strength_after_rename_columns)
