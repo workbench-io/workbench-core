@@ -1,10 +1,10 @@
 """Factory class for Train objects."""
 
 from workbench_components.workbench_factory import WorkbenchFactory, WorkbenchFactoryError
-from workbench_train.common import STEP_NAME
 from workbench_train.train_data import TrainData
 from workbench_train.train_logic import TrainLogic
 from workbench_train.train_settings import TrainSettings
+from workbench_utils.common import WorkbenchSteps
 
 
 class TrainFactory(WorkbenchFactory):
@@ -30,4 +30,4 @@ class TrainFactory(WorkbenchFactory):
 
 
 factory_train = TrainFactory()
-factory_train.register(STEP_NAME, (TrainLogic, TrainData, TrainSettings))
+factory_train.register(WorkbenchSteps.TRAIN, (TrainLogic, TrainData, TrainSettings))
