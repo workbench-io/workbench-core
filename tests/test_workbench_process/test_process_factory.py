@@ -2,7 +2,7 @@
 
 # pylint: disable=protected-access
 
-from workbench_process.common import STEP_PROCESS
+from workbench_process.common import STEP_NAME
 from workbench_process.process_data import ProcessData
 from workbench_process.process_factory import ProcessFactory
 from workbench_process.process_logic import ProcessLogic
@@ -18,15 +18,15 @@ class TestProcessFactory:
 
     def test_register(self):
         process_factory = ProcessFactory()
-        process_factory.register(STEP_PROCESS, (ProcessLogic, ProcessData, ProcessSettings))
+        process_factory.register(STEP_NAME, (ProcessLogic, ProcessData, ProcessSettings))
 
-        assert process_factory._items[STEP_PROCESS] == (ProcessLogic, ProcessData, ProcessSettings)
+        assert process_factory._items[STEP_NAME] == (ProcessLogic, ProcessData, ProcessSettings)
 
     def test_create_instance_returns_tuple_with_process_objects(self):
         process_factory = ProcessFactory()
-        process_factory.register(STEP_PROCESS, (ProcessLogic, ProcessData, ProcessSettings))
+        process_factory.register(STEP_NAME, (ProcessLogic, ProcessData, ProcessSettings))
 
-        result = process_factory.create_instance(name=STEP_PROCESS)
+        result = process_factory.create_instance(name=STEP_NAME)
 
         assert isinstance(result, tuple)
         assert len(result) == 3

@@ -1,6 +1,6 @@
 from enum import StrEnum, auto
 
-STEP_PROCESS = "process"
+STEP_NAME = "process"
 
 
 class Source(StrEnum):

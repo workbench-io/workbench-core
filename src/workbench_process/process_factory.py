@@ -1,7 +1,7 @@
 """Factory class for Process objects."""
 
 from workbench_components.workbench_factory import WorkbenchFactory, WorkbenchFactoryError
-from workbench_process.common import STEP_PROCESS
+from workbench_process.common import STEP_NAME
 from workbench_process.process_data import ProcessData
 from workbench_process.process_logic import ProcessLogic
 from workbench_process.process_settings import ProcessSettings
@@ -30,4 +30,4 @@ class ProcessFactory(WorkbenchFactory):
 
 
 factory_process = ProcessFactory()
-factory_process.register(STEP_PROCESS, (ProcessLogic, ProcessData, ProcessSettings))
+factory_process.register(STEP_NAME, (ProcessLogic, ProcessData, ProcessSettings))
