@@ -46,7 +46,7 @@ class SourceCompressiveStrength(WorkbenchSource):
             if isinstance(source, str) and source.startswith("http"):
                 filepath = os.path.join(temp_dir, "downloaded_file.zip")
                 wget.download(source, out=filepath)
-            elif isinstance(source, Path):
+            else:
                 filepath = str(source)
 
             with ZipFile(filepath, "r") as zip_file:
