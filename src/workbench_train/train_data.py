@@ -7,6 +7,7 @@ from sklearn.pipeline import Pipeline
 
 from workbench_components.workbench_data.workbench_data import WorkbenchData
 from workbench_process.process_data import ProcessData
+from workbench_train.train_settings_model import ModelType, ScoreType
 from workbench_utils.utils_dataframes import generate_dataframe
 
 
@@ -16,7 +17,9 @@ class TrainData(WorkbenchData):
     features: pd.DataFrame = field(default_factory=generate_dataframe)
     targets: pd.DataFrame = field(default_factory=generate_dataframe)
     preprocessor: Pipeline | None = None
-    model_objects: dict[str, dict] = field(default_factory=dict)
+    model_objects: dict[ModelType, dict] = field(default_factory=dict)
+    results: dict[ModelType, dict[ScoreType, float]] = field(default_factory=dict)
+
     x_train: pd.DataFrame = field(default_factory=generate_dataframe)
     x_test: pd.DataFrame = field(default_factory=generate_dataframe)
     y_train: pd.DataFrame = field(default_factory=generate_dataframe)
