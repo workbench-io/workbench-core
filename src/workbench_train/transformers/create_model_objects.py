@@ -93,14 +93,14 @@ MODEL_TO_MODEL_REGRESSOR_MAP = {
 }
 
 
-class CreatePreprocessor(WorkbenchTransformer):
-    """Create data preprocessor"""
+class CreateModelObjects(WorkbenchTransformer):
+    """Create a dictionary of selected model objects and parameters to tune during cross-validation"""
 
     def transform(self, data: TrainData, settings: TrainSettings) -> bool:
-        """Create data preprocessor"""
+        """Create a dictionary of selected model objects and parameters to tune during cross-validation"""
 
         self.log_info(self.transform, "Creating pre-processor")
-        data.preprocessor = self._create_objects(settings)
+        data.model_objects = self._create_objects(settings)
 
         return True
 
