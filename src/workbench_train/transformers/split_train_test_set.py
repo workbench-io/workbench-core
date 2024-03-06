@@ -11,7 +11,7 @@ class SplitTrainTestSet(WorkbenchTransformer):
     def transform(self, data: TrainData, settings: TrainSettings) -> bool:
         """Split data into training and test sets."""
 
-        self.log_debug(self.transform, "Spliting Data")
+        self.log_info(self.transform, "Spliting Data")
 
         x_train, x_test, y_train, y_test = train_test_split(
             data.features,
@@ -25,9 +25,7 @@ class SplitTrainTestSet(WorkbenchTransformer):
         data.y_train = y_train
         data.y_test = y_test
 
-        self.log_debug(
-            self.transform,
-            f"Data spliting completed: train set size: {len(data.x_train)}; test set size: {len(data.x_test)}",
-        )
+        self.log_info(self.transform, "Data spliting completed")
+        self.log_debug(self.transform, f"train set size: {len(data.x_train)}; test set size: {len(data.x_test)}")
 
         return True

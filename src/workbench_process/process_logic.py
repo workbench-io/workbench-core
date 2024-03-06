@@ -6,6 +6,7 @@ from workbench_process.process_settings import ProcessSettings
 from workbench_process.sources.source_factory import factory_source
 from workbench_process.transformers.calculate_percentages import CalculatePercentages
 from workbench_process.transformers.rename_columns import RenameColumns
+from workbench_process.transformers.split_features_and_targets import SplitFeaturesAndTargets
 
 
 class ProcessLogic(WorkbenchLogic):
@@ -38,5 +39,6 @@ class ProcessLogic(WorkbenchLogic):
 
         RenameColumns().transform(data, settings)
         CalculatePercentages().transform(data, settings)
+        SplitFeaturesAndTargets().transform(data, settings)
 
         self.log_info(self._perform_transformations, "Transformations complete")
