@@ -5,7 +5,7 @@ from workbench_train.train_settings import TrainSettings
 from workbench_train.transformers.split_train_test_set import SplitTrainTestSet
 
 
-class TestSplitData:
+class TestSplitTrainTestSet:
     def test_transform_returns_true(
         self,
         train_data: TrainData,

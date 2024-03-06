@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 
 import pandas as pd
+from sklearn.pipeline import Pipeline
 
 from workbench_components.workbench_data.workbench_data import WorkbenchData
 from workbench_process.process_data import ProcessData
@@ -12,6 +13,7 @@ class TrainData(WorkbenchData):
 
     features: pd.DataFrame = field(default_factory=generate_dataframe)
     targets: pd.DataFrame = field(default_factory=generate_dataframe)
+    preprocessor: Pipeline | None = None
     x_train: pd.DataFrame = field(default_factory=generate_dataframe)
     x_test: pd.DataFrame = field(default_factory=generate_dataframe)
     y_train: pd.DataFrame = field(default_factory=generate_dataframe)

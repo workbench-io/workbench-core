@@ -1,6 +1,3 @@
-import warnings
-
-import pandas as pd
 from feature_engine.imputation import AddMissingIndicator, DropMissingData, MeanMedianImputer
 from feature_engine.selection import DropConstantFeatures, DropDuplicateFeatures, SmartCorrelatedSelection
 from feature_engine.transformation import YeoJohnsonTransformer
@@ -12,6 +9,45 @@ from workbench_components.workbench_transformer.workbench_transformer import Wor
 from workbench_train.train_data import TrainData
 from workbench_train.train_settings import TrainSettings
 
+STEP_TO_TRANSFORMER_MAP = {
+    "boolean_impute_missing": {
+        "transformer": MeanMedianImputer,
+        "args": {"imputation_method": "median"},
+    },
+    "numeric_add_missing_indicator": {
+        "transformer": AddMissingIndicator,
+        "args": {"missing_only": True},
+    },
+    "numeric_impute_missing_median": {
+        "transformer": MeanMedianImputer,
+        "args": {"imputation_method": "median"},
+    },
+    "numeric_yeojohnson": {
+        "transformer": YeoJohnsonTransformer,
+        "args": {},
+    },
+    "numeric_zscore_scaling": {
+        "transformer": SklearnTransformerWrapper,
+        "args": {"transformer": StandardScaler()},
+    },
+    "numeric_remove_correlated": {
+        "transformer": SmartCorrelatedSelection,
+        "args": {},
+    },
+    "all_drop_duplicate": {
+        "transformer": DropDuplicateFeatures,
+        "args": {"missing_values": "ignore"},
+    },
+    "all_drop_constant": {
+        "transformer": DropConstantFeatures,
+        "args": {"missing_values": "ignore"},
+    },
+    "all_drop_missing": {
+        "transformer": DropMissingData,
+        "args": {},
+    },
+}
+
 
 class CreatePreprocessor(WorkbenchTransformer):
     """Create data preprocessor"""
@@ -20,43 +56,21 @@ class CreatePreprocessor(WorkbenchTransformer):
         """Create data preprocessor"""
 
         self.log_info(self.transform, "Creating pre-processor")
+        data.preprocessor = self._create_preprocessor(settings)
 
+        return True
 
-warnings.filterwarnings(action="ignore", category=pd.errors.PerformanceWarning)
+    def _create_preprocessor(self, settings):
 
+        steps = []
 
-def create_preprocessor(
-    col_bool: list,
-    col_numeric: list,
-):
+        for step_name, step_bool in settings.model.preprocessing:
+            if step_bool:
+                step_dict = STEP_TO_TRANSFORMER_MAP[step_name]
 
-    preprocessor = Pipeline(
-        steps=[
-            # # Add Missing Indicator
-            # ('bool_missing_indicator', AddMissingIndicator(variables=col_bool, missing_only=True)),
-            # Impute Missing Values
-            ("bool_impute_missing", MeanMedianImputer(variables=col_bool, imputation_method="median")),
-            # Add Missing Indicator
-            ("num_missing_indicator", AddMissingIndicator(variables=col_numeric, missing_only=True)),
-            # Impute Missing Values
-            ("num_impute_missing_median", MeanMedianImputer(variables=col_numeric, imputation_method="median")),
-            # Yeo-Johnson Transform
-            ("num_yeojohnson", YeoJohnsonTransformer(variables=col_numeric)),
-            # Z-score Scaling
-            ("num_zscore_scaling", SklearnTransformerWrapper(variables=col_numeric, transformer=StandardScaler())),
-            # All Features
-            # Remove Highly Correlated
-            (
-                "remove_correlated",
-                SmartCorrelatedSelection(variables=col_numeric + col_bool),
-            ),
-            # Remove Duplicates
-            ("all_drop_duplicate", DropDuplicateFeatures(missing_values="ignore")),
-            # Remove Constant
-            ("all_drop_constant", DropConstantFeatures(missing_values="ignore")),
-            # Drop Missing Data
-            ("all_drop_missing", DropMissingData()),
-        ]
-    )
+                step_data = step_name, step_dict["transformer"](**step_dict["args"])
+                steps.append(step_data)
 
-    return preprocessor
+        preprocessor = Pipeline(steps=steps)
+
+        return preprocessor
