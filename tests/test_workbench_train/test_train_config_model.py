@@ -1,6 +1,6 @@
 import pytest
 
-from workbench_train.train_settings_model import CrossValidationModel, MlflowModel, TrainSettingsModel
+from workbench_train.train_settings_model import MlflowModel, PreprocessingModel, TrainingModel, TrainSettingsModel
 
 
 class TestTrainSettingsModel:
@@ -13,7 +13,8 @@ class TestTrainSettingsModel:
     @pytest.mark.parametrize(
         ["attribute", "expected_type"],
         [
-            ("cross_validation", CrossValidationModel),
+            ("preprocessing", PreprocessingModel),
+            ("training", TrainingModel),
             ("mlflow", MlflowModel),
         ],
     )

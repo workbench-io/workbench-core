@@ -6,24 +6,45 @@ from pydantic import BaseModel, Field
 ScoreType = Literal["mse", "rmse", "mae", "max_error", "r2"]
 
 
-class CrossValidationModel(BaseModel):
-    metric: ScoreType
-    folds: int = Field(ge=1)
-    scores: list[ScoreType]
-
-
 class MlflowModel(BaseModel):
     use: bool
     dir: Path
     tracking_uri: str
 
 
-class TrainSettingsModel(BaseModel):
-    """Model for the settings of the train step."""
+class PreprocessingModel(BaseModel):
+    """Model for pre-processing settings"""
 
-    seed: int
+    boolean_impute_missing: bool = False
+    numeric_add_missing_indicator: bool = False
+    numeric_impute_missing_median: bool = False
+    numeric_yeojohnson: bool = False
+    numeric_zscore_scaling: bool = False
+    numeric_remove_correlated: bool = False
+    all_drop_duplicate: bool = False
+    all_drop_constant: bool = False
+    all_drop_missing: bool = False
+
+
+class CrossValidationModel(BaseModel):
+    metric: ScoreType
+    folds: int = Field(ge=1)
+    scores: list[ScoreType]
+
+
+class TrainingModel(BaseModel):
+    """Model for training settings"""
+
     test_size: float = Field(gt=0, lt=1)
     search_iterations: int = Field(ge=1)
     n_jobs: int
     cross_validation: CrossValidationModel
+
+
+class TrainSettingsModel(BaseModel):
+    """Model for the settings of the train step."""
+
+    seed: int
+    preprocessing: PreprocessingModel
+    training: TrainingModel
     mlflow: MlflowModel

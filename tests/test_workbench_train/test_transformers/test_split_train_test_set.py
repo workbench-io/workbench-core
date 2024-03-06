@@ -14,7 +14,7 @@ class TestSplitData:
 
         train_data.features = pd.DataFrame({"A": range(0, 10)})
         train_data.targets = pd.DataFrame({"B": range(10, 20)})
-        train_settings.model.test_size = 0.2
+        train_settings.model.training.test_size = 0.2
 
         result = SplitTrainTestSet().transform(train_data, train_settings)
 
@@ -28,7 +28,7 @@ class TestSplitData:
 
         train_data.features = pd.DataFrame({"A": range(0, 10)})
         train_data.targets = pd.DataFrame({"B": range(10, 20)})
-        train_settings.model.test_size = 0.2
+        train_settings.model.training.test_size = 0.2
 
         SplitTrainTestSet().transform(train_data, train_settings)
 

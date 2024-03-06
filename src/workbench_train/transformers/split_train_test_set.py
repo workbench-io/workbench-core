@@ -16,7 +16,7 @@ class SplitTrainTestSet(WorkbenchTransformer):
         x_train, x_test, y_train, y_test = train_test_split(
             data.features,
             data.targets,
-            test_size=settings.model.test_size,
+            test_size=settings.model.training.test_size,
             random_state=settings.model.seed,
         )
 

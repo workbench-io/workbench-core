@@ -1,12 +1,25 @@
 {
     "seed": 1,
-    "test_size": 0.2,
-    "search_iterations": 100,
-    "n_jobs": -1,
-    "cross_validation":{
-        "metric": "mse",
-        "folds": 10,
-        "scores": ["mse", "rmse", "mae", "max_error", "r2"]
+    "preprocessing": {
+        "boolean_impute_missing": true,
+        "numeric_add_missing_indicator": true,
+        "numeric_impute_missing_median": true,
+        "numeric_yeojohnson": true,
+        "numeric_zscore_scaling": true,
+        "numeric_remove_correlated": true,
+        "all_drop_duplicate": true,
+        "all_drop_constant": true,
+        "all_drop_missing": true
+    },
+    "training": {
+        "test_size": 0.2,
+        "search_iterations": 100,
+        "n_jobs": -1,
+        "cross_validation":{
+            "metric": "mse",
+            "folds": 10,
+            "scores": ["mse", "rmse", "mae", "max_error", "r2"]
+        }
     },
     "mlflow":{
         "use": false,
