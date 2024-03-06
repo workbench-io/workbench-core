@@ -32,6 +32,9 @@ matplotlib = "^3.8.3"
 seaborn = "^0.13.2"
 mlflow = "^2.10.2"
 pytest-cov = "^4.1.0"
+typer = "^0.9.0"
+fastapi = "^0.110.0"
+uvicorn = "^0.27.1"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.6.0"
@@ -89,7 +92,7 @@ ignore_missing_imports = false
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra -q --verbose --cov=src --cov-config=pyproject.toml"
+addopts = "-ra -q --verbose" #  --cov=src --cov-config=pyproject.toml
 pythonpath = ["src"]
 testpaths = ["tests"]
 log_cli = true
