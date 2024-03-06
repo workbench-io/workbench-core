@@ -1,5 +1,3 @@
-# Contains model object and the parameters to be used for hyperparameter tuning
-
 import numpy as np
 from sklearn.cross_decomposition import PLSRegression
 from sklearn.ensemble import GradientBoostingRegressor, RandomForestRegressor
