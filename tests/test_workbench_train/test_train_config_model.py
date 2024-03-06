@@ -1,4 +1,6 @@
-from workbench_train.train_settings_model import TrainSettingsModel
+import pytest
+
+from workbench_train.train_settings_model import CrossValidationModel, MlflowModel, TrainSettingsModel
 
 
 class TestTrainSettingsModel:
@@ -8,8 +10,16 @@ class TestTrainSettingsModel:
 
         assert isinstance(train_settings_model, TrainSettingsModel)
 
-    def test_train_config_model_type(self, config_dict: dict):
+    @pytest.mark.parametrize(
+        ["attribute", "expected_type"],
+        [
+            ("cross_validation", CrossValidationModel),
+            ("mlflow", MlflowModel),
+        ],
+    )
+    def test_process_config_model_types(self, attribute: str, expected_type, config_dict: dict):
 
-        train_settings_model = TrainSettingsModel(**config_dict)
+        process_settings_model = TrainSettingsModel(**config_dict)
+        model_attribute = getattr(process_settings_model, attribute)
 
-        assert isinstance(train_settings_model, TrainSettingsModel)
+        assert isinstance(model_attribute, expected_type)
