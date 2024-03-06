@@ -4,6 +4,7 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 ScoreType = Literal["mse", "rmse", "mae", "max_error", "r2"]
+ModelType = Literal["pls", "lasso", "elasticnet", "svr", "random_forest", "gbm", "neural_network"]
 
 
 class MlflowModel(BaseModel):
@@ -38,6 +39,7 @@ class TrainingModel(BaseModel):
     test_size: float = Field(gt=0, lt=1)
     search_iterations: int = Field(ge=1)
     n_jobs: int
+    models: list[ModelType]
     cross_validation: CrossValidationModel
 
 
@@ -45,6 +47,7 @@ class TrainSettingsModel(BaseModel):
     """Model for the settings of the train step."""
 
     seed: int
+    verbose: bool
     preprocessing: PreprocessingModel
     training: TrainingModel
     mlflow: MlflowModel

@@ -1,3 +1,5 @@
+# pylint: disable=too-many-instance-attributes
+
 from dataclasses import dataclass, field
 
 import pandas as pd
@@ -14,6 +16,7 @@ class TrainData(WorkbenchData):
     features: pd.DataFrame = field(default_factory=generate_dataframe)
     targets: pd.DataFrame = field(default_factory=generate_dataframe)
     preprocessor: Pipeline | None = None
+    model_objects: dict[str, dict] = field(default_factory=dict)
     x_train: pd.DataFrame = field(default_factory=generate_dataframe)
     x_test: pd.DataFrame = field(default_factory=generate_dataframe)
     y_train: pd.DataFrame = field(default_factory=generate_dataframe)
