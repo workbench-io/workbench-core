@@ -30,8 +30,8 @@ class FeaturesModel(BaseModel):
     composition: list[str]
 
     @property
-    def all_features(self) -> set[str]:
-        return set(
+    def all_features(self) -> list[str]:
+        features_set = set(
             self.numerical
             + self.categorical
             + self.discrete
@@ -41,6 +41,8 @@ class FeaturesModel(BaseModel):
             + self.geo
             + self.composition
         )
+
+        return list(features_set)
 
 
 class ProcessSettingsModel(BaseModel):

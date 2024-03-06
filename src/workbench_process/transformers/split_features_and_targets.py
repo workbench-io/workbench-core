@@ -11,4 +11,7 @@ class SplitFeaturesAndTargets(WorkbenchTransformer):
 
         self.log_debug(self.transform, "Spliting features and targets")
 
+        data.features = data.compressive_strength[settings.model.features.all_features]
+        data.targets = data.compressive_strength[settings.model.features.targets]
+
         return True

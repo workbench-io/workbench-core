@@ -15,7 +15,7 @@ class TestProcessSettings:
         process_settings = ProcessSettings()
         process_settings.load_settings_from_file(configs_path)
 
-        all_features = {
+        all_features = [
             "age",
             "cement",
             "coarse_aggregate",
@@ -24,9 +24,9 @@ class TestProcessSettings:
             "slag",
             "superplasticizer",
             "water",
-        }
+        ]
 
-        assert process_settings.model.features.all_features == all_features
+        assert set(process_settings.model.features.all_features) == set(all_features)
         assert all(
             target not in process_settings.model.features.all_features
             for target in process_settings.model.features.targets
