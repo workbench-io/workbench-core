@@ -12,7 +12,7 @@ def run_process() -> None:
 
     train_logic, train_data, train_settings = factory_train.create_instance(name=WorkbenchSteps.TRAIN)
     train_settings.load_settings_from_file("tests/test_workbench_train/resources/workbench_settings.json")
-    # train_data.from_process_data(process_data)
+    train_data.from_process_data(process_data)
 
     train_logic.run(train_data, train_settings)
 

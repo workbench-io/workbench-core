@@ -10,7 +10,8 @@ from workbench_utils.utils_dataframes import generate_dataframe
 @dataclass
 class TrainData(WorkbenchData):
 
-    processed: pd.DataFrame = field(default_factory=generate_dataframe)
+    features: pd.DataFrame = field(default_factory=generate_dataframe)
+    targets: pd.DataFrame = field(default_factory=generate_dataframe)
     x_train: pd.DataFrame = field(default_factory=generate_dataframe)
     x_test: pd.DataFrame = field(default_factory=generate_dataframe)
     y_train: pd.DataFrame = field(default_factory=generate_dataframe)
@@ -20,4 +21,5 @@ class TrainData(WorkbenchData):
         super().__init__()
 
     def from_process_data(self, data: ProcessData) -> None:
-        self.processed = data.compressive_strength
+        self.features = data.features
+        self.targets = data.targets
