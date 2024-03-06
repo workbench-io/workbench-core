@@ -82,7 +82,7 @@ class CreatePreprocessor(WorkbenchTransformer):
             if step_bool:
                 self.log_debug(
                     self._create_preprocessor,
-                    f"Adding {step_name} to preprocessor pipeline",
+                    f"Adding '{step_name}' to preprocessor pipeline",
                 )
                 step_dict = STEP_TO_TRANSFORMER_MAP[step_name]
 

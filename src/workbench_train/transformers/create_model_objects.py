@@ -110,7 +110,7 @@ class CreateModelObjects(WorkbenchTransformer):
             if model_name in MODEL_TO_MODEL_REGRESSOR_MAP:
                 self.log_debug(
                     self._create_objects,
-                    f"Adding {model_name} to model selection",
+                    f"Adding '{model_name}' to model selection",
                 )
 
                 models_data[model_name] = MODEL_TO_MODEL_REGRESSOR_MAP[model_name]
