@@ -19,15 +19,28 @@ class FeaturesModel(BaseModel):
     """Model for the features of the data."""
 
     targets: list[str]
+    ignore: list[str]
     numerical: list[str]
     categorical: list[str]
     discrete: list[str]
     text: list[str]
     date: list[str]
-    ignore: list[str]
     id: list[str]
     geo: list[str]
     composition: list[str]
+
+    @property
+    def all_features(self) -> set[str]:
+        return set(
+            self.numerical
+            + self.categorical
+            + self.discrete
+            + self.text
+            + self.date
+            + self.id
+            + self.geo
+            + self.composition
+        )
 
 
 class ProcessSettingsModel(BaseModel):
