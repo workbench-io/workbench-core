@@ -68,7 +68,6 @@ class TrainModels(WorkbenchTransformer):
 
                 pipeline = self._get_pipeline(data, model_data["model"])
 
-                # Hyperparameter tuning with k-fold cross-validation
                 rs = RandomizedSearchCV(
                     estimator=pipeline,
                     param_distributions=model_data["params"],
