@@ -20,6 +20,7 @@ class TrainLogic(WorkbenchLogic):
         CreatePreprocessor().transform(data, settings)
         CreateModelObjects().transform(data, settings)
         TrainModels().transform(data, settings)
+        # SelectBestModel().transform(data, settings)
 
         self.log_info(self.run, "Train complete")
 
