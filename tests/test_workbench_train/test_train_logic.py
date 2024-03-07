@@ -5,7 +5,7 @@ from workbench_train.train_logic import TrainLogic
 from workbench_train.train_settings import TrainSettings
 
 
-class TestTrain:
+class TestTrainLogic:
 
     def test_run_should_return_true(
         self,

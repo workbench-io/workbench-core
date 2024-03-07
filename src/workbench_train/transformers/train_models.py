@@ -3,7 +3,14 @@ from typing import Callable
 
 import numpy as np
 from sklearn.compose import TransformedTargetRegressor
-from sklearn.metrics import make_scorer, max_error, mean_absolute_error, mean_squared_error, r2_score
+from sklearn.metrics import (
+    make_scorer,
+    max_error,
+    mean_absolute_error,
+    mean_squared_error,
+    r2_score,
+    root_mean_squared_error,
+)
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.pipeline import Pipeline
 
@@ -18,8 +25,7 @@ METRIC_TO_SCORER_MAP: dict[str, Callable] = {
         greater_is_better=False,
     ),
     "rmse": make_scorer(
-        score_func=mean_squared_error,
-        squared=False,
+        score_func=root_mean_squared_error,
         greater_is_better=False,
     ),
     "mae": make_scorer(
@@ -115,7 +121,8 @@ class TrainModels(WorkbenchTransformer):
         y_pred = model.predict(data.x_test)
 
         test_set_scores = {
-            "rmse": mean_squared_error(data.y_test, y_pred, squared=False),
+            "mse": mean_squared_error(data.y_test, y_pred),
+            "rmse": root_mean_squared_error(data.y_test, y_pred),
             "mae": mean_absolute_error(data.y_test, y_pred),
             "max_error": max_error(data.y_test, y_pred),
             "r2": r2_score(data.y_test, y_pred),

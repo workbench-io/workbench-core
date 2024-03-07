@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
+from random import choices
 
+import numpy as np
 import pandas as pd
 import pytest
 
@@ -44,25 +46,27 @@ def train_data() -> TrainData:
 
 @pytest.fixture
 def features_and_targets() -> tuple[pd.DataFrame, pd.DataFrame]:
+    n_size = 50
+    index = range(n_size)
+    np.random.seed(1)
+
     features = pd.DataFrame(
         {
-            "cement": [22.309440198306135, 22.17203859577089, 14.917003140421714],
-            "slag": [0.0, 0.0, 6.39300134589502],
-            "fly_ash": [0.0, 0.0, 0.0],
-            "water": [6.692832059491841, 6.651611578731266, 10.228802153432031],
-            "superplasticizer": [0.1032844453625284, 0.10264832683227264, 0.0],
-            "coarse_aggregate": [42.96632927081181, 43.31759392321905, 41.81247196052041],
-            "fine_aggregate": [27.92811402602768, 27.75610757544652, 26.648721399730825],
-            "age": [28, 28, 270],
+            "cement": np.random.uniform(0, 100, size=n_size),
+            "slag": np.random.uniform(0, 100, size=n_size),
+            "fly_ash": np.random.uniform(0, 100, size=n_size),
+            "water": np.random.uniform(0, 100, size=n_size),
+            "superplasticizer": np.random.uniform(0, 100, size=n_size),
+            "coarse_aggregate": np.random.uniform(0, 100, size=n_size),
+            "fine_aggregate": np.random.uniform(0, 100, size=n_size),
+            "age": choices([1, 3, 7, 14, 28, 90, 120, 180, 270, 360, 365], k=n_size),
         },
-        index=[0, 1, 2],
+        index=index,
     )
 
     targets = pd.DataFrame(
-        {
-            "compressive_strength": [79.98611076, 61.887365759999994, 40.269535256000005],
-        },
-        index=[0, 1, 2],
+        {"compressive_strength": np.random.normal(35, 16, size=n_size)},
+        index=index,
     )
 
     return features, targets
