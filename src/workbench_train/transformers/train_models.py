@@ -15,28 +15,29 @@ from sklearn.model_selection import RandomizedSearchCV
 from sklearn.pipeline import Pipeline
 
 from workbench_components.workbench_transformer.workbench_transformer import WorkbenchTransformer
+from workbench_train.common import Metrics
 from workbench_train.train_data import TrainData
 from workbench_train.train_settings import TrainSettings
 
 METRIC_TO_SCORER_MAP: dict[str, Callable] = {
-    "mse": make_scorer(
+    Metrics.MSE: make_scorer(
         score_func=mean_squared_error,
         squared=True,
         greater_is_better=False,
     ),
-    "rmse": make_scorer(
+    Metrics.RMSE: make_scorer(
         score_func=root_mean_squared_error,
         greater_is_better=False,
     ),
-    "mae": make_scorer(
+    Metrics.MAE: make_scorer(
         score_func=mean_absolute_error,
         greater_is_better=False,
     ),
-    "max_error": make_scorer(
+    Metrics.MAX_ERROR: make_scorer(
         score_func=max_error,
         greater_is_better=False,
     ),
-    "r2": make_scorer(
+    Metrics.R2: make_scorer(
         score_func=r2_score,
         greater_is_better=True,
     ),
@@ -120,11 +121,11 @@ class TrainModels(WorkbenchTransformer):
         y_pred = model.predict(data.x_test)
 
         test_set_scores = {
-            "mse": mean_squared_error(data.y_test, y_pred),
-            "rmse": root_mean_squared_error(data.y_test, y_pred),
-            "mae": mean_absolute_error(data.y_test, y_pred),
-            "max_error": max_error(data.y_test, y_pred),
-            "r2": r2_score(data.y_test, y_pred),
+            Metrics.MSE: mean_squared_error(data.y_test, y_pred),
+            Metrics.RMSE: root_mean_squared_error(data.y_test, y_pred),
+            Metrics.MAE: mean_absolute_error(data.y_test, y_pred),
+            Metrics.MAX_ERROR: max_error(data.y_test, y_pred),
+            Metrics.R2: r2_score(data.y_test, y_pred),
         }
 
         return test_set_scores

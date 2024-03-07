@@ -6,17 +6,18 @@ from sklearn.neural_network import MLPRegressor
 from sklearn.svm import SVR
 
 from workbench_components.workbench_transformer.workbench_transformer import WorkbenchTransformer
+from workbench_train.common import Models
 from workbench_train.train_data import TrainData
 from workbench_train.train_settings import TrainSettings
 
 MODEL_TO_MODEL_REGRESSOR_MAP = {
-    "pls": {
+    Models.PLS: {
         "model": PLSRegression(max_iter=1000),
         "params": {
             "model__regressor__n_components": range(1, 5),
         },
     },
-    "lasso": {
+    Models.LASSO: {
         "model": Lasso(
             random_state=1,
         ),
@@ -25,7 +26,7 @@ MODEL_TO_MODEL_REGRESSOR_MAP = {
             "model__regressor__alpha": np.logspace(-6, 6, 13),
         },
     },
-    "elasticnet": {
+    Models.ELASTICNET: {
         "model": ElasticNet(
             random_state=1,
             max_iter=1000,
@@ -35,7 +36,7 @@ MODEL_TO_MODEL_REGRESSOR_MAP = {
             "model__regressor__l1_ratio": [0.1, 0.25, 0.5, 0.75, 0.9],
         },
     },
-    "svr": {
+    Models.SVR: {
         "model": SVR(verbose=False),
         "params": {
             "model__regressor__kernel": ["linear", "poly", "rbf"],
@@ -45,7 +46,7 @@ MODEL_TO_MODEL_REGRESSOR_MAP = {
             "model__regressor__epsilon": np.logspace(-2, 2, 5),
         },
     },
-    "random_forest": {
+    Models.RANDOM_FOREST: {
         "model": RandomForestRegressor(
             criterion="squared_error",
             n_jobs=-1,
@@ -59,7 +60,7 @@ MODEL_TO_MODEL_REGRESSOR_MAP = {
             "model__regressor__min_samples_leaf": [5, 10, 25, 50],
         },
     },
-    "gbm": {
+    Models.GBM: {
         "model": GradientBoostingRegressor(
             loss="squared_error",
             random_state=1,
@@ -74,7 +75,7 @@ MODEL_TO_MODEL_REGRESSOR_MAP = {
             "model__regressor__min_samples_split": [2],
         },
     },
-    "neural_network": {
+    Models.NEURAL_NETWORK: {
         "model": MLPRegressor(
             solver="adam",
             n_iter_no_change=10,
