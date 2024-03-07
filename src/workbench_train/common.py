@@ -21,3 +21,12 @@ class Metrics(StrEnum):
     MAE = auto()
     MAX_ERROR = auto()
     R2 = auto()
+
+
+METRIC_LOWER_IS_BETTER_MAP: dict[Metrics, bool] = {
+    Metrics.MSE: True,
+    Metrics.RMSE: True,
+    Metrics.MAE: True,
+    Metrics.MAX_ERROR: True,
+    Metrics.R2: False,
+}

@@ -3,7 +3,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-ScoreType = Literal["mse", "rmse", "mae", "max_error", "r2"]
+MetricType = Literal["mse", "rmse", "mae", "max_error", "r2"]
 ModelType = Literal["pls", "lasso", "elasticnet", "svr", "random_forest", "gbm", "neural_network"]
 
 
@@ -28,9 +28,9 @@ class PreprocessingModel(BaseModel):
 
 
 class CrossValidationModel(BaseModel):
-    metric: ScoreType
+    metric: MetricType
     folds: int = Field(ge=1)
-    scores: list[ScoreType]
+    scores: list[MetricType]
 
 
 class TrainingModel(BaseModel):
@@ -43,6 +43,13 @@ class TrainingModel(BaseModel):
     cross_validation: CrossValidationModel
 
 
+class SelectingModel(BaseModel):
+    """Model for model selection settings"""
+
+    metric: MetricType
+    n_models: int = Field(ge=1)
+
+
 class TrainSettingsModel(BaseModel):
     """Model for the settings of the train step."""
 
@@ -50,4 +57,5 @@ class TrainSettingsModel(BaseModel):
     verbose: bool
     preprocessing: PreprocessingModel
     training: TrainingModel
+    selecting: SelectingModel
     mlflow: MlflowModel

@@ -23,6 +23,10 @@
             "scores": ["rmse", "mae", "max_error", "r2"]
         }
     },
+    "selecting": {
+        "metric": "rmse",
+        "n_models": 1
+    },
     "mlflow":{
         "use": false,
         "dir": "./mlruns/",
