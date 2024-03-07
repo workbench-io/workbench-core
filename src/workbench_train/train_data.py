@@ -3,6 +3,7 @@
 from dataclasses import dataclass, field
 
 import pandas as pd
+from sklearn.base import BaseEstimator
 from sklearn.pipeline import Pipeline
 
 from workbench_components.workbench_data.workbench_data import WorkbenchData
@@ -19,6 +20,7 @@ class TrainData(WorkbenchData):
     preprocessor: Pipeline | None = None
     model_objects: dict[ModelType, dict] = field(default_factory=dict)
     results: dict[ModelType, dict[ScoreType, float]] = field(default_factory=dict)
+    estimators: dict[ModelType, BaseEstimator] = field(default_factory=dict)
 
     x_train: pd.DataFrame = field(default_factory=generate_dataframe)
     x_test: pd.DataFrame = field(default_factory=generate_dataframe)

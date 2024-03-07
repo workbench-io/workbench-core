@@ -72,19 +72,19 @@ class TrainModels(WorkbenchTransformer):
                 rs = RandomizedSearchCV(
                     estimator=pipeline,
                     param_distributions=model_data["params"],
-                    n_iter=settings.model.training.search_iterations,
-                    random_state=settings.model.seed,
-                    cv=settings.model.training.cross_validation.folds,
                     scoring=self._get_scorers(settings),
+                    n_iter=settings.model.training.search_iterations,
+                    cv=settings.model.training.cross_validation.folds,
                     refit=settings.model.training.cross_validation.metric,
-                    return_train_score=False,
                     n_jobs=settings.model.training.n_jobs,
+                    random_state=settings.model.seed,
                 )
 
                 rs.fit(data.x_train, data.y_train)
 
                 test_set_scores = self._get_test_set_scores(rs, data)
                 data.results[model_name] = test_set_scores
+                data.estimators[model_name] = rs
 
                 self.log_debug(
                     self._train_models, f"Results for {model_name}: {test_set_scores}", extra=test_set_scores
