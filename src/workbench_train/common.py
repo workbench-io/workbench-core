@@ -1,5 +1,7 @@
 from enum import StrEnum, auto
 
+EXPORTED_MODEL_FILENAME_TEMPLACE = "{model_name}.pkl"
+
 
 class Models(StrEnum):
     """Enum for models available for training."""
