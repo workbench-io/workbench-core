@@ -1,6 +1,6 @@
 import pandas as pd
 
-from workbench_utils.utils_dataframes import generate_dataframe
+from workbench_utils.dataframes import generate_dataframe
 
 
 def test_generate_dataframe():

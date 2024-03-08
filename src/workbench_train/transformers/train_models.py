@@ -19,7 +19,7 @@ from workbench_components.workbench_transformer.workbench_transformer import Wor
 from workbench_train.common import Metrics
 from workbench_train.train_data import TrainData
 from workbench_train.train_settings import TrainSettings
-from workbench_train.utils.warning import filter_warnings
+from workbench_utils.warning import filter_warnings
 
 filter_warnings()
 

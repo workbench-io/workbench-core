@@ -2,7 +2,7 @@ from workbench_components.workbench_transformer.workbench_transformer import Wor
 from workbench_train.common import EXPORTED_MODEL_FILENAME_TEMPLACE
 from workbench_train.train_data import TrainData
 from workbench_train.train_settings import TrainSettings
-from workbench_train.utils.export import remove_old_pipelines, save_pipeline
+from workbench_utils.export import remove_old_pipelines, save_pipeline
 
 
 class ExportModelError(Exception):

@@ -9,7 +9,7 @@ from sklearn.pipeline import Pipeline
 from workbench_components.workbench_data.workbench_data import WorkbenchData
 from workbench_process.process_data import ProcessData
 from workbench_train.train_settings_model import MetricType, ModelType
-from workbench_utils.utils_dataframes import generate_dataframe
+from workbench_utils.dataframes import generate_dataframe
 
 
 @dataclass
