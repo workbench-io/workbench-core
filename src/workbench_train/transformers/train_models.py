@@ -13,11 +13,15 @@ from sklearn.metrics import (
 )
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.pipeline import Pipeline
+from sklearn.utils import parallel_backend
 
 from workbench_components.workbench_transformer.workbench_transformer import WorkbenchTransformer
 from workbench_train.common import Metrics
 from workbench_train.train_data import TrainData
 from workbench_train.train_settings import TrainSettings
+from workbench_train.utils.warning import filter_warnings
+
+filter_warnings()
 
 METRIC_TO_SCORER_MAP: dict[str, Callable] = {
     Metrics.MSE: make_scorer(
@@ -60,35 +64,36 @@ class TrainModels(WorkbenchTransformer):
 
     def _train_models(self, data: TrainData, settings: TrainSettings) -> None:
 
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore")
+        with parallel_backend("multiprocessing"):
+            with warnings.catch_warnings():
+                filter_warnings()
 
-            for model_name, model_data in data.model_objects.items():
+                for model_name, model_data in data.model_objects.items():
 
-                self.log_debug(self._train_models, f"Fitting '{model_name}' model")
+                    self.log_debug(self._train_models, f"Fitting '{model_name}' model")
 
-                pipeline = self._get_pipeline(data, model_data["model"])
+                    pipeline = self._get_pipeline(data, model_data["model"])
 
-                rs = RandomizedSearchCV(
-                    estimator=pipeline,
-                    param_distributions=model_data["params"],
-                    scoring=self._get_scorers(settings),
-                    n_iter=settings.model.training.search_iterations,
-                    cv=settings.model.training.cross_validation.folds,
-                    refit=settings.model.training.cross_validation.metric,
-                    n_jobs=settings.model.training.n_jobs,
-                    random_state=settings.model.seed,
-                )
+                    rs = RandomizedSearchCV(
+                        estimator=pipeline,
+                        param_distributions=model_data["params"],
+                        scoring=self._get_scorers(settings),
+                        n_iter=settings.model.training.search_iterations,
+                        cv=settings.model.training.cross_validation.folds,
+                        refit=settings.model.training.cross_validation.metric,
+                        n_jobs=settings.model.training.n_jobs,
+                        random_state=settings.model.seed,
+                    )
 
-                rs.fit(data.x_train, data.y_train)
+                    rs.fit(data.x_train, data.y_train)
 
-                test_set_scores = self._get_test_set_scores(rs, data)
-                data.results[model_name] = test_set_scores
-                data.estimators[model_name] = rs
+                    test_set_scores = self._get_test_set_scores(rs, data)
+                    data.results[model_name] = test_set_scores
+                    data.estimators[model_name] = rs
 
-                self.log_debug(
-                    self._train_models, f"Results for {model_name}: {test_set_scores}", extra=test_set_scores
-                )
+                    self.log_debug(
+                        self._train_models, f"Results for '{model_name}': {test_set_scores}", extra=test_set_scores
+                    )
 
     def _get_scorers(self, settings: TrainSettings) -> dict[str, Callable]:
         scorers_subset = {

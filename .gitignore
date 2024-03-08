@@ -212,3 +212,6 @@ logs/*
 
 *.ipynb
 .ipynb
+
+output/
+output/*

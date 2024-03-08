@@ -22,7 +22,7 @@ class ExportModel(WorkbenchTransformer):
             raise ExportModelError("No model available to export in TrainData object")
 
         if settings.model.exporting.remove_previous and settings.model.exporting.path.exists():
-            self.log_info(self.transform, "Removing previous models")
+            self.log_info(self.transform, f"Removing previous models in {settings.model.exporting.path.absolute()}")
             remove_old_pipelines(settings.model.exporting.path)
 
         for model_name in data.model_selection:

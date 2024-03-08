@@ -22,6 +22,8 @@ class WorkbenchSettings(ABC, WorkbenchLogger):
     def load_settings_from_file(self, filepath: os.PathLike) -> None:
         """Load settings from a file."""
 
+        self.log_info(self.load_settings_from_file, f"Loading settings from {filepath.absolute()}")
+
         with open(filepath, "r", encoding=ENCODING) as file:
             config_dict = json.load(file)
 

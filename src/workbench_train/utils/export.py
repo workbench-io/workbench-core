@@ -29,11 +29,9 @@ def load_pipeline(filepath: os.PathLike) -> Pipeline:
     return trained_model
 
 
-def remove_old_pipelines(path_models: Path, files_to_keep: list[str] | None = None) -> None:
+def remove_old_pipelines(path_models: Path) -> None:
     """
     Removes old model pipelines
     """
-
-    for model_file in path_models.iterdir():
-        if (files_to_keep is not None) and (model_file.name not in files_to_keep):
-            model_file.unlink()
+    for model_file in path_models.glob("*.pkl"):
+        model_file.unlink()
