@@ -1,6 +1,11 @@
 import pytest
 
-from workbench_train.train_settings_model import MlflowModel, PreprocessingModel, TrainingModel, TrainSettingsModel
+from workbench_train.train_settings_model import (
+    MlflowSettingsModel,
+    PreprocessingSettingsModel,
+    TrainingSettingsModel,
+    TrainSettingsModel,
+)
 
 
 class TestTrainSettingsModel:
@@ -13,9 +18,9 @@ class TestTrainSettingsModel:
     @pytest.mark.parametrize(
         ["attribute", "expected_type"],
         [
-            ("preprocessing", PreprocessingModel),
-            ("training", TrainingModel),
-            ("mlflow", MlflowModel),
+            ("preprocessing", PreprocessingSettingsModel),
+            ("training", TrainingSettingsModel),
+            ("mlflow", MlflowSettingsModel),
         ],
     )
     def test_process_config_model_types(self, attribute: str, expected_type, config_dict: dict):

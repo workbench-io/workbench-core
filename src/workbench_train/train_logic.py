@@ -3,6 +3,7 @@ from workbench_train.train_data import TrainData
 from workbench_train.train_settings import TrainSettings
 from workbench_train.transformers.create_model_objects import CreateModelObjects
 from workbench_train.transformers.create_preprocessor import CreatePreprocessor
+from workbench_train.transformers.select_best_model import SelectBestModel
 from workbench_train.transformers.split_train_test_set import SplitTrainTestSet
 from workbench_train.transformers.train_models import TrainModels
 
@@ -20,7 +21,7 @@ class TrainLogic(WorkbenchLogic):
         CreatePreprocessor().transform(data, settings)
         CreateModelObjects().transform(data, settings)
         TrainModels().transform(data, settings)
-        # SelectBestModel().transform(data, settings)
+        SelectBestModel().transform(data, settings)
 
         self.log_info(self.run, "Train complete")
 

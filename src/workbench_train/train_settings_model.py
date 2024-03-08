@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Literal
+from typing import Literal, Optional
 
 from pydantic import BaseModel, Field
 
@@ -7,13 +7,13 @@ MetricType = Literal["mse", "rmse", "mae", "max_error", "r2"]
 ModelType = Literal["pls", "lasso", "elasticnet", "svr", "random_forest", "gbm", "neural_network"]
 
 
-class MlflowModel(BaseModel):
+class MlflowSettingsModel(BaseModel):
     use: bool
     dir: Path
     tracking_uri: str
 
 
-class PreprocessingModel(BaseModel):
+class PreprocessingSettingsModel(BaseModel):
     """Model for pre-processing settings"""
 
     boolean_impute_missing: bool = False
@@ -27,27 +27,36 @@ class PreprocessingModel(BaseModel):
     all_drop_missing: bool = False
 
 
-class CrossValidationModel(BaseModel):
+class CrossValidationSettingsModel(BaseModel):
+    """Model for cross-validation settings"""
+
     metric: MetricType
     folds: int = Field(ge=1)
     scores: list[MetricType]
 
 
-class TrainingModel(BaseModel):
+class TrainingSettingsModel(BaseModel):
     """Model for training settings"""
 
     test_size: float = Field(gt=0, lt=1)
     search_iterations: int = Field(ge=1)
     n_jobs: int
     models: list[ModelType]
-    cross_validation: CrossValidationModel
+    cross_validation: CrossValidationSettingsModel
 
 
-class SelectingModel(BaseModel):
+class SelectingSettingsModel(BaseModel):
     """Model for model selection settings"""
 
     metric: MetricType
     n_models: int = Field(ge=1)
+
+
+class ExportingSettingsModel(BaseModel):
+    """Model for model selection settings"""
+
+    path: Path
+    remove_previous: bool
 
 
 class TrainSettingsModel(BaseModel):
@@ -55,7 +64,8 @@ class TrainSettingsModel(BaseModel):
 
     seed: int
     verbose: bool
-    preprocessing: PreprocessingModel
-    training: TrainingModel
-    selecting: SelectingModel
-    mlflow: MlflowModel
+    preprocessing: PreprocessingSettingsModel
+    training: TrainingSettingsModel
+    selecting: SelectingSettingsModel
+    exporting: ExportingSettingsModel
+    mlflow: Optional[MlflowSettingsModel]

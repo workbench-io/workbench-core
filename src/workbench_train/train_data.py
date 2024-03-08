@@ -32,6 +32,7 @@ class TrainData(WorkbenchData):
 
     - `results`: Dictionary with results of the models
     - `estimators`: Dictionary with estimators of fitted models
+    - `model_selection`: List with the names of the models selected to be exported
     """
 
     features: pd.DataFrame = field(default_factory=generate_dataframe)

@@ -27,6 +27,10 @@
         "metric": "rmse",
         "n_models": 1
     },
+    "exporting": {
+        "path": "./output/models/",
+        "remove_previous": true
+    },
     "mlflow":{
         "use": false,
         "dir": "./mlruns/",
