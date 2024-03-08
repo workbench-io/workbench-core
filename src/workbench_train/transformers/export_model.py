@@ -26,7 +26,7 @@ class ExportModel(WorkbenchTransformer):
 
         for model_name in data.model_selection:
             filepath_model = settings.model.exporting.path / f"{model_name}.pkl"
-            save_pipeline(data.models[model_name], filepath_model)
+            save_pipeline(data.estimators[model_name], filepath_model)
             self.log_info(self.transform, f"'{model_name}' model exported to {filepath_model.absolute()}")
 
         self.log_info(self.transform, "Exporting the best model completed")
