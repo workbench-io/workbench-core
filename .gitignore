@@ -206,6 +206,8 @@ pyrightconfig.json
 
 ### Project files
 notes.txt
+*.png
+*.db
 
 logs/
 logs/*
