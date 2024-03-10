@@ -1,5 +1,5 @@
 from workbench_components.workbench_transformer.workbench_transformer import WorkbenchTransformer
-from workbench_train.common import EXPORTED_MODEL_FILENAME_TEMPLACE
+from workbench_train.common import EXPORTED_MODEL_FILENAME_TEMPLATE
 from workbench_train.train_data import TrainData
 from workbench_train.train_settings import TrainSettings
 from workbench_utils.export import remove_old_pipelines, save_pipeline
@@ -29,7 +29,7 @@ class ExportModel(WorkbenchTransformer):
             if not settings.model.exporting.path.exists():
                 settings.model.exporting.path.mkdir(parents=True, exist_ok=True)
 
-            filepath_model = settings.model.exporting.path / EXPORTED_MODEL_FILENAME_TEMPLACE.format(
+            filepath_model = settings.model.exporting.path / EXPORTED_MODEL_FILENAME_TEMPLATE.format(
                 model_name=model_name
             )
             save_pipeline(data.estimators[model_name], filepath_model)

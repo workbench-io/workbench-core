@@ -1,6 +1,6 @@
 from enum import StrEnum, auto
 
-EXPORTED_MODEL_FILENAME_TEMPLACE = "{model_name}.pkl"
+EXPORTED_MODEL_FILENAME_TEMPLATE = "{model_name}.pkl"
 
 
 class Models(StrEnum):
