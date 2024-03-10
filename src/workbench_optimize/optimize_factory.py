@@ -29,5 +29,5 @@ class OptimizeFactory(WorkbenchFactory):
         raise WorkbenchFactoryError(f"Item {name} not found in factory.")
 
 
-factory_train = OptimizeFactory()
-factory_train.register(WorkbenchSteps.OPTIMIZE, (OptimizeLogic, OptimizeData, OptimizeSettings))
+factory_optimize = OptimizeFactory()
+factory_optimize.register(WorkbenchSteps.OPTIMIZE, (OptimizeLogic, OptimizeData, OptimizeSettings))
