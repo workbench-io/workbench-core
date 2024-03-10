@@ -13,6 +13,7 @@ class WorkbenchSteps(StrEnum):
 
     PROCESS = auto()
     TRAIN = auto()
+    OPTIMIZE = auto()
 
 
 def convert_to_percentage(values: list[float | int]) -> list[float]:
