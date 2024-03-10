@@ -25,7 +25,7 @@ class TestTrainSettingsModel:
     )
     def test_process_config_model_types(self, attribute: str, expected_type, config_dict: dict):
 
-        process_settings_model = TrainSettingsModel(**config_dict)
-        model_attribute = getattr(process_settings_model, attribute)
+        train_settings_model = TrainSettingsModel(**config_dict)
+        model_attribute = getattr(train_settings_model, attribute)
 
         assert isinstance(model_attribute, expected_type)

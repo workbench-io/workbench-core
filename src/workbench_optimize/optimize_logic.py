@@ -9,7 +9,7 @@ class OptimizeLogic(WorkbenchLogic):
         self,
         data: TrainData,
         settings: TrainSettings,
-    ):
+    ):  # pylint: disable=unused-argument
         self.log_info(self.run, "Running optimization")
 
         self.log_info(self.run, "Optimization complete")
