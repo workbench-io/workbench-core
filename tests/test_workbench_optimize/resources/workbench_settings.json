@@ -1,6 +1,6 @@
 {
     "verbose": false,
-    "path_model": "./output/models/elasticnet.pkl",
+    "path_model": "./output/models/",
     "genetic_algorithm": {
         "num_genes": 7,
         "num_generations": 5,

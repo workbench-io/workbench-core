@@ -5,7 +5,7 @@ from workbench_optimize.common import OptimizationResult
 from workbench_optimize.optimize_data import OptimizeData
 from workbench_optimize.optimize_settings import OptimizeSettings
 from workbench_utils.composition import convert_to_percentage, create_composition_dataframe_from_percentages_list
-from workbench_utils.export import load_pipeline
+from workbench_utils.export import get_filepath_from_directory, load_pipeline
 
 DEFAULT_AGE = 28
 
@@ -23,7 +23,9 @@ class RunOptimization(WorkbenchTransformer):
         self.log_info(self.transform, "Starting optimization logic")
 
         global model  # pylint: disable=global-variable-undefined
-        model = load_pipeline(settings.model.path_model)
+
+        filepath = get_filepath_from_directory(settings.model.path_model, "*.pkl")
+        model = load_pipeline(filepath)
         optimizer = self._create_optimizer_instance(settings)
 
         self._run_optimizer(optimizer)

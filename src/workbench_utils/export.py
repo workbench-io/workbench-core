@@ -5,6 +5,11 @@ import joblib
 from sklearn.pipeline import Pipeline
 
 
+def get_filepath_from_directory(directory: Path, regex: str):
+    """Get the file path from a directory using a regex"""
+    return list(directory.glob(regex))[0]
+
+
 def save_pipeline(pipeline_to_persist: Pipeline, filepath: os.PathLike) -> None:
     """Saves the pipeline to a pkl file
 
