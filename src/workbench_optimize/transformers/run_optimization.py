@@ -1,3 +1,5 @@
+import warnings
+
 import pygad
 
 from workbench_components.workbench_transformer.workbench_transformer import WorkbenchTransformer
@@ -19,6 +21,7 @@ class RunOptimization(WorkbenchTransformer):
 
     def transform(self, data: OptimizeData, settings: OptimizeSettings) -> bool:
         """Run optimization logic"""
+        warnings.filterwarnings("ignore", category=UserWarning, module="pygad")
 
         self.log_info(self.transform, "Starting optimization logic")
 
@@ -46,6 +49,7 @@ class RunOptimization(WorkbenchTransformer):
 
     def _create_optimizer_instance(self, settings: OptimizeSettings) -> pygad.GA:
         """Create optimizer instance"""
+        self.log_debug(self._create_optimizer_instance, "Creating instance of optimizer")
         ga_instance = pygad.GA(
             fitness_func=self._fitness_func,
             **settings.model.genetic_algorithm.model_dump(),
@@ -55,6 +59,7 @@ class RunOptimization(WorkbenchTransformer):
 
     def _run_optimizer(self, optimizer: pygad.GA) -> None:
         """Run optimizer"""
+        self.log_debug(self._run_optimizer, "Running optimizer")
         optimizer.run()
 
     def _save_results(self, optimizer, data: OptimizeData):
@@ -73,3 +78,5 @@ class RunOptimization(WorkbenchTransformer):
             best_solution=solution_dict,
             metadata={"summary": optimizer.summary()},
         )
+
+        self.log_info(self._save_results, "Results saved")
