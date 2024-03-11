@@ -2,6 +2,8 @@ from typing import Optional
 
 from pydantic import BaseModel, Field
 
+from workbench_train.common import Targets
+
 
 class PredictionInputModel(BaseModel):
 
@@ -17,5 +19,6 @@ class PredictionInputModel(BaseModel):
 
 class PredictionOutputtModel(BaseModel):
 
-    prediction: float
+    value: float
+    feature: Optional[Targets] = None
     version: Optional[int] = None
