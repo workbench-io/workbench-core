@@ -17,7 +17,6 @@ class EnvState(StrEnum):
 
 
 LOG_FILEPATH = os.environ.get("LOG_FILEPATH", DEFAULT_LOG_FILEPATH)
-ENV_STATE = os.environ.get("ENV_STATE", "dev")
 
 LOG_LEVEL_MAP: dict[EnvState, int] = {
     EnvState.DEV: logging.DEBUG,
@@ -38,4 +37,4 @@ def setup_logging() -> None:
 
     dictConfig(config)
 
-    logging.getLogger().setLevel(LOG_LEVEL_MAP[ENV_STATE])
+    logging.getLogger().setLevel(LOG_LEVEL_MAP[os.environ.get("ENV_STATE", "dev")])

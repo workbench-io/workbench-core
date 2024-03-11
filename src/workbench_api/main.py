@@ -1,64 +1,40 @@
+import logging
 import pathlib
+from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from fastapi.exception_handlers import http_exception_handler
 from fastapi.responses import HTMLResponse
 
-from workbench_api.models import PredictionInputModel, PredictionOutputtModel
-from workbench_api.utils import get_predicted_value
-from workbench_train.common import Targets
-from workbench_utils.export import get_filepath_from_directory, load_pipeline
+from workbench_api.routers import predict
+from workbench_components.common.common_configs import ENCODING
+from workbench_components.workbench_logging.logging_configs import setup_logging
 
-DIR_MODELS = pathlib.Path("./output/models")
-DIR_MODELS_PATTERN = "*.pkl"
+dir_html = pathlib.Path(__file__).parent.joinpath("www")
+
+logger = logging.getLogger(__name__)
 
 
-model = load_pipeline(get_filepath_from_directory(DIR_MODELS, DIR_MODELS_PATTERN))
+@asynccontextmanager
+async def lifespan(app: FastAPI):  # pylint: disable=unused-argument, redefined-outer-name
+    setup_logging()
+    logger.info("Logging started")
+    yield
 
-app = FastAPI(
-    title="Workbench API",
-    openapi_url="/api/v1/openapi.json",
-    debug=True,
-)
+
+app = FastAPI(title="Workbench API", openapi_url="/api/v1/openapi.json", debug=True, lifespan=lifespan)
+app.include_router(predict.router)
 
 
 @app.get("/")
 async def root() -> HTMLResponse:
-    """Basic HTML response."""
-
-    body = (
-        "<html>"
-        "<body style='padding: 10px;'>"
-        "<h1>Welcome to the Workbench API</h1>"
-        "<div>"
-        "<p>"
-        "For making a predictions use <a href='/predict'>/predict</a>"
-        "</p>"
-        "<div>"
-        "For the documentation go to: <a href='/docs'>/docs</a>"
-        "</div>"
-        "</body>"
-        "</html>"
-    )
+    with open(dir_html.joinpath("root.html"), "r", encoding=ENCODING) as file:
+        body = file.read()
 
     return HTMLResponse(content=body)
 
 
-@app.get("/predict/")
-async def make_prediction(
-    prediction_input: PredictionInputModel,
-):
-    predicted_value = get_predicted_value(prediction_input, model)
-    return PredictionOutputtModel(prediction=predicted_value)
-
-
-@app.get("/predict/{target}")
-async def make_prediction_target(
-    prediction_input: PredictionInputModel,
-    target: Targets,
-):
-    predicted_value = get_predicted_value(prediction_input, model)
-
-    if target:
-        return PredictionOutputtModel(value=predicted_value, feature=target)
-
-    return PredictionOutputtModel(value=predicted_value)
+@app.exception_handler(HTTPException)
+async def http_exception_handle_logging(request, exc):
+    logger.error(f"HTTPException: {exc.status_code} {exc.detail}")
+    return await http_exception_handler(request, exc)

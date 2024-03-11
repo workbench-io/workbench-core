@@ -86,6 +86,7 @@ disable = [
     "missing-class-docstring",
     "too-few-public-methods",
     "useless-parent-delegation",
+    "logging-fstring-interpolation",
 ]
 [tool.mypy]
 mypy_path = "src"

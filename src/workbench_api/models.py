@@ -17,7 +17,7 @@ class PredictionInputModel(BaseModel):
     age: Optional[int] = Field(28, ge=0, le=365)
 
 
-class PredictionOutputtModel(BaseModel):
+class PredictionOutputModel(BaseModel):
 
     value: float
     feature: Optional[Targets] = None
