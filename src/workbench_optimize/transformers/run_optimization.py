@@ -1,6 +1,7 @@
 import pygad
 
 from workbench_components.workbench_transformer.workbench_transformer import WorkbenchTransformer
+from workbench_optimize.common import OptimizationResult
 from workbench_optimize.optimize_data import OptimizeData
 from workbench_optimize.optimize_settings import OptimizeSettings
 from workbench_utils.composition import convert_to_percentage, create_composition_dataframe_from_percentages_list
@@ -24,7 +25,9 @@ class RunOptimization(WorkbenchTransformer):
         global model  # pylint: disable=global-variable-undefined
         model = load_pipeline(settings.model.path_model)
         optimizer = self._create_optimizer_instance(settings)
-        optimizer.run()
+
+        self._run_optimizer(optimizer)
+        self._save_results(optimizer, data)
 
         self.log_info(self.transform, "Optimization logic completed")
 
@@ -48,8 +51,23 @@ class RunOptimization(WorkbenchTransformer):
 
         return ga_instance
 
-    def _run_optimization(self, name: str, data: OptimizeData, settings: OptimizeSettings):
-        """Run optimization logic"""
+    def _run_optimizer(self, optimizer: pygad.GA) -> None:
+        """Run optimizer"""
+        optimizer.run()
 
-    def _save_results(self, name: str, data: OptimizeData, settings: OptimizeSettings):
+    def _save_results(self, optimizer, data: OptimizeData):
         """Save results from optimization"""
+
+        solution, solution_fitness, _ = optimizer.best_solution()
+
+        solution_df = create_composition_dataframe_from_percentages_list(solution)
+        solution_dict = solution_df.iloc[0].to_dict()
+
+        self.log_info(self._save_results, f"Fitness value of the best solution: {solution_fitness}")
+        self.log_info(self._save_results, f"Parameters of the best solution : {solution_dict}")
+
+        data.results = OptimizationResult(
+            best_value=solution_fitness,
+            best_solution=solution_dict,
+            metadata={"summary": optimizer.summary()},
+        )
