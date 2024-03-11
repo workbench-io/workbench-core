@@ -25,8 +25,7 @@ def run_all_logic(
 
     optimize_logic, optimize_data, optimize_settings = factory_optimize.create_instance(name=WorkbenchSteps.OPTIMIZE)
     optimize_settings.load_settings_from_file(filepath_settings_optimize)
-    optimize_data.from_process_data(process_data)
-    optimize_logic.run(train_data, train_settings)
+    optimize_logic.run(optimize_data, optimize_settings)
 
 
 def main() -> None:

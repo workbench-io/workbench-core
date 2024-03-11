@@ -14,7 +14,6 @@ class TestOptimizeSettingsModel:
         ["attribute", "expected_type"],
         [
             ("verbose", bool),
-            ("seed", int),
         ],
     )
     def test_process_config_model_types(self, attribute: str, expected_type, config_dict: dict):

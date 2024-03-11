@@ -1,4 +1,19 @@
 {
-    "seed": 1,
-    "verbose": false
+    "verbose": false,
+    "path_model": "./output/models/elasticnet.pkl",
+    "genetic_algorithm": {
+        "num_genes": 7,
+        "num_generations": 100,
+        "sol_per_pop": 50,
+        "num_parents_mating": 20,
+        "keep_parents": 10,
+        "init_range_low": 0,
+        "init_range_high": 100,
+        "mutation_percent_genes": 10,
+        "gene_space": {"low": 0, "high": 100},
+        "parent_selection_type": "sss",
+        "crossover_type": "single_point",
+        "mutation_type": "random",
+        "random_seed": 1
+    }
 }
