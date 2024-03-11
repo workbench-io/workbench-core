@@ -1,7 +1,6 @@
 import pathlib
-from typing import Optional
 
-from fastapi import FastAPI, Query
+from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 
 from workbench_api.models import PredictionInputModel, PredictionOutputtModel
@@ -42,29 +41,9 @@ async def root() -> HTMLResponse:
     return HTMLResponse(content=body)
 
 
-# pylint: disable=too-many-arguments
 @app.get("/predict/")
 async def make_prediction(
-    cement: float = Query(..., ge=0, le=100),
-    slag: float = Query(..., ge=0, le=100),
-    fly_ash: float = Query(..., ge=0, le=100),
-    water: float = Query(..., ge=0, le=100),
-    superplasticizer: float = Query(..., ge=0, le=100),
-    coarse_aggregate: float = Query(..., ge=0, le=100),
-    fine_aggregate: float = Query(..., ge=0, le=100),
-    age: Optional[int] = Query(28, ge=0, le=100),
-) -> PredictionOutputtModel:
-
-    values = PredictionInputModel(
-        cement=cement,
-        slag=slag,
-        fly_ash=fly_ash,
-        water=water,
-        superplasticizer=superplasticizer,
-        coarse_aggregate=coarse_aggregate,
-        fine_aggregate=fine_aggregate,
-        age=age,
-    )
-
-    predicted_value = get_predicted_value(values, model)
+    prediction_input: PredictionInputModel,
+):
+    predicted_value = get_predicted_value(prediction_input, model)
     return PredictionOutputtModel(prediction=predicted_value)

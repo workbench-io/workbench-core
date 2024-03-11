@@ -12,10 +12,10 @@ class PredictionInputModel(BaseModel):
     superplasticizer: float = Field(..., ge=0, le=100)
     coarse_aggregate: float = Field(..., ge=0, le=100)
     fine_aggregate: float = Field(..., ge=0, le=100)
-    age: Optional[int] = Field(28, ge=0, le=100)
+    age: Optional[int] = Field(28, ge=0, le=365)
 
 
 class PredictionOutputtModel(BaseModel):
 
     prediction: float
-    version: int | None = None
+    version: Optional[int] = None
