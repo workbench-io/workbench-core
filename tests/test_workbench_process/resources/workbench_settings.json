@@ -1,7 +1,7 @@
 {
     "sources": {
         "compressive_strength": {
-            "path": "/Users/jean/learn/workbench/workbench-core/tests/test_workbench_process/resources/concrete+compressive+strength.zip",
+            "path": "tests/test_workbench_process/resources/concrete+compressive+strength.zip",
             "pattern": "*.xls",
             "columns": {
                 "cement": "Cement (component 1)(kg in a m^3 mixture)",
