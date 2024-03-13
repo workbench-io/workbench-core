@@ -1,20 +1,21 @@
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from fastapi import Query
+from pydantic import BaseModel
 
 from workbench_train.common import Targets
 
 
 class PredictionInputModel(BaseModel):
 
-    cement: float = Field(..., ge=0, le=100)
-    slag: float = Field(..., ge=0, le=100)
-    fly_ash: float = Field(..., ge=0, le=100)
-    water: float = Field(..., ge=0, le=100)
-    superplasticizer: float = Field(..., ge=0, le=100)
-    coarse_aggregate: float = Field(..., ge=0, le=100)
-    fine_aggregate: float = Field(..., ge=0, le=100)
-    age: Optional[int] = Field(28, ge=0, le=365)
+    cement: float = Query(default=0, ge=0, le=100)
+    slag: float = Query(default=0, ge=0, le=100)
+    fly_ash: float = Query(default=0, ge=0, le=100)
+    water: float = Query(default=0, ge=0, le=100)
+    superplasticizer: float = Query(default=0, ge=0, le=100)
+    coarse_aggregate: float = Query(default=0, ge=0, le=100)
+    fine_aggregate: float = Query(default=0, ge=0, le=100)
+    age: Optional[int] = Query(28, ge=0, le=365)
 
 
 class PredictionOutputModel(BaseModel):

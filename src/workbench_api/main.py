@@ -23,7 +23,7 @@ async def lifespan(app: FastAPI):  # pylint: disable=unused-argument, redefined-
 
 
 app = FastAPI(title="Workbench API", openapi_url="/api/v1/openapi.json", debug=True, lifespan=lifespan)
-app.include_router(predict.router)
+app.include_router(predict.router, tags=["predict"])
 
 
 @app.get("/")
