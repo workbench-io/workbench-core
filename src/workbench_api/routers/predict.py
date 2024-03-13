@@ -1,5 +1,6 @@
 import logging
 import pathlib
+from typing import Annotated
 
 from fastapi import APIRouter, Depends, Path, status
 
@@ -20,8 +21,20 @@ model = load_pipeline(get_filepath_from_directory(DIR_MODELS, DIR_MODELS_PATTERN
 
 @router.get("/predict/{target}", response_model=PredictionOutputModel, status_code=status.HTTP_200_OK)
 async def make_prediction_target(
-    prediction_input: PredictionInputModel = Depends(),
-    target: Targets = Path(..., examples=[list(Targets)[0]]),
+    prediction_input: Annotated[PredictionInputModel, Depends(PredictionInputModel)],
+    target: Annotated[
+        Targets,
+        Path(
+            ...,
+            examples=[list(Targets)[0]],
+            openapi_examples={
+                "example1": {
+                    "summary": "Predict compressive strength",
+                    "value": Targets.COMPRESSIVE_STRENGTH,
+                }
+            },
+        ),
+    ],
 ):
     logger.debug(f"Making prediction for '{target}' with input: {prediction_input.model_dump()}")
     predicted_value = get_predicted_value(prediction_input, model)

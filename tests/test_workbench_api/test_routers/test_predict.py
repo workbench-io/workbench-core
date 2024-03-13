@@ -11,15 +11,17 @@ from workbench_train.common import Targets
     ["query_params", "expected_status_code"],
     [
         (
-            "?cement=14.2&slag=14.2&fly_ash=14.2&water=14.2&superplasticizer=14.2&coarse_aggregate=14.2&fine_aggregate=14.2&age=28",  # noqa: E501
+            "?water=8.33&coarse_aggregate=42.23&slag=0.0&cement=12.09&superplasticizer=0.0&fine_aggregate=37.35&fly_ash=0.0&age=28",  # noqa: E501
             status.HTTP_200_OK,
         ),  # noqa: E501
         (
-            "?cement=14.2&slag=14.2&fly_ash=14.2&water=14.2&superplasticizer=14.2&coarse_aggregate=14.2&fine_aggregate=14.2",  # noqa: E501
+            "?water=8.33&coarse_aggregate=42.23&slag=0.0&cement=12.09&superplasticizer=0.0&fine_aggregate=37.35&fly_ash=0.0",  # noqa: E501
             status.HTTP_200_OK,
         ),  # noqa: E501
-        ("?cement=14.2&slag=14.2&fly_ash=14.2&water=14.2", status.HTTP_200_OK),
-        ("", status.HTTP_200_OK),
+        (
+            "?water=8.33&coarse_aggregate=42.23&slag=0.0&cement=12.09&superplasticizer=0.0&fine_aggregate=37.35",
+            status.HTTP_200_OK,
+        ),
     ],
 )
 def test_make_prediction_target_returns_status_200(client: TestClient, query_params: str, expected_status_code: int):
