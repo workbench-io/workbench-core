@@ -1,6 +1,6 @@
 import pandas as pd
 
-from workbench_api.models import PredictionInputModel
+from workbench_api.models.predict import PredictionInputModel
 
 
 def get_predicted_value(prediction_input: PredictionInputModel, model) -> float:

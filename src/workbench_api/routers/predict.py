@@ -4,7 +4,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, Path, status
 
-from workbench_api.models import PredictionInputModel, PredictionOutputModel
+from workbench_api.models.predict import PredictionInputModel, PredictionOutputModel
 from workbench_api.utils import get_predicted_value
 from workbench_train.common import Targets
 from workbench_utils.export import get_filepath_from_directory, load_pipeline
