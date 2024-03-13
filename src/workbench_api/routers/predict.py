@@ -21,7 +21,7 @@ model = load_pipeline(get_filepath_from_directory(DIR_MODELS, DIR_MODELS_PATTERN
 @router.get("/predict/{target}", response_model=PredictionOutputModel, status_code=status.HTTP_200_OK)
 async def make_prediction_target(
     prediction_input: PredictionInputModel = Depends(),
-    target: Targets = Path(..., example=list(Targets)[0]),
+    target: Targets = Path(..., examples=[list(Targets)[0]]),
 ):
     logger.debug(f"Making prediction for '{target}' with input: {prediction_input.model_dump()}")
     predicted_value = get_predicted_value(prediction_input, model)
