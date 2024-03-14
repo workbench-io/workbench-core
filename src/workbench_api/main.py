@@ -6,7 +6,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.exception_handlers import http_exception_handler
 from fastapi.responses import HTMLResponse
 
-from workbench_api.routers import predict
+from workbench_api.routers import optimize, predict
 from workbench_components.common.common_configs import ENCODING
 from workbench_components.workbench_logging.logging_configs import setup_logging
 
@@ -23,7 +23,8 @@ async def lifespan(app: FastAPI):  # pylint: disable=unused-argument, redefined-
 
 
 app = FastAPI(title="Workbench API", openapi_url="/api/v1/openapi.json", debug=True, lifespan=lifespan)
-app.include_router(predict.router, tags=["predict"])
+app.include_router(predict.router, tags=["Prediction"])
+app.include_router(optimize.router, tags=["Optimization"])
 
 
 @app.get("/")
