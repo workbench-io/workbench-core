@@ -3,13 +3,10 @@ import warnings
 import pygad
 
 from workbench_components.workbench_transformer.workbench_transformer import WorkbenchTransformer
-from workbench_optimize.common import OptimizationResult
+from workbench_optimize.common import DEFAULT_AGE, OptimizationResult
 from workbench_optimize.optimize_data import OptimizeData
 from workbench_optimize.optimize_settings import OptimizeSettings
 from workbench_utils.composition import convert_to_percentage, create_composition_dataframe_from_percentages_list
-from workbench_utils.export import get_filepath_from_directory, load_pipeline
-
-DEFAULT_AGE = 28
 
 
 class RunOptimizationError(Exception):
@@ -26,9 +23,8 @@ class RunOptimization(WorkbenchTransformer):
         self.log_info(self.transform, "Starting optimization logic")
 
         global model  # pylint: disable=global-variable-undefined
+        model = data.model
 
-        filepath = get_filepath_from_directory(settings.model.path_model, "*.pkl")
-        model = load_pipeline(filepath)
         optimizer = self._create_optimizer_instance(settings)
 
         self._run_optimizer(optimizer)
@@ -39,7 +35,7 @@ class RunOptimization(WorkbenchTransformer):
         return True
 
     @staticmethod
-    def _fitness_func(ga_instance: pygad.GA, solution, solution_idx: int):  # pylint: disable=unused-argument
+    def _fitness_func(ga_instance: pygad.GA, solution, solution_idx: int) -> float:  # pylint: disable=unused-argument
 
         percentages_list = convert_to_percentage(solution)
         solution_df = create_composition_dataframe_from_percentages_list(percentages_list, age=DEFAULT_AGE)

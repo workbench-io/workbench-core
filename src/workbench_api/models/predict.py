@@ -34,11 +34,6 @@ class PredictionInputModel(BaseModel):
             raise ValueError("The sum of all components must be equal to 100+/-1.")
         return self
 
-    class PredictionOutputModel(BaseModel):
-        value: float
-        feature: Optional[Targets] = None
-        version: Optional[str] = None
-
 
 class PredictionOutputModel(BaseModel):
 

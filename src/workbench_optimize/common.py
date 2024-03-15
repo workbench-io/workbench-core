@@ -5,6 +5,8 @@ from pydantic import BaseModel, Field
 
 from workbench_components.common.common_configs import ENCODING
 
+DEFAULT_AGE = 28
+
 
 class OptimizationResult(BaseModel):
     """Class to store the result of an optimization process."""

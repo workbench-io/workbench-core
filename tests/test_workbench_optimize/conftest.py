@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from typing import Any
 
 import pytest
 
@@ -10,6 +11,20 @@ from workbench_optimize.optimize_settings_model import OptimizeSettingsModel
 
 dir_resources = Path(__file__).parent.joinpath("resources")
 dir_configs_example = dir_resources.joinpath("workbench_settings.json")
+
+
+class FakeEstimator:
+
+    def __init__(self) -> None:
+        pass
+
+    def predict(self, x: Any):  # pylint: disable=unused-argument
+        return [[42.0]]
+
+
+@pytest.fixture(scope="session")
+def fake_estimator() -> FakeEstimator:
+    return FakeEstimator()
 
 
 @pytest.fixture(scope="session")

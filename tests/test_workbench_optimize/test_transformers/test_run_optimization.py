@@ -1,3 +1,4 @@
+from tests.test_workbench_optimize.conftest import FakeEstimator
 from workbench_optimize.optimize_data import OptimizeData
 from workbench_optimize.optimize_settings import OptimizeSettings
 from workbench_optimize.transformers.run_optimization import RunOptimization
@@ -8,7 +9,10 @@ class TestRunOptimization:
         self,
         optimize_data: OptimizeData,
         optimize_settings: OptimizeSettings,
+        fake_estimator: FakeEstimator,
     ):
+
+        optimize_data.model = fake_estimator
 
         result = RunOptimization().transform(optimize_data, optimize_settings)
 
@@ -18,7 +22,10 @@ class TestRunOptimization:
         self,
         optimize_data: OptimizeData,
         optimize_settings: OptimizeSettings,
+        fake_estimator: FakeEstimator,
     ):
+
+        optimize_data.model = fake_estimator
 
         RunOptimization().transform(optimize_data, optimize_settings)
 

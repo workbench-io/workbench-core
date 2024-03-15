@@ -2,7 +2,13 @@ import shutil
 
 from anyio import Path
 
-from workbench_utils.export import get_filepath_from_directory, load_pipeline, remove_old_pipelines, save_pipeline
+from workbench_utils.export import (
+    get_filepath_from_directory,
+    load_estimator_from_directory,
+    load_pipeline,
+    remove_old_pipelines,
+    save_pipeline,
+)
 
 
 class FakePipeline:
@@ -66,6 +72,22 @@ def test_get_filepath_from_directory(tmp_path: Path):
 
         assert result == dir_models / "fake_pipeline_01.pkl"
         assert result != dir_models / "fake_pipeline_01.other"
+
+    finally:
+        shutil.rmtree(dir_models)
+
+
+def test_load_estimator_from_directory(tmp_path: Path):
+
+    try:
+        dir_models = tmp_path / "models"
+        dir_models.mkdir(exist_ok=True, parents=True)
+
+        save_pipeline(FakePipeline(), dir_models / "fake_pipeline_01.pkl")
+        result = load_estimator_from_directory(dir_models, "*.pkl")
+
+        assert result is not None
+        assert result
 
     finally:
         shutil.rmtree(dir_models)
