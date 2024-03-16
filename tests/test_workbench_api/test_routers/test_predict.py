@@ -31,6 +31,6 @@ def test_make_prediction_target_returns_status_200(client: TestClient, query_par
     response = client.get(url)
 
     assert response.status_code == expected_status_code
-    assert response.json().keys() == {"value", "feature", "version"}
+    assert response.json().keys() >= {"value", "feature", "version"}
     assert isinstance(response.json()["value"], float)
     assert isinstance(response.json()["feature"], str)

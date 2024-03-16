@@ -28,3 +28,4 @@ class OptimizeOutputModel(BaseModel):
 
     best_value: float
     best_solution: dict[str, float]
+    optimization_input: OptimizeInputModel

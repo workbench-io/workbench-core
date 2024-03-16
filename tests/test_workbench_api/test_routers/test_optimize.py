@@ -45,6 +45,6 @@ def test_optimize_router_returns_status_200(
     response = client.post(url, json=body)
 
     assert response.status_code == expected_status_code
-    assert response.json().keys() == {"best_value", "best_solution"}
+    assert response.json().keys() >= {"best_value", "best_solution"}
     assert isinstance(response.json()["best_value"], float)
     assert isinstance(response.json()["best_solution"], dict)

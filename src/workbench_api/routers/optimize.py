@@ -31,4 +31,4 @@ async def run_optimization(
     logic.run(data, settings)
     logger.debug(f"Predicted value for '{Targets.COMPRESSIVE_STRENGTH}': {data.results}")
 
-    return OptimizeOutputModel(**data.results.model_dump())
+    return OptimizeOutputModel(optimization_input=optimization_input, **data.results.model_dump())

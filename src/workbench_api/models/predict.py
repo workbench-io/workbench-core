@@ -38,5 +38,6 @@ class PredictionInputModel(BaseModel):
 class PredictionOutputModel(BaseModel):
 
     value: float
-    feature: Optional[Targets] = None
+    feature: Targets
+    prediction_input: PredictionInputModel
     version: Optional[str] = None

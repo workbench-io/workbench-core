@@ -37,4 +37,8 @@ async def make_prediction_target(
     predicted_value = get_predicted_value(prediction_input, model)
     logger.debug(f"Predicted value for '{target}': {predicted_value:.2f}")
 
-    return PredictionOutputModel(value=predicted_value, feature=target)
+    return PredictionOutputModel(
+        value=predicted_value,
+        feature=target,
+        prediction_input=prediction_input,
+    )
