@@ -16,7 +16,7 @@ router = APIRouter()
 logger = logging.getLogger(__name__)
 
 
-@router.post("/optimize", status_code=status.HTTP_200_OK, response_model=OptimizeOutputModel)
+@router.post("/optimize", status_code=status.HTTP_201_CREATED, response_model=OptimizeOutputModel)
 async def run_optimization(
     optimization_input: Annotated[OptimizeInputModel, Body(...)],
     model: BaseEstimator = Depends(get_model),

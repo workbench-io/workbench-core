@@ -25,11 +25,11 @@ from fastapi.testclient import TestClient
                 "mutation_probability": 0.2,
                 "random_seed": 1,
             },
-            status.HTTP_200_OK,
+            status.HTTP_201_CREATED,
         ),
         (
             {},
-            status.HTTP_200_OK,
+            status.HTTP_201_CREATED,
         ),
     ],
     ids=["all_params", "no_params"],

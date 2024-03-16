@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 model = load_pipeline(get_filepath_from_directory(FILEPATH_MODELS_DEFAULT, REGEX_MODELS_DEFAULT))
 
 
-@router.post("/predict/{target}", response_model=PredictionOutputModel, status_code=status.HTTP_200_OK)
+@router.post("/predict/{target}", response_model=PredictionOutputModel, status_code=status.HTTP_201_CREATED)
 async def make_prediction_target(
     target: Annotated[
         Targets,

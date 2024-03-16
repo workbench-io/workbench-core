@@ -21,7 +21,7 @@ from workbench_train.common import Targets
                 "fine_aggregate": 37.35,
                 "age": 28,
             },
-            status.HTTP_200_OK,
+            status.HTTP_201_CREATED,
         ),
         (
             {
@@ -33,7 +33,7 @@ from workbench_train.common import Targets
                 "coarse_aggregate": 43.23,
                 "fine_aggregate": 37.35,
             },
-            status.HTTP_200_OK,
+            status.HTTP_201_CREATED,
         ),
     ],
     ids=["all_fields", "no_age"],
