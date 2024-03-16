@@ -7,6 +7,8 @@ from workbench_process.sources.source_factory import factory_source
 from workbench_process.transformers.calculate_percentages import CalculatePercentages
 from workbench_process.transformers.rename_columns import RenameColumns
 from workbench_process.transformers.split_features_and_targets import SplitFeaturesAndTargets
+from workbench_utils.enums import WorkbenchSteps
+from workbench_utils.strings import STRING_LOGIC_END, STRING_LOGIC_START
 
 
 class ProcessLogic(WorkbenchLogic):
@@ -16,12 +18,12 @@ class ProcessLogic(WorkbenchLogic):
         data: ProcessData,
         settings: ProcessSettings,
     ):
-        self.log_info(self.run, "Running process")
+        self.log_info(self.run, STRING_LOGIC_START.format(step=WorkbenchSteps.OPTIMIZE))
 
         self._load_sources(data, settings)
         self._perform_transformations(data, settings)
 
-        self.log_info(self.run, "Process complete")
+        self.log_info(self.run, STRING_LOGIC_END.format(step=WorkbenchSteps.OPTIMIZE))
 
         return True
 

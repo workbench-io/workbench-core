@@ -6,7 +6,7 @@ from workbench_train.train_data import TrainData
 from workbench_train.train_factory import TrainFactory
 from workbench_train.train_logic import TrainLogic
 from workbench_train.train_settings import TrainSettings
-from workbench_utils.common import WorkbenchSteps
+from workbench_utils.enums import WorkbenchSteps
 
 
 class TestTrainFactory:

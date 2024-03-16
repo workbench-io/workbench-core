@@ -4,7 +4,7 @@ from workbench_components.workbench_factory import WorkbenchFactory, WorkbenchFa
 from workbench_process.process_data import ProcessData
 from workbench_process.process_logic import ProcessLogic
 from workbench_process.process_settings import ProcessSettings
-from workbench_utils.common import WorkbenchSteps
+from workbench_utils.enums import WorkbenchSteps
 
 
 class ProcessFactory(WorkbenchFactory):

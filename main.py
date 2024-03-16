@@ -4,7 +4,7 @@ from workbench_components.workbench_logging.logging_configs import setup_logging
 from workbench_optimize.optimize_factory import factory_optimize
 from workbench_process.process_factory import factory_process
 from workbench_train.train_factory import factory_train
-from workbench_utils.common import WorkbenchSteps
+from workbench_utils.enums import WorkbenchSteps
 
 
 def run_all_logic(

@@ -6,7 +6,7 @@ from workbench_process.process_data import ProcessData
 from workbench_process.process_factory import ProcessFactory
 from workbench_process.process_logic import ProcessLogic
 from workbench_process.process_settings import ProcessSettings
-from workbench_utils.common import WorkbenchSteps
+from workbench_utils.enums import WorkbenchSteps
 
 
 class TestProcessFactory:

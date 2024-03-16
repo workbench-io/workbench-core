@@ -1,5 +1,8 @@
 import re
 
+STRING_LOGIC_START = "Running {step} logic"
+STRING_LOGIC_END = "{step} logic successfully completed"
+
 
 def clean_text(text: str) -> str:
     """

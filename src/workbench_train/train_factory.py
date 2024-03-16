@@ -4,7 +4,7 @@ from workbench_components.workbench_factory import WorkbenchFactory, WorkbenchFa
 from workbench_train.train_data import TrainData
 from workbench_train.train_logic import TrainLogic
 from workbench_train.train_settings import TrainSettings
-from workbench_utils.common import WorkbenchSteps
+from workbench_utils.enums import WorkbenchSteps
 
 
 class TrainFactory(WorkbenchFactory):

@@ -3,6 +3,7 @@
 import json
 import os
 from abc import ABC
+from typing import Any
 
 from pydantic import BaseModel
 
@@ -25,6 +26,18 @@ class WorkbenchSettings(ABC, WorkbenchLogger):
         self.log_info(self.load_settings_from_file, f"Loading settings from {filepath.absolute()}")
 
         with open(filepath, "r", encoding=ENCODING) as file:
-            config_dict = json.load(file)
+            settings_dict = json.load(file)
 
-        self.model = self._settings_model(**config_dict)
+        self.model = self._settings_model(**settings_dict)
+
+    def load_settings_from_dict(self, settings_dict: dict[str, Any]) -> None:
+        """Load settings from a dictionary."""
+
+        self.log_info(self.load_settings_from_file, f"Loading settings from dictionary: {settings_dict}")
+        self.model = self._settings_model(**settings_dict)
+
+    def load_settings_from_model(self, settings_model: BaseModel) -> None:
+        """Load settings from a dictionary."""
+
+        self.log_info(self.load_settings_from_file, f"Loading settings from model: {settings_model}")
+        self.model = settings_model

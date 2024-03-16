@@ -6,7 +6,7 @@ from fastapi import APIRouter, status
 from workbench_api.models.optimize import OptimizeOutputModel
 from workbench_optimize.optimize_factory import factory_optimize
 from workbench_train.common import Targets
-from workbench_utils.common import WorkbenchSteps
+from workbench_utils.enums import WorkbenchSteps
 
 router = APIRouter()
 

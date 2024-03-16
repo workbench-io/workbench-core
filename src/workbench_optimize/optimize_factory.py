@@ -4,7 +4,7 @@ from workbench_components.workbench_factory import WorkbenchFactory, WorkbenchFa
 from workbench_optimize.optimize_data import OptimizeData
 from workbench_optimize.optimize_logic import OptimizeLogic
 from workbench_optimize.optimize_settings import OptimizeSettings
-from workbench_utils.common import WorkbenchSteps
+from workbench_utils.enums import WorkbenchSteps
 
 
 class OptimizeFactory(WorkbenchFactory):
