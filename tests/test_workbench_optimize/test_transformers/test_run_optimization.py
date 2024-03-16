@@ -1,4 +1,4 @@
-from tests.test_workbench_optimize.conftest import FakeEstimator
+from tests.conftest import FakeEstimator
 from workbench_optimize.optimize_data import OptimizeData
 from workbench_optimize.optimize_settings import OptimizeSettings
 from workbench_optimize.transformers.run_optimization import RunOptimization
