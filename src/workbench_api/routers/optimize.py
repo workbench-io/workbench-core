@@ -1,9 +1,10 @@
 import logging
-import pathlib
+from typing import Annotated
 
-from fastapi import APIRouter, status
+from fastapi import APIRouter, Body, status
 
-from workbench_api.models.optimize import OptimizeOutputModel
+from workbench_api.models.optimize import OptimizeInputModel, OptimizeOutputModel
+from workbench_components.common.common_configs import FILEPATH_MODELS_DEFAULT, REGEX_MODELS_DEFAULT
 from workbench_optimize.optimize_factory import factory_optimize
 from workbench_train.common import Targets
 from workbench_utils.enums import WorkbenchSteps
@@ -19,14 +20,16 @@ PATH_OPTIMIZE_SETTINGS = (
 )
 
 
-@router.get("/optimize", status_code=status.HTTP_200_OK, response_model=OptimizeOutputModel)
-async def run_optimization():
+@router.post("/optimize", status_code=status.HTTP_200_OK, response_model=OptimizeOutputModel)
+async def run_optimization(
+    optimization_input: Annotated[OptimizeInputModel, Body(...)],
+):
 
     logic, data, settings = factory_optimize.create_instance(name=WorkbenchSteps.OPTIMIZE)
 
-    settings.load_settings_from_file(pathlib.Path(PATH_OPTIMIZE_SETTINGS))
+    settings.load_settings_from_model(optimization_input)
 
-    data.model = load_estimator_from_directory(settings.model.path_model)
+    data.model = load_estimator_from_directory(FILEPATH_MODELS_DEFAULT, REGEX_MODELS_DEFAULT)
 
     logger.debug(f"Making optimization for '{Targets.COMPRESSIVE_STRENGTH}' with input: {settings.model.model_dump()}")
     logic.run(data, settings)

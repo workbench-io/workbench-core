@@ -36,6 +36,3 @@ class TestRunOptimization:
 
         assert isinstance(optimize_data.results.best_solution, dict)
         assert optimize_data.results.best_solution != {}
-
-        assert isinstance(optimize_data.results.metadata, dict)
-        assert list(optimize_data.results.metadata.keys()) == ["summary"]

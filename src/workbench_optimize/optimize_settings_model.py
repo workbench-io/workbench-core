@@ -1,30 +1,22 @@
-from pathlib import Path
-from typing import Union
+from typing import Literal, Union
 
-from pydantic import BaseModel
-
-
-class GeneticAlgorithmSettingsModel(BaseModel):
-    """Settings for the genetic algorithm."""
-
-    num_genes: int
-    num_generations: int
-    sol_per_pop: int
-    num_parents_mating: int
-    keep_parents: int
-    init_range_low: int
-    init_range_high: int
-    mutation_percent_genes: int
-    gene_space: Union[dict[str, int], list[int], list[dict[str, int]]]
-    parent_selection_type: str
-    crossover_type: str
-    mutation_type: str
-    random_seed: int
+from pydantic import BaseModel, Field
 
 
 class OptimizeSettingsModel(BaseModel):
     """Model for the settings of the train step."""
 
-    verbose: bool
-    path_model: Path
-    genetic_algorithm: GeneticAlgorithmSettingsModel
+    num_genes: int = Field(..., ge=1)
+    num_generations: int = Field(..., ge=1)
+    sol_per_pop: int = Field(..., ge=1)
+    num_parents_mating: int = Field(..., ge=1)
+    keep_parents: Literal[-1, 0] | int
+    init_range_low: int
+    init_range_high: int
+    gene_space: Union[dict[str, int], list[int], list[dict[str, int]]]
+    parent_selection_type: Literal["sss", "rws", "sus", "random", "tournament", "tournament_nsga2", "nsga2", "rank"]
+    crossover_type: Literal["single_point", "two_points", "uniform", "scattered"] | None
+    crossover_probability: float = Field(..., ge=0, le=1)
+    mutation_type: Literal["random", "swap", "scramble", "inversion", "adaptive"] | None
+    mutation_probability: float = Field(..., ge=0, le=1)
+    random_seed: int | None

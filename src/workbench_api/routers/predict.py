@@ -1,22 +1,19 @@
 import logging
-import pathlib
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, Path, status
 
 from workbench_api.models.predict import PredictionInputModel, PredictionOutputModel
 from workbench_api.utils import get_predicted_value
+from workbench_components.common.common_configs import FILEPATH_MODELS_DEFAULT, REGEX_MODELS_DEFAULT
 from workbench_train.common import Targets
 from workbench_utils.export import get_filepath_from_directory, load_pipeline
-
-DIR_MODELS = pathlib.Path("./output/models")
-DIR_MODELS_PATTERN = "*.pkl"
 
 router = APIRouter()
 
 logger = logging.getLogger(__name__)
 
-model = load_pipeline(get_filepath_from_directory(DIR_MODELS, DIR_MODELS_PATTERN))
+model = load_pipeline(get_filepath_from_directory(FILEPATH_MODELS_DEFAULT, REGEX_MODELS_DEFAULT))
 
 
 @router.get("/predict/{target}", response_model=PredictionOutputModel, status_code=status.HTTP_200_OK)

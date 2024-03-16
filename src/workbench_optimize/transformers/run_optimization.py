@@ -48,7 +48,7 @@ class RunOptimization(WorkbenchTransformer):
         self.log_debug(self._create_optimizer_instance, "Creating instance of optimizer")
         ga_instance = pygad.GA(
             fitness_func=self._fitness_func,
-            **settings.model.genetic_algorithm.model_dump(),
+            **settings.model.model_dump(),
         )
 
         return ga_instance
@@ -72,7 +72,6 @@ class RunOptimization(WorkbenchTransformer):
         data.results = OptimizationResult(
             best_value=solution_fitness,
             best_solution=solution_dict,
-            metadata={"summary": optimizer.summary()},
         )
 
         self.log_info(self._save_results, "Results saved")

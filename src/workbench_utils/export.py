@@ -5,6 +5,8 @@ import joblib
 from sklearn.base import BaseEstimator
 from sklearn.pipeline import Pipeline
 
+from workbench_components.common.common_configs import REGEX_MODELS_DEFAULT
+
 
 def get_filepath_from_directory(directory: Path, regex: str) -> Path:
     """Get the file path from a directory using a regex"""
@@ -34,7 +36,7 @@ def load_pipeline(filepath: os.PathLike) -> Pipeline:
     return trained_model
 
 
-def remove_old_pipelines(path_models: Path, regex: str = "*.pkl") -> None:
+def remove_old_pipelines(path_models: Path, regex: str = REGEX_MODELS_DEFAULT) -> None:
     """
     Removes old model pipelines
     """
@@ -42,7 +44,7 @@ def remove_old_pipelines(path_models: Path, regex: str = "*.pkl") -> None:
         model_file.unlink()
 
 
-def load_estimator_from_directory(directory: Path, regex: str = "*.pkl") -> BaseEstimator:
+def load_estimator_from_directory(directory: Path, regex: str = REGEX_MODELS_DEFAULT) -> BaseEstimator:
     """
     Loads a machine learning model from a directory.
 

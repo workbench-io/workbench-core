@@ -2,6 +2,7 @@ import shutil
 
 from anyio import Path
 
+from workbench_components.common.common_configs import REGEX_MODELS_DEFAULT
 from workbench_utils.export import (
     get_filepath_from_directory,
     load_estimator_from_directory,
@@ -68,7 +69,7 @@ def test_get_filepath_from_directory(tmp_path: Path):
         save_pipeline(FakePipeline(), dir_models / "fake_pipeline_01.pkl")
         save_pipeline(FakePipeline(), dir_models / "fake_pipeline_01.other")
 
-        result = get_filepath_from_directory(dir_models, "*.pkl")
+        result = get_filepath_from_directory(dir_models, REGEX_MODELS_DEFAULT)
 
         assert result == dir_models / "fake_pipeline_01.pkl"
         assert result != dir_models / "fake_pipeline_01.other"
@@ -84,7 +85,7 @@ def test_load_estimator_from_directory(tmp_path: Path):
         dir_models.mkdir(exist_ok=True, parents=True)
 
         save_pipeline(FakePipeline(), dir_models / "fake_pipeline_01.pkl")
-        result = load_estimator_from_directory(dir_models, "*.pkl")
+        result = load_estimator_from_directory(dir_models, REGEX_MODELS_DEFAULT)
 
         assert result is not None
         assert result
