@@ -4,8 +4,9 @@ from typing import Annotated
 from fastapi import APIRouter, Body, Depends, status
 from sklearn.base import BaseEstimator
 
+from workbench_api import db
 from workbench_api.models.optimize import OptimizeInputModel, OptimizeOutputModel
-from workbench_api.utils import get_model
+from workbench_api.utils import get_id, get_model
 from workbench_optimize.optimize_factory import factory_optimize
 from workbench_train.common import Targets
 from workbench_utils.enums import WorkbenchSteps
@@ -31,4 +32,8 @@ async def run_optimization(
     logic.run(data, settings)
     logger.debug(f"Predicted value for '{Targets.COMPRESSIVE_STRENGTH}': {data.results}")
 
-    return OptimizeOutputModel(optimization_input=optimization_input, **data.results.model_dump())
+    result = OptimizeOutputModel(optimization_input=optimization_input, **data.results.model_dump())
+
+    db.optimizations[get_id(db.optimizations)] = result
+
+    return result

@@ -33,3 +33,16 @@ def get_model() -> BaseEstimator:
     """
     model = load_estimator_from_directory(FILEPATH_MODELS_DEFAULT, REGEX_MODELS_DEFAULT)
     return model
+
+
+def get_id(db: dict[int, dict]) -> int:
+    """
+    Returns the next available id for a given database.
+
+    Parameters:
+    db (dict[int, dict]): The database for which to get the next available id.
+
+    Returns:
+    int: The next available id.
+    """
+    return len(db) + 1
