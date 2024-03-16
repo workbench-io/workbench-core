@@ -75,6 +75,19 @@ async def get_all_predictions() -> list[PredictionOutputModel]:
     return db.predictions
 
 
+@router.get("/predict/{target}/latest", status_code=status.HTTP_200_OK, response_model=PredictionOutputModel)
+async def get_last_prediction() -> PredictionOutputModel:
+
+    try:
+        result = db.predictions[-1]
+        return result
+    except IndexError as error:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No previous entry in database was found",
+        ) from error
+
+
 @router.get("/predict/{target}/{db_id}", status_code=status.HTTP_200_OK, response_model=PredictionOutputModel)
 async def get_prediction(db_id: int) -> PredictionOutputModel:
     result = get_db_entry_by_id(db.predictions, db_id)

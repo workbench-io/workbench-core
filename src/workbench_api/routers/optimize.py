@@ -51,6 +51,19 @@ async def get_all_optimizations() -> list[OptimizeOutputModel]:
     return db.optimizations
 
 
+@router.get("/optimize/latest", status_code=status.HTTP_200_OK, response_model=OptimizeOutputModel)
+async def get_last_prediction() -> OptimizeOutputModel:
+
+    try:
+        result = db.optimizations[-1]
+        return result
+    except IndexError as error:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No previous entry in database was found",
+        ) from error
+
+
 @router.get("/optimize/{db_id}", status_code=status.HTTP_200_OK, response_model=OptimizeOutputModel)
 async def get_optimization(db_id: int) -> OptimizeOutputModel:
     result = get_db_entry_by_id(db.optimizations, db_id)
