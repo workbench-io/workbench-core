@@ -6,7 +6,7 @@ from sklearn.base import BaseEstimator
 
 from workbench_api import db
 from workbench_api.models.optimize import OptimizeInputModel, OptimizeOutputModel
-from workbench_api.utils import get_id, get_model
+from workbench_api.utils import get_db_entry_by_id, get_id, get_model
 from workbench_optimize.optimize_factory import factory_optimize
 from workbench_train.common import Targets
 from workbench_utils.enums import WorkbenchSteps
@@ -51,13 +51,14 @@ async def get_all_optimizations() -> list[OptimizeOutputModel]:
     return db.optimizations
 
 
-@router.get("/optimize/{db_id}", status_code=status.HTTP_200_OK)
+@router.get("/optimize/{db_id}", status_code=status.HTTP_200_OK, response_model=OptimizeOutputModel)
 async def get_optimization(db_id: int) -> OptimizeOutputModel:
-    try:
-        result = db.optimizations[db_id - 1]
+    result = get_db_entry_by_id(db.optimizations, db_id)
+
+    if result:
         return result
-    except IndexError as error:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Item with ID {db_id} not found",
-        ) from error
+
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail=f"Item with ID {db_id} not found",
+    )

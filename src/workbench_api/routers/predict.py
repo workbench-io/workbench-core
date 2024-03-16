@@ -5,7 +5,7 @@ from fastapi import APIRouter, Body, HTTPException, Path, status
 
 from workbench_api import db
 from workbench_api.models.predict import PredictionInputModel, PredictionOutputModel
-from workbench_api.utils import get_id, get_predicted_value
+from workbench_api.utils import get_db_entry_by_id, get_id, get_predicted_value
 from workbench_components.common.common_configs import FILEPATH_MODELS_DEFAULT, REGEX_MODELS_DEFAULT
 from workbench_train.common import Targets
 from workbench_utils.export import get_filepath_from_directory, load_pipeline
@@ -75,13 +75,14 @@ async def get_all_predictions() -> list[PredictionOutputModel]:
     return db.predictions
 
 
-@router.get("/predict/{target}/{db_id}", status_code=status.HTTP_200_OK)
+@router.get("/predict/{target}/{db_id}", status_code=status.HTTP_200_OK, response_model=PredictionOutputModel)
 async def get_prediction(db_id: int) -> PredictionOutputModel:
-    try:
-        result = db.predictions[db_id - 1]
+    result = get_db_entry_by_id(db.predictions, db_id)
+
+    if result:
         return result
-    except IndexError as error:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Item with ID {db_id} not found",
-        ) from error
+
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail=f"Item with ID {db_id} not found",
+    )

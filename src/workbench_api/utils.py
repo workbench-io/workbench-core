@@ -1,9 +1,13 @@
+from typing import Any, TypeVar
+
 import pandas as pd
 from sklearn.base import BaseEstimator
 
 from workbench_api.models.predict import PredictionInputModel
 from workbench_components.common.common_configs import FILEPATH_MODELS_DEFAULT, REGEX_MODELS_DEFAULT
 from workbench_utils.export import load_estimator_from_directory
+
+T = TypeVar("T")
 
 
 def get_predicted_value(prediction_input: PredictionInputModel, model: BaseEstimator) -> float:
@@ -35,14 +39,33 @@ def get_model() -> BaseEstimator:
     return model
 
 
-def get_id(db: dict[int, dict]) -> int:
+def get_id(db: dict[int, Any] | list[Any]) -> int:
     """
     Returns the next available id for a given database.
 
     Parameters:
-    db (dict[int, dict]): The database for which to get the next available id.
+    db (dict[int, Any] | list[Any]): The database for which to get the next available id.
 
     Returns:
     int: The next available id.
     """
     return len(db) + 1
+
+
+def get_db_entry_by_id(db: list[T], db_id: int) -> T:
+    """
+    Returns the database entry with the given id.
+
+    Parameters:
+    db (list[T]): The database from which to get the entry.
+    db_id (int): The id of the entry to get.
+
+    Returns:
+    T: The entry with the given id.
+    """
+
+    result = [entry for entry in db if int(entry.id) == int(db_id)]
+
+    if result:
+        return result[0]
+    return None
