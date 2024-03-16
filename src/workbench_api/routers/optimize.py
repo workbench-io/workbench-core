@@ -1,7 +1,7 @@
 import logging
 from typing import Annotated
 
-from fastapi import APIRouter, Body, Depends, status
+from fastapi import APIRouter, Body, Depends, HTTPException, status
 from sklearn.base import BaseEstimator
 
 from workbench_api import db
@@ -32,8 +32,32 @@ async def run_optimization(
     logic.run(data, settings)
     logger.debug(f"Predicted value for '{Targets.COMPRESSIVE_STRENGTH}': {data.results}")
 
-    result = OptimizeOutputModel(optimization_input=optimization_input, **data.results.model_dump())
+    db_id = get_id(db.optimizations)
 
-    db.optimizations[get_id(db.optimizations)] = result
+    result = OptimizeOutputModel(
+        id=db_id,
+        optimization_input=optimization_input,
+        **data.results.model_dump(),
+    )
+
+    logger.debug(f"Saving result to database {result} with id {db_id}")
+    db.optimizations.append(result)
 
     return result
+
+
+@router.get("/optimize", status_code=status.HTTP_200_OK)
+async def get_all_optimizations() -> list[OptimizeOutputModel]:
+    return db.optimizations
+
+
+@router.get("/optimize/{db_id}", status_code=status.HTTP_200_OK)
+async def get_optimization(db_id: int) -> OptimizeOutputModel:
+    try:
+        result = db.optimizations[db_id - 1]
+        return result
+    except IndexError as error:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Item with ID {db_id} not found",
+        ) from error

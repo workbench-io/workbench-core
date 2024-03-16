@@ -38,6 +38,7 @@ class PredictionInputModel(BaseModel):
 
 class PredictionOutputModel(BaseModel):
 
+    id: int
     value: float
     feature: Targets
     prediction_input: PredictionInputModel

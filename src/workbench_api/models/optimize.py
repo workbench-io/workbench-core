@@ -26,6 +26,7 @@ class OptimizeInputModel(BaseModel):
 
 class OptimizeOutputModel(BaseModel):
 
+    id: int
     best_value: float
     best_solution: dict[str, float]
     optimization_input: OptimizeInputModel

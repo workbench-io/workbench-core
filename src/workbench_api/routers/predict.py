@@ -1,7 +1,7 @@
 import logging
 from typing import Annotated
 
-from fastapi import APIRouter, Body, Path, status
+from fastapi import APIRouter, Body, HTTPException, Path, status
 
 from workbench_api import db
 from workbench_api.models.predict import PredictionInputModel, PredictionOutputModel
@@ -56,12 +56,32 @@ async def make_prediction_target(
     predicted_value = get_predicted_value(prediction_input, model)
     logger.debug(f"Predicted value for '{target}': {predicted_value:.2f}")
 
+    db_id = get_id(db.predictions)
+
     result = PredictionOutputModel(
+        id=db_id,
         value=predicted_value,
         feature=target,
         prediction_input=prediction_input,
     )
 
-    db.predictions[get_id(db.optimizations)] = result
+    db.predictions.append(result)
 
     return result
+
+
+@router.get("/predict/{target}", status_code=status.HTTP_200_OK)
+async def get_all_predictions() -> list[PredictionOutputModel]:
+    return db.predictions
+
+
+@router.get("/predict/{target}/{db_id}", status_code=status.HTTP_200_OK)
+async def get_prediction(db_id: int) -> PredictionOutputModel:
+    try:
+        result = db.predictions[db_id - 1]
+        return result
+    except IndexError as error:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Item with ID {db_id} not found",
+        ) from error
