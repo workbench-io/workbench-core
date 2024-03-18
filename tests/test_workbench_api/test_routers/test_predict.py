@@ -5,6 +5,8 @@ from fastapi import status
 from tests.test_workbench_api import examples
 from workbench_train.common import Targets
 
+# pylint: disable=unused-argument
+
 
 @pytest.mark.anyio
 class TestPredictRouter:
@@ -42,17 +44,24 @@ class TestPredictRouter:
     async def test_get_all_predictions_returns_status_200(
         self,
         async_client: httpx.AsyncClient,
+        created_prediction,
     ):
 
         url = f"/predict/{Targets.COMPRESSIVE_STRENGTH}"
         response = await async_client.get(url)
+
         assert response.status_code == status.HTTP_200_OK
+        assert isinstance(response.json(), list)
+        assert len(response.json()) >= 1
 
     async def test_get_last_prediction_returns_status_200(
         self,
         async_client: httpx.AsyncClient,
+        created_prediction,
     ):
 
         url = f"/predict/{Targets.COMPRESSIVE_STRENGTH}/latest"
         response = await async_client.get(url)
+
         assert response.status_code == status.HTTP_200_OK
+        assert response.json().keys() >= {"value", "feature", "version"}

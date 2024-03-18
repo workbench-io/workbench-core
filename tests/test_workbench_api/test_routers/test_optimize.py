@@ -6,6 +6,8 @@ from fastapi import status
 
 from tests.test_workbench_api.examples import optimization_body_1
 
+# pylint: disable=unused-argument
+
 
 @pytest.mark.anyio
 class TestOptimizeRouter:
@@ -39,15 +41,20 @@ class TestOptimizeRouter:
     async def test_get_all_optimizations_returns_status_200(
         self,
         async_client: httpx.AsyncClient,
+        created_optimization,
     ):
         response = await async_client.get("/optimize")
 
         assert response.status_code == status.HTTP_200_OK
+        assert isinstance(response.json(), list)
+        assert len(response.json()) >= 1
 
     async def test_get_last_optimization_returns_status_404_when_there_are_no_optimizations(
         self,
         async_client: httpx.AsyncClient,
+        created_optimization,
     ):
         response = await async_client.get("/optimize/latest")
 
         assert response.status_code == status.HTTP_200_OK
+        assert response.json().keys() >= {"best_value", "best_solution"}
