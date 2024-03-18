@@ -4,6 +4,8 @@ import httpx
 import pytest
 from fastapi import status
 
+from tests.test_workbench_api.examples import optimization_body_1
+
 
 @pytest.mark.anyio
 class TestOptimizeRouter:
@@ -11,22 +13,7 @@ class TestOptimizeRouter:
         ["body", "expected_status_code"],
         [
             (
-                {
-                    "num_genes": 7,
-                    "num_generations": 10,
-                    "sol_per_pop": 10,
-                    "num_parents_mating": 5,
-                    "keep_parents": 0,
-                    "init_range_low": 0,
-                    "init_range_high": 100,
-                    "gene_space": {"low": 0, "high": 100},
-                    "parent_selection_type": "sss",
-                    "crossover_type": "single_point",
-                    "crossover_probability": 0.2,
-                    "mutation_type": "random",
-                    "mutation_probability": 0.2,
-                    "random_seed": 1,
-                },
+                optimization_body_1,
                 status.HTTP_201_CREATED,
             ),
             (
@@ -42,10 +29,7 @@ class TestOptimizeRouter:
         body: dict[str, Any],
         expected_status_code: int,
     ):
-
-        url = "/optimize"
-
-        response = await async_client.post(url, json=body)
+        response = await async_client.post("/optimize", json=body)
 
         assert response.status_code == expected_status_code
         assert response.json().keys() >= {"best_value", "best_solution"}
@@ -56,16 +40,14 @@ class TestOptimizeRouter:
         self,
         async_client: httpx.AsyncClient,
     ):
+        response = await async_client.get("/optimize")
 
-        url = "/optimize"
-        response = await async_client.get(url)
         assert response.status_code == status.HTTP_200_OK
 
     async def test_get_last_optimization_returns_status_404_when_there_are_no_optimizations(
         self,
         async_client: httpx.AsyncClient,
     ):
+        response = await async_client.get("/optimize/latest")
 
-        url = "/optimize/latest"
-        response = await async_client.get(url)
         assert response.status_code == status.HTTP_200_OK

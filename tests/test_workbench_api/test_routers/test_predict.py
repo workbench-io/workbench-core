@@ -2,6 +2,7 @@ import httpx
 import pytest
 from fastapi import status
 
+from tests.test_workbench_api import examples
 from workbench_train.common import Targets
 
 
@@ -12,28 +13,11 @@ class TestPredictRouter:
         ["body", "expected_status_code"],
         [
             (
-                {
-                    "cement": 12.09,
-                    "slag": 0.0,
-                    "fly_ash": 0.0,
-                    "water": 7.33,
-                    "superplasticizer": 0.0,
-                    "coarse_aggregate": 43.23,
-                    "fine_aggregate": 37.35,
-                    "age": 28,
-                },
+                examples.prediction_body_1,
                 status.HTTP_201_CREATED,
             ),
             (
-                {
-                    "cement": 12.09,
-                    "slag": 0.0,
-                    "fly_ash": 0.0,
-                    "water": 7.33,
-                    "superplasticizer": 0.0,
-                    "coarse_aggregate": 43.23,
-                    "fine_aggregate": 37.35,
-                },
+                examples.prediction_body_no_age_1,
                 status.HTTP_201_CREATED,
             ),
         ],
