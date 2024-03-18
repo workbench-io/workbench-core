@@ -69,3 +69,7 @@ def get_db_entry_by_id(db: list[T], db_id: int) -> T:
     if result:
         return result[0]
     return None
+
+
+def create_list() -> list:
+    return []
