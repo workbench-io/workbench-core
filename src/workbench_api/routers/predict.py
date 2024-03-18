@@ -99,3 +99,16 @@ async def get_prediction(db_id: int) -> PredictionOutputModel:
         status_code=status.HTTP_404_NOT_FOUND,
         detail=f"Item with ID {db_id} not found",
     )
+
+
+@router.delete("/predict/{target}/{db_id}", status_code=status.HTTP_200_OK, response_model=PredictionOutputModel)
+async def delete_prediction(db_id: int) -> PredictionOutputModel:
+
+    try:
+        result = db.predictions.pop(db_id - 1)
+        return result
+    except IndexError as error:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Item with ID {db_id} not found",
+        ) from error

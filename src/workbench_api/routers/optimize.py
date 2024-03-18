@@ -75,3 +75,16 @@ async def get_optimization(db_id: int) -> OptimizeOutputModel:
         status_code=status.HTTP_404_NOT_FOUND,
         detail=f"Item with ID {db_id} not found",
     )
+
+
+@router.delete("/optimize/{db_id}", status_code=status.HTTP_200_OK, response_model=OptimizeOutputModel)
+async def delete_optimization(db_id: int) -> OptimizeOutputModel:
+
+    try:
+        result = db.optimizations.pop(db_id - 1)
+        return result
+    except IndexError as error:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Item with ID {db_id} not found",
+        ) from error
