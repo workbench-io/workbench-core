@@ -2,7 +2,6 @@ from typing import Any
 
 import pytest
 from fastapi import status
-from fastapi.testclient import TestClient
 
 
 @pytest.mark.parametrize(
@@ -35,7 +34,7 @@ from fastapi.testclient import TestClient
     ids=["all_params", "no_params"],
 )
 def test_optimize_router_returns_status_200(
-    client: TestClient,
+    client,
     body: dict[str, Any],
     expected_status_code: int,
 ):
