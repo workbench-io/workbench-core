@@ -1,7 +1,7 @@
 import logging
 from typing import Annotated
 
-from fastapi import APIRouter, Body, HTTPException, Path, status
+from fastapi import APIRouter, Body, HTTPException, Path, Response, status
 
 from workbench_api import db
 from workbench_api.models.predict import PredictionInputModel, PredictionOutputModel
@@ -101,12 +101,12 @@ async def get_prediction(db_id: int) -> PredictionOutputModel:
     )
 
 
-@router.delete("/predict/{target}/{db_id}", status_code=status.HTTP_200_OK, response_model=PredictionOutputModel)
+@router.delete("/predict/{target}/{db_id}", response_model=PredictionOutputModel)
 async def delete_prediction(db_id: int) -> PredictionOutputModel:
 
     try:
-        result = db.predictions.pop(db_id - 1)
-        return result
+        db.predictions.pop(db_id - 1)
+        return Response(status_code=status.HTTP_204_NO_CONTENT)
     except IndexError as error:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

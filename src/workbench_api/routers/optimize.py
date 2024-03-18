@@ -1,7 +1,7 @@
 import logging
 from typing import Annotated
 
-from fastapi import APIRouter, Body, Depends, HTTPException, status
+from fastapi import APIRouter, Body, Depends, HTTPException, Response, status
 from sklearn.base import BaseEstimator
 
 from workbench_api import db
@@ -77,12 +77,12 @@ async def get_optimization(db_id: int) -> OptimizeOutputModel:
     )
 
 
-@router.delete("/optimize/{db_id}", status_code=status.HTTP_200_OK, response_model=OptimizeOutputModel)
+@router.delete("/optimize/{db_id}", response_model=OptimizeOutputModel)
 async def delete_optimization(db_id: int) -> OptimizeOutputModel:
 
     try:
-        result = db.optimizations.pop(db_id - 1)
-        return result
+        db.optimizations.pop(db_id - 1)
+        return Response(status_code=status.HTTP_204_NO_CONTENT)
     except IndexError as error:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
