@@ -1,6 +1,6 @@
+import httpx
 import pytest
 from fastapi import status
-from fastapi.testclient import TestClient
 
 from workbench_train.common import Targets
 
@@ -41,7 +41,7 @@ class TestPredictRouter:
     )
     async def test_make_prediction_target_returns_status_200(
         self,
-        async_client: TestClient,
+        async_client: httpx.AsyncClient,
         body: str,
         expected_status_code: int,
     ):
@@ -54,3 +54,21 @@ class TestPredictRouter:
         assert response.json().keys() >= {"value", "feature", "version"}
         assert isinstance(response.json()["value"], float)
         assert isinstance(response.json()["feature"], str)
+
+    async def test_get_all_predictions_returns_status_200(
+        self,
+        async_client: httpx.AsyncClient,
+    ):
+
+        url = f"/predict/{Targets.COMPRESSIVE_STRENGTH}"
+        response = await async_client.get(url)
+        assert response.status_code == status.HTTP_200_OK
+
+    async def test_get_last_prediction_returns_status_200(
+        self,
+        async_client: httpx.AsyncClient,
+    ):
+
+        url = f"/predict/{Targets.COMPRESSIVE_STRENGTH}/latest"
+        response = await async_client.get(url)
+        assert response.status_code == status.HTTP_200_OK

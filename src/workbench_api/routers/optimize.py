@@ -52,7 +52,7 @@ async def get_all_optimizations() -> list[OptimizeOutputModel]:
 
 
 @router.get("/optimize/latest", status_code=status.HTTP_200_OK, response_model=OptimizeOutputModel)
-async def get_last_prediction() -> OptimizeOutputModel:
+async def get_last_optimization() -> OptimizeOutputModel:
 
     try:
         result = db.optimizations[-1]
