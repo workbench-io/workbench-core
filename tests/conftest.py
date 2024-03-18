@@ -3,6 +3,8 @@ from typing import Any
 import pandas as pd
 import pytest
 
+from tests.test_workbench_api import examples
+
 
 class FakeEstimator:
 
@@ -20,16 +22,22 @@ def fake_estimator() -> FakeEstimator:
 
 @pytest.fixture(scope="session")
 def concrete_composition_dict() -> dict:
-    return {
-        "water": 8.33,
-        "coarse_aggregate": 42.23,
-        "slag": 0.0,
-        "cement": 12.09,
-        "superplasticizer": 0.0,
-        "fine_aggregate": 37.35,
-        "fly_ash": 0.0,
-        "age": 28,
-    }
+    return examples.prediction_body_1
+
+
+@pytest.fixture(scope="session")
+def concrete_composition_dict_1(concrete_composition_dict) -> dict:  # pylint: disable=redefined-outer-name
+    return concrete_composition_dict
+
+
+@pytest.fixture(scope="session")
+def concrete_composition_dict_2() -> dict:
+    return examples.prediction_body_2
+
+
+@pytest.fixture(scope="session")
+def concrete_composition_dict_3() -> dict:
+    return examples.prediction_body_3
 
 
 @pytest.fixture(scope="session")

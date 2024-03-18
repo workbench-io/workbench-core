@@ -71,5 +71,24 @@ def get_db_entry_by_id(db: list[T], db_id: int) -> T:
     return None
 
 
+def get_index_of_db_entry_by_id(db: list[T], db_id: int) -> T:
+    """
+    Returns the index of the database entry with the given id.
+
+    Parameters:
+    db (list[T]): The database from which to get the entry.
+    db_id (int): The id of the entry to get.
+
+    Returns:
+    T: The entry with the given id.
+    """
+
+    for index, entry in enumerate(db):
+        if entry.id == db_id:
+            return index
+
+    return None
+
+
 def create_list() -> list:
     return []
