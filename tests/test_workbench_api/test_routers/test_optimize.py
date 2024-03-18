@@ -1,5 +1,6 @@
 from typing import Any
 
+import httpx
 import pytest
 from fastapi import status
 
@@ -37,34 +38,34 @@ class TestOptimizeRouter:
     )
     async def test_run_optimization_returns_status_200(
         self,
-        client,
+        async_client: httpx.AsyncClient,
         body: dict[str, Any],
         expected_status_code: int,
     ):
 
-        url = "/optimize/"
+        url = "/optimize"
 
-        response = client.post(url, json=body)
+        response = await async_client.post(url, json=body)
 
         assert response.status_code == expected_status_code
         assert response.json().keys() >= {"best_value", "best_solution"}
         assert isinstance(response.json()["best_value"], float)
         assert isinstance(response.json()["best_solution"], dict)
 
-    async def test_get_all_optimizations_returns_status_code_200(
+    async def test_get_all_optimizations_returns_status_200(
         self,
-        client,
+        async_client: httpx.AsyncClient,
     ):
 
-        response = client.get("/optimize/")
-
+        url = "/optimize"
+        response = await async_client.get(url)
         assert response.status_code == status.HTTP_200_OK
 
-    async def test_get_last_optimization_returns_status_code_200(
+    async def test_get_last_optimization_returns_status_404_when_there_are_no_optimizations(
         self,
-        client,
+        async_client: httpx.AsyncClient,
     ):
 
-        response = client.get("/optimize/latest")
-
+        url = "/optimize/latest"
+        response = await async_client.get(url)
         assert response.status_code == status.HTTP_200_OK
