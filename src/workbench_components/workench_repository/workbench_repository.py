@@ -5,7 +5,7 @@ from typing import Any, Callable, Optional
 class WorkbenchRepository(ABC):
 
     class WorkbenchRepository:
-        def __init__(self, fn_connection: Callable[[None], Any]) -> None:
+        def __init__(self, fn_connection: Callable[[None], Any], *args, **kwargs) -> None:
             """
             Initializes a new instance of the WorkbenchRepository class.
 
@@ -16,7 +16,7 @@ class WorkbenchRepository(ABC):
                 None
             """
             super().__init__()
-            self._db: list[object] = fn_connection()
+            self._db: list[object] = fn_connection(*args, **kwargs)
 
     @abstractmethod
     def get(self, db_id: int) -> Optional[Any]:

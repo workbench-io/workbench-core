@@ -12,7 +12,9 @@ class OptimizeFactory(WorkbenchFactory):
 
     _items: dict[str, tuple[OptimizeLogic, OptimizeData, OptimizeSettings]] | None = None
 
-    def create_instance(self, name: str) -> tuple[OptimizeLogic, OptimizeData, OptimizeSettings]:
+    def create_instance(
+        self, name: str, *args, **kwargs
+    ) -> tuple[OptimizeLogic, OptimizeData, OptimizeSettings]:  # pylint: disable=unused-argument
         """Create an instance of an item from the factory.
 
         Args:

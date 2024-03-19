@@ -8,11 +8,15 @@ from workbench_components.workench_repository.workbench_repository import Workbe
 from workbench_components.workench_repository.workbench_repository_factory import WorkbenchRepositoryFactory
 
 
+# pylint: disable=keyword-arg-before-vararg
 class ListRepository(WorkbenchRepository):
 
-    def __init__(self, fn_connection: Callable[[None], Any] = create_list) -> None:
+    _initialized = False
+
+    def __init__(self, fn_connection: Callable[[None], Any] = create_list, *args, **kwargs) -> None:
         super().__init__()
-        self._db: list[object] = fn_connection()
+        self._initialized = True
+        self._db: list[object] = fn_connection(*args, **kwargs)
 
     def get(self, db_id: int) -> object:
         result = [entry for entry in self._db if int(entry.id) == int(db_id)]
@@ -55,6 +59,17 @@ class ListRepository(WorkbenchRepository):
             if entry.id == db_id:
                 return index
         return None
+
+    def get_next_id(self) -> int:
+        """
+        Returns the next available ID for the database.
+
+        Returns:
+            int: The next available ID for the database.
+        """
+        if self._db:
+            return self._db[-1].id + 1
+        return 1
 
 
 class PredictionsRepository(ListRepository):

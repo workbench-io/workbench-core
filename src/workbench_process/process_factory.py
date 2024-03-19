@@ -12,7 +12,9 @@ class ProcessFactory(WorkbenchFactory):
 
     _items: dict[str, tuple[ProcessLogic, ProcessData, ProcessSettings]] | None = None
 
-    def create_instance(self, name: str) -> tuple[ProcessLogic, ProcessData, ProcessSettings]:
+    def create_instance(
+        self, name: str, *args, **kwargs
+    ) -> tuple[ProcessLogic, ProcessData, ProcessSettings]:  # pylint: disable=unused-argument
         """Create an instance of an item from the factory.
 
         Args:

@@ -5,7 +5,7 @@ from fastapi import APIRouter, Body, HTTPException, Path, Response, status
 
 from workbench_api.data import db
 from workbench_api.models.predict import PredictionInputModel, PredictionOutputModel
-from workbench_api.utils import get_db_entry_by_id, get_id, get_predicted_value
+from workbench_api.utils import get_db_entry_by_id, get_next_id, get_predicted_value
 from workbench_components.common.common_configs import FILEPATH_MODELS_DEFAULT, REGEX_MODELS_DEFAULT
 from workbench_train.common import Targets
 from workbench_utils.export import get_filepath_from_directory, load_pipeline
@@ -56,7 +56,7 @@ async def make_prediction_target(
     predicted_value = get_predicted_value(prediction_input, model)
     logger.debug(f"Predicted value for '{target}': {predicted_value:.2f}")
 
-    db_id = get_id(db.predictions)
+    db_id = get_next_id(db.predictions)
 
     result = PredictionOutputModel(
         id=db_id,

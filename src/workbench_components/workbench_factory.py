@@ -46,7 +46,7 @@ class WorkbenchFactory(WorkbenchLogger):
 
         return self._items[name]
 
-    def create_instance(self, name: str) -> WorkbenchObject:
+    def create_instance(self, name: str, *args, **kwargs) -> WorkbenchObject:
         """Create an instance of an item from the factory.
 
         Args:
@@ -58,7 +58,7 @@ class WorkbenchFactory(WorkbenchLogger):
         self.log_info(method=self.create_instance, message=f"Creating instance of {name}.")
 
         if self.contains(name=name):
-            return self._items[name]()
+            return self._items[name](*args, **kwargs)
 
         raise WorkbenchFactoryError(f"Item {name} not found in factory.")
 

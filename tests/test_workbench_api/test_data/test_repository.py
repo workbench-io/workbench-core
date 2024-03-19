@@ -109,3 +109,17 @@ class TestListRepository:
         assert result is None
         assert len(list_repository.get_all()) == 2
         assert list_repository.get_index_of_db_entry_by_id(db_id) is None
+
+    def test_get_next_id_returns_next_available_id(self, list_repository: ListRepository):
+
+        result = list_repository.get_next_id()
+
+        assert result is not None
+        assert result == 4
+
+    def test_get_next_id_returns_next_available_id_from_empty_repo(self, list_repository_empty: ListRepository):
+
+        result = list_repository_empty.get_next_id()
+
+        assert result is not None
+        assert result == 1

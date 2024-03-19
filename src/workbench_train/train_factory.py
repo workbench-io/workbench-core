@@ -12,7 +12,9 @@ class TrainFactory(WorkbenchFactory):
 
     _items: dict[str, tuple[TrainLogic, TrainData, TrainSettings]] | None = None
 
-    def create_instance(self, name: str) -> tuple[TrainLogic, TrainData, TrainSettings]:
+    def create_instance(
+        self, name: str, *args, **kwargs
+    ) -> tuple[TrainLogic, TrainData, TrainSettings]:  # pylint: disable=unused-argument
         """Create an instance of an item from the factory.
 
         Args:

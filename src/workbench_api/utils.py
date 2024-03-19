@@ -39,7 +39,7 @@ def get_model() -> BaseEstimator:
     return model
 
 
-def get_id(db: dict[int, Any] | list[Any]) -> int:
+def get_next_id(db: dict[int, Any] | list[Any]) -> int:
     """
     Returns the next available id for a given database.
 
