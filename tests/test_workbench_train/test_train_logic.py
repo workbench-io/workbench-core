@@ -1,3 +1,6 @@
+import shutil
+from pathlib import Path
+
 import pandas as pd
 
 from workbench_train.train_data import TrainData
@@ -12,12 +15,23 @@ class TestTrainLogic:
         train_data: TrainData,
         train_settings: TrainSettings,
         features_and_targets: tuple[pd.DataFrame, pd.DataFrame],
+        tmp_path: Path,
     ):
-        train_data.features, train_data.targets = features_and_targets
 
-        train = TrainLogic()
+        try:
+            train_data.features, train_data.targets = features_and_targets
 
-        result = train.run(train_data, train_settings)
+            dir_models = tmp_path.joinpath("models")
+            dir_models.mkdir(exist_ok=True, parents=True)
 
-        assert isinstance(result, bool)
-        assert result
+            train_settings.model.exporting.path = dir_models
+
+            train = TrainLogic()
+
+            result = train.run(train_data, train_settings)
+
+            assert isinstance(result, bool)
+            assert result
+
+        finally:
+            shutil.rmtree(tmp_path)
