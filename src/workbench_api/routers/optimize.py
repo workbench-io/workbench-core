@@ -4,7 +4,7 @@ from typing import Annotated
 from fastapi import APIRouter, Body, Depends, HTTPException, Response, status
 from sklearn.base import BaseEstimator
 
-from workbench_api import db
+from workbench_api.data import db
 from workbench_api.models.optimize import OptimizeInputModel, OptimizeOutputModel
 from workbench_api.utils import get_db_entry_by_id, get_id, get_model
 from workbench_optimize.optimize_factory import factory_optimize

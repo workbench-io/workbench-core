@@ -3,7 +3,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Body, HTTPException, Path, Response, status
 
-from workbench_api import db
+from workbench_api.data import db
 from workbench_api.models.predict import PredictionInputModel, PredictionOutputModel
 from workbench_api.utils import get_db_entry_by_id, get_id, get_predicted_value
 from workbench_components.common.common_configs import FILEPATH_MODELS_DEFAULT, REGEX_MODELS_DEFAULT
