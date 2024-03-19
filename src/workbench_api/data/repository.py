@@ -1,7 +1,9 @@
+from workbench_api.enums import Routers
 from workbench_api.models.optimize import OptimizeOutputModel
 from workbench_api.models.predict import PredictionOutputModel
 from workbench_api.utils import create_list
 from workbench_components.workench_repository.workbench_repository import WorkbenchRepository
+from workbench_components.workench_repository.workbench_repository_factory import WorkbenchRepositoryFactory
 
 
 class ListRepository(WorkbenchRepository):
@@ -63,3 +65,8 @@ class OptimizationsRepository(ListRepository):
     """Repository for Optimization results"""
 
     _db: list[OptimizeOutputModel]
+
+
+factory_repository = WorkbenchRepositoryFactory()
+factory_repository.register(Routers.PREDICT, PredictionsRepository)
+factory_repository.register(Routers.OPTIMIZE, OptimizationsRepository)
