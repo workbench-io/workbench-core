@@ -1,8 +1,23 @@
 from abc import ABC, abstractmethod
-from typing import Any, Optional
+from typing import Any, Callable, Optional
 
 
 class WorkbenchRepository(ABC):
+
+    class WorkbenchRepository:
+        def __init__(self, fn_connection: Callable[[None], Any]) -> None:
+            """
+            Initializes a new instance of the WorkbenchRepository class.
+
+            Args:
+                fn_connection (Callable[[None], Any]): A function that returns a database connection.
+
+            Returns:
+                None
+            """
+            super().__init__()
+            self._db: list[object] = fn_connection()
+
     @abstractmethod
     def get(self, db_id: int) -> Optional[Any]:
         """

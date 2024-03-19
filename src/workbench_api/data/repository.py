@@ -1,3 +1,5 @@
+from typing import Any, Callable
+
 from workbench_api.enums import Routers
 from workbench_api.models.optimize import OptimizeOutputModel
 from workbench_api.models.predict import PredictionOutputModel
@@ -8,9 +10,9 @@ from workbench_components.workench_repository.workbench_repository_factory impor
 
 class ListRepository(WorkbenchRepository):
 
-    def __init__(self) -> None:
+    def __init__(self, fn_connection: Callable[[None], Any] = create_list) -> None:
         super().__init__()
-        self._db: list[object] = create_list()
+        self._db: list[object] = fn_connection()
 
     def get(self, db_id: int) -> object:
         result = [entry for entry in self._db if int(entry.id) == int(db_id)]
