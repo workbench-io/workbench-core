@@ -1,4 +1,4 @@
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 from workbench_api.data import db
 from workbench_api.enums import Routers
@@ -84,31 +84,23 @@ class OptimizationsRepository(ListRepository):
     _db: list[OptimizeOutputModel]
 
 
-def get_predictions_repository(repo: Optional[str] = None) -> ListRepository:
+def get_predictions_repository() -> ListRepository:
     """
     Get the predictions repository.
 
-    Args:
-        repo (Optional[str]): The repository name. Defaults to None.
-
     Returns:
         ListRepository: The predictions repository.
-
     """
     repo = ListRepository(db.get_database, name=Routers.PREDICT)
     return repo
 
 
-def get_optimizations_repository(repo: Optional[str] = None) -> ListRepository:
+def get_optimizations_repository() -> ListRepository:
     """
     Get the optimizations repository.
 
-    Args:
-        repo (Optional[str]): The repository name. Defaults to None.
-
     Returns:
-        ListRepository: The predictions repository.
-
+        ListRepository: The optimizations repository.
     """
     repo = ListRepository(db.get_database, name=Routers.OPTIMIZE)
     return repo

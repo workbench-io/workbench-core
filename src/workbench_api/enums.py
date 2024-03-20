@@ -6,3 +6,10 @@ class Routers(StrEnum):
 
     PREDICT = auto()
     OPTIMIZE = auto()
+
+
+class RoutersPath(StrEnum):
+    """Enum for routers path available for the API."""
+
+    PREDICT = "/predict"
+    OPTIMIZE = "/optimize"

@@ -3,9 +3,15 @@ import pytest
 from fastapi import status
 
 from tests.test_workbench_api import examples
+from tests.test_workbench_api.conftest import create_prediction
 from workbench_train.common import Targets
 
 # pylint: disable=unused-argument
+
+
+@pytest.fixture(autouse=True)
+async def created_prediction(async_client: httpx.AsyncClient):
+    return await create_prediction(examples.prediction_body_1, async_client)
 
 
 @pytest.mark.anyio
@@ -44,7 +50,6 @@ class TestPredictRouter:
     async def test_get_all_predictions_returns_status_200(
         self,
         async_client: httpx.AsyncClient,
-        created_prediction,
     ):
 
         url = f"/predict/{Targets.COMPRESSIVE_STRENGTH}"
@@ -52,12 +57,11 @@ class TestPredictRouter:
 
         assert response.status_code == status.HTTP_200_OK
         assert isinstance(response.json(), list)
-        assert len(response.json()) >= 1
+        assert len(response.json()) == 1
 
     async def test_get_last_prediction_returns_status_200(
         self,
         async_client: httpx.AsyncClient,
-        created_prediction,
     ):
 
         url = f"/predict/{Targets.COMPRESSIVE_STRENGTH}/latest"

@@ -4,20 +4,21 @@ from typing import Annotated
 from fastapi import APIRouter, Body, Depends, HTTPException, Path, Response, status
 
 from workbench_api.data.repository import ListRepository, get_predictions_repository
+from workbench_api.enums import RoutersPath
 from workbench_api.models.predict import PredictionInputModel, PredictionOutputModel
 from workbench_api.utils import get_predicted_value
 from workbench_components.common.common_configs import FILEPATH_MODELS_DEFAULT, REGEX_MODELS_DEFAULT
 from workbench_train.common import Targets
 from workbench_utils.export import get_filepath_from_directory, load_pipeline
 
-router = APIRouter()
+router = APIRouter(prefix=RoutersPath.PREDICT.value)
 
 logger = logging.getLogger(__name__)
 
 model = load_pipeline(get_filepath_from_directory(FILEPATH_MODELS_DEFAULT, REGEX_MODELS_DEFAULT))
 
 
-@router.post("/predict/{target}", response_model=PredictionOutputModel, status_code=status.HTTP_201_CREATED)
+@router.post("/{target}", response_model=PredictionOutputModel, status_code=status.HTTP_201_CREATED)
 async def make_prediction_target(
     target: Annotated[
         Targets,
@@ -71,14 +72,14 @@ async def make_prediction_target(
     return result
 
 
-@router.get("/predict/{target}", status_code=status.HTTP_200_OK)
+@router.get("/{target}", status_code=status.HTTP_200_OK)
 async def get_all_predictions(
     repo: Annotated[ListRepository, Depends(get_predictions_repository)],
 ) -> list[PredictionOutputModel]:
     return repo.get_all()
 
 
-@router.get("/predict/{target}/latest", status_code=status.HTTP_200_OK, response_model=PredictionOutputModel)
+@router.get("/{target}/latest", status_code=status.HTTP_200_OK, response_model=PredictionOutputModel)
 async def get_last_prediction(
     repo: Annotated[ListRepository, Depends(get_predictions_repository)],
 ) -> PredictionOutputModel:
@@ -93,7 +94,7 @@ async def get_last_prediction(
     return result
 
 
-@router.get("/predict/{target}/{db_id}", status_code=status.HTTP_200_OK, response_model=PredictionOutputModel)
+@router.get("/{target}/{db_id}", status_code=status.HTTP_200_OK, response_model=PredictionOutputModel)
 async def get_prediction(
     db_id: int,
     repo: Annotated[ListRepository, Depends(get_predictions_repository)],
@@ -109,7 +110,7 @@ async def get_prediction(
     )
 
 
-@router.delete("/predict/{target}/{db_id}", response_model=PredictionOutputModel)
+@router.delete("/{target}/{db_id}", response_model=PredictionOutputModel)
 async def delete_prediction(
     db_id: int,
     repo: Annotated[ListRepository, Depends(get_predictions_repository)],

@@ -5,18 +5,19 @@ from fastapi import APIRouter, Body, Depends, HTTPException, Response, status
 from sklearn.base import BaseEstimator
 
 from workbench_api.data.repository import ListRepository, get_optimizations_repository
+from workbench_api.enums import RoutersPath
 from workbench_api.models.optimize import OptimizeInputModel, OptimizeOutputModel
 from workbench_api.utils import get_model
 from workbench_optimize.optimize_factory import factory_optimize
 from workbench_train.common import Targets
 from workbench_utils.enums import WorkbenchSteps
 
-router = APIRouter()
+router = APIRouter(prefix=RoutersPath.OPTIMIZE.value)
 
 logger = logging.getLogger(__name__)
 
 
-@router.post("/optimize", status_code=status.HTTP_201_CREATED, response_model=OptimizeOutputModel)
+@router.post("", status_code=status.HTTP_201_CREATED, response_model=OptimizeOutputModel)
 async def run_optimization(
     optimization_input: Annotated[OptimizeInputModel, Body(...)],
     model: Annotated[BaseEstimator, Depends(get_model)],
@@ -47,14 +48,14 @@ async def run_optimization(
     return result
 
 
-@router.get("/optimize", status_code=status.HTTP_200_OK)
+@router.get("", status_code=status.HTTP_200_OK)
 async def get_all_optimizations(
     repo: Annotated[ListRepository, Depends(get_optimizations_repository)],
 ) -> list[OptimizeOutputModel]:
     return repo.get_all()
 
 
-@router.get("/optimize/latest", status_code=status.HTTP_200_OK, response_model=OptimizeOutputModel)
+@router.get("/latest", status_code=status.HTTP_200_OK, response_model=OptimizeOutputModel)
 async def get_last_optimization(
     repo: Annotated[ListRepository, Depends(get_optimizations_repository)],
 ) -> OptimizeOutputModel:
@@ -69,7 +70,7 @@ async def get_last_optimization(
     return result
 
 
-@router.get("/optimize/{db_id}", status_code=status.HTTP_200_OK, response_model=OptimizeOutputModel)
+@router.get("/{db_id}", status_code=status.HTTP_200_OK, response_model=OptimizeOutputModel)
 async def get_optimization(
     db_id: int,
     repo: Annotated[ListRepository, Depends(get_optimizations_repository)],
@@ -85,7 +86,7 @@ async def get_optimization(
     )
 
 
-@router.delete("/optimize/{db_id}", response_model=OptimizeOutputModel)
+@router.delete("/{db_id}", response_model=OptimizeOutputModel)
 async def delete_optimization(
     db_id: int,
     repo: Annotated[ListRepository, Depends(get_optimizations_repository)],
