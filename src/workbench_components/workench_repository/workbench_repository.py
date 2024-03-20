@@ -56,13 +56,13 @@ class WorkbenchRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def update(self, db_id: int, item: Any) -> None:
+    def update(self, db_id: int, new_item: Any) -> None:
         """
         Updates an item in the repository based on the given database ID.
 
         Args:
             db_id (int): The database ID of the item to update.
-            item (Any): The updated item.
+            new_item (Any): The updated item.
 
         Returns:
             None

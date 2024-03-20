@@ -11,6 +11,7 @@ from workbench_utils.strings import clean_text
 
 
 class PredictionInputModel(BaseModel):
+    """Input model for prediction."""
 
     cement: float = Field(**DEFAULTS_COMPOSITION, title=TEMPLATE_TITLE_COMPOSITION.format(clean_text("cement")))
     slag: float = Field(**DEFAULTS_COMPOSITION, title=TEMPLATE_TITLE_COMPOSITION.format(clean_text("slag")))
@@ -37,9 +38,20 @@ class PredictionInputModel(BaseModel):
 
 
 class PredictionOutputModel(BaseModel):
+    """Output model for prediction."""
 
     id: int
     value: float
     feature: Targets
     prediction_input: PredictionInputModel
+    version: Optional[str] = None
+
+
+class PredictionUpdateModel(BaseModel):
+    """Update model for prediction."""
+
+    id: Optional[int] = None
+    value: Optional[float] = None
+    feature: Optional[Targets] = None
+    prediction_input: Optional[PredictionInputModel] = None
     version: Optional[str] = None

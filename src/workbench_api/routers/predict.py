@@ -5,7 +5,7 @@ from fastapi import APIRouter, Body, Depends, HTTPException, Path, Response, sta
 
 from workbench_api.data.repository import ListRepository, ListRepositoryError, get_predictions_repository
 from workbench_api.enums import RoutersPath
-from workbench_api.models.predict import PredictionInputModel, PredictionOutputModel
+from workbench_api.models.predict import PredictionInputModel, PredictionOutputModel, PredictionUpdateModel
 from workbench_api.utils import get_predicted_value
 from workbench_components.common.common_configs import FILEPATH_MODELS_DEFAULT, REGEX_MODELS_DEFAULT
 from workbench_train.common import Targets
@@ -119,6 +119,29 @@ async def delete_prediction(
     try:
         repo.delete(db_id)
         return Response(status_code=status.HTTP_204_NO_CONTENT)
+    except ListRepositoryError as error:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Item with ID {db_id} not found",
+        ) from error
+
+
+@router.put("/{target}/{db_id}", response_model=PredictionOutputModel)
+async def update_prediction(
+    db_id: int,
+    prediction_update: Annotated[
+        PredictionUpdateModel,
+        Body(...),
+    ],
+    repo: Annotated[ListRepository, Depends(get_predictions_repository)],
+):
+
+    try:
+        result = repo.update(db_id, prediction_update)
+        print(result)
+        print(type(result))
+
+        return Response(status_code=status.HTTP_201_CREATED)
     except ListRepositoryError as error:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

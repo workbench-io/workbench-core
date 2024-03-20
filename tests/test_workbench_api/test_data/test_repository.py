@@ -96,7 +96,7 @@ class TestListRepository:
         result = list_repository.get(db_id)
 
         assert result is not None
-        assert result == prediction_output_modified
+        assert result.model_dump() == prediction_output_modified.model_dump()
 
     def test_delete_deletes_object_from_db(self, list_repository: ListRepository):
 
