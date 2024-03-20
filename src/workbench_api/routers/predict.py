@@ -1,11 +1,11 @@
 import logging
 from typing import Annotated
 
-from fastapi import APIRouter, Body, HTTPException, Path, Response, status
+from fastapi import APIRouter, Body, Depends, HTTPException, Path, Response, status
 
-from workbench_api.data import db
+from workbench_api.data.repository import ListRepository, get_predictions_repository
 from workbench_api.models.predict import PredictionInputModel, PredictionOutputModel
-from workbench_api.utils import get_db_entry_by_id, get_next_id, get_predicted_value
+from workbench_api.utils import get_predicted_value
 from workbench_components.common.common_configs import FILEPATH_MODELS_DEFAULT, REGEX_MODELS_DEFAULT
 from workbench_train.common import Targets
 from workbench_utils.export import get_filepath_from_directory, load_pipeline
@@ -50,13 +50,14 @@ async def make_prediction_target(
             ],
         ),
     ],
+    repo: Annotated[ListRepository, Depends(get_predictions_repository)],
 ):
 
     logger.debug(f"Making prediction for '{target}' with input: {prediction_input.model_dump()}")
     predicted_value = get_predicted_value(prediction_input, model)
     logger.debug(f"Predicted value for '{target}': {predicted_value:.2f}")
 
-    db_id = get_next_id(db.predictions)
+    db_id = repo.get_next_id()
 
     result = PredictionOutputModel(
         id=db_id,
@@ -65,32 +66,39 @@ async def make_prediction_target(
         prediction_input=prediction_input,
     )
 
-    db.predictions.append(result)
+    repo.add(db_id, result)
 
     return result
 
 
 @router.get("/predict/{target}", status_code=status.HTTP_200_OK)
-async def get_all_predictions() -> list[PredictionOutputModel]:
-    return db.predictions
+async def get_all_predictions(
+    repo: Annotated[ListRepository, Depends(get_predictions_repository)],
+) -> list[PredictionOutputModel]:
+    return repo.get_all()
 
 
 @router.get("/predict/{target}/latest", status_code=status.HTTP_200_OK, response_model=PredictionOutputModel)
-async def get_last_prediction() -> PredictionOutputModel:
+async def get_last_prediction(
+    repo: Annotated[ListRepository, Depends(get_predictions_repository)],
+) -> PredictionOutputModel:
 
-    try:
-        result = db.predictions[-1]
-        return result
-    except IndexError as error:
+    result = repo.get_latest()
+
+    if result is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="No previous entry in database was found",
-        ) from error
+        )
+    return result
 
 
 @router.get("/predict/{target}/{db_id}", status_code=status.HTTP_200_OK, response_model=PredictionOutputModel)
-async def get_prediction(db_id: int) -> PredictionOutputModel:
-    result = get_db_entry_by_id(db.predictions, db_id)
+async def get_prediction(
+    db_id: int,
+    repo: Annotated[ListRepository, Depends(get_predictions_repository)],
+) -> PredictionOutputModel:
+    result = repo.get(db_id)
 
     if result:
         return result
@@ -102,10 +110,13 @@ async def get_prediction(db_id: int) -> PredictionOutputModel:
 
 
 @router.delete("/predict/{target}/{db_id}", response_model=PredictionOutputModel)
-async def delete_prediction(db_id: int) -> PredictionOutputModel:
+async def delete_prediction(
+    db_id: int,
+    repo: Annotated[ListRepository, Depends(get_predictions_repository)],
+) -> PredictionOutputModel:
 
     try:
-        db.predictions.pop(db_id - 1)
+        repo.delete(db_id)
         return Response(status_code=status.HTTP_204_NO_CONTENT)
     except IndexError as error:
         raise HTTPException(

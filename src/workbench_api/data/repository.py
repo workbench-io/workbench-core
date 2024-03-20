@@ -1,11 +1,11 @@
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
+from workbench_api.data import db
 from workbench_api.enums import Routers
 from workbench_api.models.optimize import OptimizeOutputModel
 from workbench_api.models.predict import PredictionOutputModel
 from workbench_api.utils import create_list
 from workbench_components.workench_repository.workbench_repository import WorkbenchRepository
-from workbench_components.workench_repository.workbench_repository_factory import WorkbenchRepositoryFactory
 
 
 # pylint: disable=keyword-arg-before-vararg
@@ -84,6 +84,31 @@ class OptimizationsRepository(ListRepository):
     _db: list[OptimizeOutputModel]
 
 
-factory_repository = WorkbenchRepositoryFactory()
-factory_repository.register(Routers.PREDICT, PredictionsRepository)
-factory_repository.register(Routers.OPTIMIZE, OptimizationsRepository)
+def get_predictions_repository(repo: Optional[str] = None) -> ListRepository:
+    """
+    Get the predictions repository.
+
+    Args:
+        repo (Optional[str]): The repository name. Defaults to None.
+
+    Returns:
+        ListRepository: The predictions repository.
+
+    """
+    repo = ListRepository(db.get_database, name=Routers.PREDICT)
+    return repo
+
+
+def get_optimizations_repository(repo: Optional[str] = None) -> ListRepository:
+    """
+    Get the optimizations repository.
+
+    Args:
+        repo (Optional[str]): The repository name. Defaults to None.
+
+    Returns:
+        ListRepository: The predictions repository.
+
+    """
+    repo = ListRepository(db.get_database, name=Routers.OPTIMIZE)
+    return repo

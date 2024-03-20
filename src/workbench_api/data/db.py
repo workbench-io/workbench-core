@@ -5,12 +5,27 @@ from workbench_api.models.predict import PredictionOutputModel
 predictions: list[PredictionOutputModel] = []
 optimizations: list[OptimizeOutputModel] = []
 
+databases: dict[Routers, list[object]] = {
+    Routers.PREDICT: predictions,
+    Routers.OPTIMIZE: optimizations,
+}
 
-def get_db(name: Routers) -> list[object]:
 
+def get_database(name: Routers) -> list[object]:
+    """
+    Retrieves the specified database by name.
+
+    Args:
+        name (Routers): The name of the database to retrieve.
+
+    Returns:
+        list[object]: The database corresponding to the specified name.
+
+    Raises:
+        KeyError: If the specified name is not a valid database name.
+
+    """
     if name in Routers:
-        if name == Routers.PREDICT:
-            return predictions
-        return optimizations
+        return databases[name]
 
-    raise ValueError(f"Invalid database name: {name}")
+    raise KeyError(f"Invalid database name: {name}")
