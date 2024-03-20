@@ -4,7 +4,7 @@ from typing import Annotated
 from fastapi import APIRouter, Body, Depends, HTTPException, Response, status
 from sklearn.base import BaseEstimator
 
-from workbench_api.data.repository import ListRepository, get_optimizations_repository
+from workbench_api.data.repository import ListRepository, ListRepositoryError, get_optimizations_repository
 from workbench_api.enums import RoutersPath
 from workbench_api.models.optimize import OptimizeInputModel, OptimizeOutputModel
 from workbench_api.utils import get_model
@@ -95,7 +95,7 @@ async def delete_optimization(
     try:
         repo.delete(db_id)
         return Response(status_code=status.HTTP_204_NO_CONTENT)
-    except IndexError as error:
+    except ListRepositoryError as error:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Item with ID {db_id} not found",

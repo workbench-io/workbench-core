@@ -3,15 +3,17 @@ import pytest
 from fastapi import status
 
 from tests.test_workbench_api import examples
-from tests.test_workbench_api.conftest import create_prediction
+from tests.test_workbench_api.conftest import create_prediction, get_test_predictions_repository
 from workbench_train.common import Targets
 
 # pylint: disable=unused-argument
 
 
 @pytest.fixture(autouse=True)
-async def created_prediction(async_client: httpx.AsyncClient):
-    return await create_prediction(examples.prediction_body_1, async_client)
+async def created_predictions(async_client: httpx.AsyncClient):
+    await create_prediction(examples.prediction_body_1, async_client)
+    await create_prediction(examples.prediction_body_2, async_client)
+    await create_prediction(examples.prediction_body_3, async_client)
 
 
 @pytest.mark.anyio
@@ -21,11 +23,11 @@ class TestPredictRouter:
         ["body", "expected_status_code"],
         [
             (
-                examples.prediction_body_1,
+                examples.prediction_body_4,
                 status.HTTP_201_CREATED,
             ),
             (
-                examples.prediction_body_no_age_1,
+                examples.prediction_body_no_age_4,
                 status.HTTP_201_CREATED,
             ),
         ],
@@ -46,6 +48,28 @@ class TestPredictRouter:
         assert response.json().keys() >= {"value", "feature", "version"}
         assert isinstance(response.json()["value"], float)
         assert isinstance(response.json()["feature"], str)
+        assert len(get_test_predictions_repository().get_all()) == 4
+
+    async def test_get_prediction_with_id_returns_status_200(
+        self,
+        async_client: httpx.AsyncClient,
+    ):
+
+        url = f"/predict/{Targets.COMPRESSIVE_STRENGTH}/1"
+        response = await async_client.get(url)
+
+        assert response.status_code == status.HTTP_200_OK
+        assert isinstance(response.json(), dict)
+
+    async def test_get_prediction_with_id_returns_status_404_for_non_existent_id(
+        self,
+        async_client: httpx.AsyncClient,
+    ):
+
+        url = f"/predict/{Targets.COMPRESSIVE_STRENGTH}/999"
+        response = await async_client.get(url)
+
+        assert response.status_code == status.HTTP_404_NOT_FOUND
 
     async def test_get_all_predictions_returns_status_200(
         self,
@@ -57,7 +81,7 @@ class TestPredictRouter:
 
         assert response.status_code == status.HTTP_200_OK
         assert isinstance(response.json(), list)
-        assert len(response.json()) == 1
+        assert len(response.json()) == 3
 
     async def test_get_last_prediction_returns_status_200(
         self,
@@ -69,3 +93,25 @@ class TestPredictRouter:
 
         assert response.status_code == status.HTTP_200_OK
         assert response.json().keys() >= {"value", "feature", "version"}
+
+    async def test_delete_prediction_return_204_for_existent_id(
+        self,
+        async_client: httpx.AsyncClient,
+    ):
+
+        url = f"/predict/{Targets.COMPRESSIVE_STRENGTH}/1"
+        response = await async_client.delete(url)
+
+        assert response.status_code == status.HTTP_204_NO_CONTENT
+        assert len(get_test_predictions_repository().get_all()) == 2
+
+    async def test_delete_prediction_return_404_for_non_existent_id(
+        self,
+        async_client: httpx.AsyncClient,
+    ):
+
+        url = f"/predict/{Targets.COMPRESSIVE_STRENGTH}/999"
+        response = await async_client.delete(url)
+
+        assert response.status_code == status.HTTP_404_NOT_FOUND
+        assert len(get_test_predictions_repository().get_all()) == 3

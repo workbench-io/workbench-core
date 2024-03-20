@@ -8,6 +8,10 @@ from workbench_api.utils import create_list
 from workbench_components.workench_repository.workbench_repository import WorkbenchRepository
 
 
+class ListRepositoryError(Exception):
+    """ListRepository error."""
+
+
 # pylint: disable=keyword-arg-before-vararg
 class ListRepository(WorkbenchRepository):
 
@@ -58,7 +62,8 @@ class ListRepository(WorkbenchRepository):
         for index, entry in enumerate(self._db):
             if entry.id == db_id:
                 return index
-        return None
+
+        raise ListRepositoryError(f"Item with ID {db_id} not found")
 
     def get_next_id(self) -> int:
         """

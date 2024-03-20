@@ -1,7 +1,7 @@
 import pytest
 
 from tests.test_workbench_api import examples
-from workbench_api.data.repository import ListRepository
+from workbench_api.data.repository import ListRepository, ListRepositoryError
 from workbench_api.models.predict import PredictionOutputModel
 from workbench_train.common import Targets
 
@@ -76,12 +76,11 @@ class TestListRepository:
         assert result is not None
         assert result == index
 
-    def test_get_index_of_db_entry_by_id_returns_none_for_non_existing_entry(self, list_repository: ListRepository):
+    def test_get_index_of_db_entry_by_id_raises_error_non_existing_entry(self, list_repository: ListRepository):
 
-        db_id = 999
-        result = list_repository.get_index_of_db_entry_by_id(db_id)
-
-        assert result is None
+        with pytest.raises(ListRepositoryError):
+            db_id = 999
+            list_repository.get_index_of_db_entry_by_id(db_id)
 
     def test_update_updates_object_in_db(self, list_repository: ListRepository):
 
@@ -108,7 +107,6 @@ class TestListRepository:
 
         assert result is None
         assert len(list_repository.get_all()) == 2
-        assert list_repository.get_index_of_db_entry_by_id(db_id) is None
 
     def test_get_next_id_returns_next_available_id(self, list_repository: ListRepository):
 

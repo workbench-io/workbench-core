@@ -82,6 +82,17 @@ prediction_body_3 = {
     "age": 365,
 }
 
+prediction_body_4 = {
+    "cement": 11.09,
+    "slag": 1.0,
+    "fly_ash": 1.0,
+    "water": 6.33,
+    "superplasticizer": 0.5,
+    "coarse_aggregate": 43.73,
+    "fine_aggregate": 37.35,
+    "age": 365,
+}
+
 prediction_body_no_age_1 = {
     "cement": 12.09,
     "slag": 0.0,
@@ -109,5 +120,15 @@ prediction_body_no_age_3 = {
     "water": 7.33,
     "superplasticizer": 0.0,
     "coarse_aggregate": 43.23,
+    "fine_aggregate": 37.35,
+}
+
+prediction_body_no_age_4 = {
+    "cement": 11.09,
+    "slag": 1.0,
+    "fly_ash": 1.0,
+    "water": 6.33,
+    "superplasticizer": 0.5,
+    "coarse_aggregate": 43.73,
     "fine_aggregate": 37.35,
 }

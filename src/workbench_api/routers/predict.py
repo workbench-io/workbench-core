@@ -3,7 +3,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Body, Depends, HTTPException, Path, Response, status
 
-from workbench_api.data.repository import ListRepository, get_predictions_repository
+from workbench_api.data.repository import ListRepository, ListRepositoryError, get_predictions_repository
 from workbench_api.enums import RoutersPath
 from workbench_api.models.predict import PredictionInputModel, PredictionOutputModel
 from workbench_api.utils import get_predicted_value
@@ -119,7 +119,7 @@ async def delete_prediction(
     try:
         repo.delete(db_id)
         return Response(status_code=status.HTTP_204_NO_CONTENT)
-    except IndexError as error:
+    except ListRepositoryError as error:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Item with ID {db_id} not found",
