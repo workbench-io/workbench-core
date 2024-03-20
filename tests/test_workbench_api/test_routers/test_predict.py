@@ -4,6 +4,7 @@ from fastapi import status
 
 from tests.test_workbench_api import examples
 from tests.test_workbench_api.conftest import create_prediction, get_test_predictions_repository
+from workbench_api.enums import RoutersPath
 from workbench_train.common import Targets
 
 # pylint: disable=unused-argument
@@ -40,7 +41,7 @@ class TestPredictRouter:
         expected_status_code: int,
     ):
 
-        url = f"/predict/{Targets.COMPRESSIVE_STRENGTH}"
+        url = f"{RoutersPath.PREDICT}/{Targets.COMPRESSIVE_STRENGTH}"
 
         response = await async_client.post(url, json=body)
 
@@ -55,7 +56,7 @@ class TestPredictRouter:
         async_client: httpx.AsyncClient,
     ):
 
-        url = f"/predict/{Targets.COMPRESSIVE_STRENGTH}/1"
+        url = f"{RoutersPath.PREDICT}/{Targets.COMPRESSIVE_STRENGTH}/1"
         response = await async_client.get(url)
 
         assert response.status_code == status.HTTP_200_OK
@@ -66,7 +67,7 @@ class TestPredictRouter:
         async_client: httpx.AsyncClient,
     ):
 
-        url = f"/predict/{Targets.COMPRESSIVE_STRENGTH}/999"
+        url = f"{RoutersPath.PREDICT}/{Targets.COMPRESSIVE_STRENGTH}/999"
         response = await async_client.get(url)
 
         assert response.status_code == status.HTTP_404_NOT_FOUND
@@ -76,19 +77,33 @@ class TestPredictRouter:
         async_client: httpx.AsyncClient,
     ):
 
-        url = f"/predict/{Targets.COMPRESSIVE_STRENGTH}"
+        url = f"{RoutersPath.PREDICT}/{Targets.COMPRESSIVE_STRENGTH}"
         response = await async_client.get(url)
 
         assert response.status_code == status.HTTP_200_OK
         assert isinstance(response.json(), list)
         assert len(response.json()) == 3
 
+    async def test_get_all_optimizations_returns_status_200_when_there_are_no_entries(
+        self,
+        async_client: httpx.AsyncClient,
+    ):
+
+        repo = get_test_predictions_repository()
+        repo._db.clear()  # pylint: disable=protected-access
+
+        response = await async_client.get(RoutersPath.OPTIMIZE.value)
+
+        assert response.status_code == status.HTTP_200_OK
+        assert isinstance(response.json(), list)
+        assert len(response.json()) == 0
+
     async def test_get_last_prediction_returns_status_200(
         self,
         async_client: httpx.AsyncClient,
     ):
 
-        url = f"/predict/{Targets.COMPRESSIVE_STRENGTH}/latest"
+        url = f"{RoutersPath.PREDICT}/{Targets.COMPRESSIVE_STRENGTH}/latest"
         response = await async_client.get(url)
 
         assert response.status_code == status.HTTP_200_OK
@@ -99,7 +114,7 @@ class TestPredictRouter:
         async_client: httpx.AsyncClient,
     ):
 
-        url = f"/predict/{Targets.COMPRESSIVE_STRENGTH}/1"
+        url = f"{RoutersPath.PREDICT}/{Targets.COMPRESSIVE_STRENGTH}/1"
         response = await async_client.delete(url)
 
         assert response.status_code == status.HTTP_204_NO_CONTENT
@@ -110,7 +125,7 @@ class TestPredictRouter:
         async_client: httpx.AsyncClient,
     ):
 
-        url = f"/predict/{Targets.COMPRESSIVE_STRENGTH}/999"
+        url = f"{RoutersPath.PREDICT}/{Targets.COMPRESSIVE_STRENGTH}/999"
         response = await async_client.delete(url)
 
         assert response.status_code == status.HTTP_404_NOT_FOUND

@@ -49,6 +49,23 @@ optimization_body_3 = {
     "random_seed": 123,
 }
 
+optimization_body_4 = {
+    "num_genes": 7,
+    "num_generations": 2,
+    "sol_per_pop": 3,
+    "num_parents_mating": 1,
+    "keep_parents": 0,
+    "init_range_low": 0,
+    "init_range_high": 100,
+    "gene_space": {"low": 0, "high": 100},
+    "parent_selection_type": "sss",
+    "crossover_type": "single_point",
+    "crossover_probability": 0.5,
+    "mutation_type": "random",
+    "mutation_probability": 0.5,
+    "random_seed": 123,
+}
+
 prediction_body_1 = {
     "cement": 12.09,
     "slag": 0.0,
