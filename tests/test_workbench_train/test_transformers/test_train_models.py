@@ -10,7 +10,8 @@ from workbench_train.transformers.train_models import TrainModels
 
 
 class TestTrainModels:
-    def test_transform_returns_true(
+
+    def test_transform_saves_results_to_data_object_as_dictionary(
         self,
         train_data: TrainData,
         train_settings: TrainSettings,
@@ -26,22 +27,6 @@ class TestTrainModels:
         result = TrainModels().transform(train_data, train_settings)
 
         assert result is True
-
-    def test_transform_saves_results_to_data_object_as_dictionary(
-        self,
-        train_data: TrainData,
-        train_settings: TrainSettings,
-        features_and_targets: tuple[pd.DataFrame, pd.DataFrame],
-    ):
-
-        train_data.features, train_data.targets = features_and_targets
-
-        SplitTrainTestSet().transform(train_data, train_settings)
-        CreatePreprocessor().transform(train_data, train_settings)
-        CreateModelObjects().transform(train_data, train_settings)
-
-        TrainModels().transform(train_data, train_settings)
-
         assert isinstance(train_data.results, dict)
         assert train_data.results != {}
         assert set(train_data.results.keys()).issubset(Models)
