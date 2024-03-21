@@ -3,7 +3,7 @@ from typing import Any, Optional
 
 from pydantic import BaseModel, Field
 
-from workbench_components.workbench_configs import ENCODING
+from workbench_components.workbench_configs import workbench_configs
 
 DEFAULT_AGE = 28
 
@@ -30,5 +30,5 @@ class OptimizationResult(BaseModel):
 
         results_json = self.model_dump_json(*args, **kwargs)
 
-        with open(filepath, "w", encoding=ENCODING) as file:
+        with open(filepath, "w", encoding=workbench_configs.encoding) as file:
             file.write(results_json)

@@ -1,3 +1,4 @@
+from workbench_components.workbench_configs import workbench_configs
 from workbench_components.workbench_transformer.workbench_transformer import WorkbenchTransformer
 from workbench_train.common import EXPORTED_MODEL_FILENAME_TEMPLATE
 from workbench_train.train_data import TrainData
@@ -23,7 +24,7 @@ class ExportModel(WorkbenchTransformer):
 
         if settings.model.exporting.remove_previous and settings.model.exporting.path.exists():
             self.log_info(self.transform, f"Removing previous models in {settings.model.exporting.path.absolute()}")
-            remove_old_pipelines(settings.model.exporting.path)
+            remove_old_pipelines(settings.model.exporting.path, workbench_configs.models_regex)
 
         for model_name in data.model_selection:
             if not settings.model.exporting.path.exists():

@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from workbench_components.workbench_configs import ENCODING
+from workbench_components.workbench_configs import workbench_configs
 from workbench_optimize.optimize_data import OptimizeData
 from workbench_optimize.optimize_settings import OptimizeSettings
 from workbench_optimize.optimize_settings_model import OptimizeSettingsModel
@@ -19,7 +19,7 @@ def configs_path() -> Path:
 
 @pytest.fixture(scope="session")
 def config_dict() -> dict:
-    with open(dir_configs_example, "r", encoding=ENCODING) as file:
+    with open(dir_configs_example, "r", encoding=workbench_configs.encoding) as file:
         return json.load(file)
 
 

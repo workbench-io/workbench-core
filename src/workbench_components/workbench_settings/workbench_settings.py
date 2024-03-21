@@ -7,7 +7,7 @@ from typing import Any
 
 from pydantic import BaseModel
 
-from workbench_components.workbench_configs import ENCODING
+from workbench_components.workbench_configs import workbench_configs
 from workbench_components.workbench_logging.workbench_logger import WorkbenchLogger
 
 
@@ -25,7 +25,7 @@ class WorkbenchSettings(ABC, WorkbenchLogger):
 
         self.log_info(self.load_settings_from_file, f"Loading settings from {filepath.absolute()}")
 
-        with open(filepath, "r", encoding=ENCODING) as file:
+        with open(filepath, "r", encoding=workbench_configs.encoding) as file:
             settings_dict = json.load(file)
 
         self.model = self._settings_model(**settings_dict)

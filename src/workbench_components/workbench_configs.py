@@ -3,12 +3,7 @@ from typing import Literal
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-ENCODING = "utf-8"
-
-FILEPATH_LOGS_DEFAULT = Path(__file__).parent.parent.parent.joinpath("logs/logs.log").resolve()
-FILEPATH_MODELS_DEFAULT = Path(__file__).parent.parent.parent.joinpath("output/models").resolve()
-
-REGEX_MODELS_DEFAULT = "*.pkl"
+ENCODING_DEFAULT = "utf-8"
 
 
 class WorkbenchConfigs(BaseSettings):
@@ -17,9 +12,9 @@ class WorkbenchConfigs(BaseSettings):
     logs_filepath: Path
     models_filepath: Path
     models_regex: str = "*.pkl"
-    encoding: str = ENCODING
+    encoding: str = ENCODING_DEFAULT
 
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding=ENCODING)
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding=ENCODING_DEFAULT)
 
 
 workbench_configs = WorkbenchConfigs()

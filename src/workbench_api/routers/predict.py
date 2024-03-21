@@ -7,7 +7,7 @@ from workbench_api.data.repository import ListRepository, ListRepositoryError, g
 from workbench_api.enums import RoutersPath
 from workbench_api.models.predict import PredictionInputModel, PredictionOutputModel, PredictionUpdateModel
 from workbench_api.utils import get_predicted_value
-from workbench_components.workbench_configs import FILEPATH_MODELS_DEFAULT, REGEX_MODELS_DEFAULT
+from workbench_components.workbench_configs import workbench_configs
 from workbench_train.common import Targets
 from workbench_utils.export import get_filepath_from_directory, load_pipeline
 
@@ -15,7 +15,7 @@ router = APIRouter(prefix=RoutersPath.PREDICT.value)
 
 logger = logging.getLogger(__name__)
 
-model = load_pipeline(get_filepath_from_directory(FILEPATH_MODELS_DEFAULT, REGEX_MODELS_DEFAULT))
+model = load_pipeline(get_filepath_from_directory(workbench_configs.models_filepath, workbench_configs.models_regex))
 
 
 @router.post("/{target}", response_model=PredictionOutputModel, status_code=status.HTTP_201_CREATED)

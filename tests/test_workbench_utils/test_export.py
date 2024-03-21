@@ -2,7 +2,6 @@ import shutil
 
 from anyio import Path
 
-from workbench_components.workbench_configs import REGEX_MODELS_DEFAULT
 from workbench_utils.export import (
     get_filepath_from_directory,
     load_estimator_from_directory,
@@ -42,7 +41,7 @@ def test_load_pipeline(tmp_path: Path):
         filepath.unlink()
 
 
-def test_remove_old_pipelines(tmp_path: Path):
+def test_remove_old_pipelines(tmp_path: Path, test_workbench_configs):
 
     try:
         dir_pipelines = tmp_path / "pipelines"
@@ -51,7 +50,7 @@ def test_remove_old_pipelines(tmp_path: Path):
         save_pipeline(FakePipeline(), dir_pipelines / "fake_pipeline_01.pkl")
         save_pipeline(FakePipeline(), dir_pipelines / "fake_pipeline_02.pkl")
 
-        remove_old_pipelines(dir_pipelines)
+        remove_old_pipelines(dir_pipelines, test_workbench_configs.models_regex)
 
         assert not (dir_pipelines / "fake_pipeline_01.pkl").exists()
         assert not (dir_pipelines / "fake_pipeline_02.pkl").exists()
@@ -60,7 +59,7 @@ def test_remove_old_pipelines(tmp_path: Path):
         shutil.rmtree(dir_pipelines)
 
 
-def test_get_filepath_from_directory(tmp_path: Path):
+def test_get_filepath_from_directory(tmp_path: Path, test_workbench_configs):
 
     try:
         dir_models = tmp_path / "models"
@@ -69,7 +68,7 @@ def test_get_filepath_from_directory(tmp_path: Path):
         save_pipeline(FakePipeline(), dir_models / "fake_pipeline_01.pkl")
         save_pipeline(FakePipeline(), dir_models / "fake_pipeline_01.other")
 
-        result = get_filepath_from_directory(dir_models, REGEX_MODELS_DEFAULT)
+        result = get_filepath_from_directory(dir_models, test_workbench_configs.models_regex)
 
         assert result == dir_models / "fake_pipeline_01.pkl"
         assert result != dir_models / "fake_pipeline_01.other"
@@ -78,14 +77,14 @@ def test_get_filepath_from_directory(tmp_path: Path):
         shutil.rmtree(dir_models)
 
 
-def test_load_estimator_from_directory(tmp_path: Path):
+def test_load_estimator_from_directory(tmp_path: Path, test_workbench_configs):
 
     try:
         dir_models = tmp_path / "models"
         dir_models.mkdir(exist_ok=True, parents=True)
 
         save_pipeline(FakePipeline(), dir_models / "fake_pipeline_01.pkl")
-        result = load_estimator_from_directory(dir_models, REGEX_MODELS_DEFAULT)
+        result = load_estimator_from_directory(dir_models, test_workbench_configs.models_regex)
 
         assert result is not None
         assert result

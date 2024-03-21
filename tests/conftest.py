@@ -1,7 +1,10 @@
-from typing import Any
+import shutil
+from pathlib import Path
+from typing import Any, Generator, Literal
 
 import pandas as pd
 import pytest
+from pydantic_settings import BaseSettings
 
 from tests.test_workbench_api import examples
 
@@ -43,3 +46,20 @@ def concrete_composition_dict_3() -> dict:
 @pytest.fixture(scope="session")
 def concrete_composition_df(concrete_composition_dict: dict) -> pd.DataFrame:  # pylint: disable=redefined-outer-name
     return pd.DataFrame(concrete_composition_dict, index=[0])
+
+
+@pytest.fixture
+def test_workbench_configs(tmp_path: Path) -> Generator[BaseSettings, None, None]:
+
+    class TestWorkbenchConfigs(BaseSettings):
+
+        env_state: Literal["dev", "test", "prod"] = "test"
+        logs_filepath: Path = tmp_path.joinpath("logs")
+        models_filepath: Path = tmp_path.joinpath("models")
+        models_regex: str = "*.pkl"
+        encoding: str = "utf-8"
+
+    configs = TestWorkbenchConfigs()
+    yield configs
+
+    shutil.rmtree(tmp_path)

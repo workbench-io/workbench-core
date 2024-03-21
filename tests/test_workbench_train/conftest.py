@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from workbench_components.workbench_configs import ENCODING
+from workbench_components.workbench_configs import workbench_configs
 from workbench_train.train_data import TrainData
 from workbench_train.train_settings import TrainSettings
 from workbench_train.train_settings_model import TrainSettingsModel
@@ -22,7 +22,7 @@ def configs_path() -> Path:
 
 @pytest.fixture(scope="session")
 def config_dict() -> dict:
-    with open(dir_configs_example, "r", encoding=ENCODING) as file:
+    with open(dir_configs_example, "r", encoding=workbench_configs.encoding) as file:
         return json.load(file)
 
 

@@ -1,4 +1,4 @@
-from workbench_components.workbench_configs import FILEPATH_MODELS_DEFAULT, REGEX_MODELS_DEFAULT
+from workbench_components.workbench_configs import workbench_configs
 from workbench_components.workbench_transformer.workbench_transformer import WorkbenchTransformer
 from workbench_optimize.optimize_data import OptimizeData
 from workbench_optimize.optimize_settings import OptimizeSettings
@@ -17,7 +17,7 @@ class LoadModel(WorkbenchTransformer):
 
         self.log_info(self.transform, "Starting loading model logic")
 
-        model = load_estimator_from_directory(FILEPATH_MODELS_DEFAULT, REGEX_MODELS_DEFAULT)
+        model = load_estimator_from_directory(workbench_configs.models_filepath, workbench_configs.models_regex)
         data.model = model
 
         self.log_info(self.transform, "Loading model completed")
