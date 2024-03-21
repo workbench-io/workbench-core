@@ -19,14 +19,14 @@ logger = logging.getLogger(__name__)
 
 @router.post("", status_code=status.HTTP_201_CREATED, response_model=OptimizationOutputModel)
 async def run_optimization(
-    optimization_input: Annotated[OptimizationInputModel, Body(...)],
+    inputs: Annotated[OptimizationInputModel, Body(...)],
     model: Annotated[BaseEstimator, Depends(get_model)],
     repo: Annotated[ListRepository, Depends(get_optimizations_repository)],
 ) -> OptimizationOutputModel:
 
     logic, data, settings = factory_optimize.create_instance(name=WorkbenchSteps.OPTIMIZE)
 
-    settings.load_settings_from_model(optimization_input)
+    settings.load_settings_from_model(inputs)
 
     data.model = model
 
@@ -38,7 +38,7 @@ async def run_optimization(
 
     result = OptimizationOutputModel(
         id=db_id,
-        optimization_input=optimization_input,
+        inputs=inputs,
         **data.results.model_dump(),
     )
 

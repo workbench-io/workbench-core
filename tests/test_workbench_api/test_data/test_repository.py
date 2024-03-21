@@ -48,7 +48,7 @@ class TestListRepository:
             id=db_id,
             value=42.0,
             feature=Targets.COMPRESSIVE_STRENGTH,
-            prediction_input=examples.prediction_body_1,
+            inputs=examples.prediction_body_1,
         )
         list_repository_empty.add(db_id, prediction_output_model_42)
 
@@ -89,7 +89,7 @@ class TestListRepository:
             id=db_id,
             value=42.0,
             feature=Targets.COMPRESSIVE_STRENGTH,
-            prediction_input=examples.prediction_body_1,
+            inputs=examples.prediction_body_1,
         )
         list_repository.update(db_id, prediction_output_modified)
 

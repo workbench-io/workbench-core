@@ -31,8 +31,8 @@ class TestRunOptimization:
 
         assert optimize_data.results is not None
 
-        assert isinstance(optimize_data.results.best_value, float)
-        assert optimize_data.results.best_value > 0.0
+        assert isinstance(optimize_data.results.value, float)
+        assert optimize_data.results.value > 0.0
 
-        assert isinstance(optimize_data.results.best_solution, dict)
-        assert optimize_data.results.best_solution != {}
+        assert isinstance(optimize_data.results.solution, dict)
+        assert optimize_data.results.solution != {}

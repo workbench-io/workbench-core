@@ -92,7 +92,7 @@ def prediction_output_model_1() -> PredictionOutputModel:
         id=1,
         value=1.0,
         feature=Targets.COMPRESSIVE_STRENGTH,
-        prediction_input=examples.prediction_body_1,
+        inputs=examples.prediction_body_1,
     )
 
 
@@ -102,7 +102,7 @@ def prediction_output_model_2() -> PredictionOutputModel:
         id=2,
         value=2.0,
         feature=Targets.COMPRESSIVE_STRENGTH,
-        prediction_input=examples.prediction_body_2,
+        inputs=examples.prediction_body_2,
     )
 
 
@@ -112,7 +112,7 @@ def prediction_output_model_3() -> PredictionOutputModel:
         id=3,
         value=3.0,
         feature=Targets.COMPRESSIVE_STRENGTH,
-        prediction_input=examples.prediction_body_3,
+        inputs=examples.prediction_body_3,
     )
 
 
@@ -122,7 +122,7 @@ def prediction_output_model_42() -> PredictionOutputModel:
         id=1,
         value=42.0,
         feature=Targets.COMPRESSIVE_STRENGTH,
-        prediction_input=examples.prediction_body_1,
+        inputs=examples.prediction_body_1,
     )
 
 

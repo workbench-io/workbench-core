@@ -11,8 +11,8 @@ DEFAULT_AGE = 28
 class OptimizationResult(BaseModel):
     """Class to store the result of an optimization process."""
 
-    best_value: float
-    best_solution: dict[str, float] = Field(default_factory=dict)
+    value: float
+    solution: dict[str, float] = Field(default_factory=dict)
     metadata: Optional[dict[str, Any]] = None
 
     def save(self, filepath: Path, *args, **kwargs) -> None:

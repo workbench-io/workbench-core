@@ -43,7 +43,7 @@ class PredictionOutputModel(BaseModel):
     id: int
     value: float
     feature: Targets
-    prediction_input: PredictionInputModel
+    inputs: PredictionInputModel
     version: Optional[str] = None
 
 
@@ -53,5 +53,5 @@ class PredictionUpdateModel(BaseModel):
     id: Optional[int] = None
     value: Optional[float] = None
     feature: Optional[Targets] = None
-    prediction_input: Optional[PredictionInputModel] = None
+    inputs: Optional[PredictionInputModel] = None
     version: Optional[str] = None

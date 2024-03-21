@@ -27,14 +27,14 @@ class OptimizationInputModel(BaseModel):
 class OptimizationOutputModel(BaseModel):
 
     id: int
-    best_value: float
-    best_solution: dict[str, float]
-    optimization_input: OptimizationInputModel
+    value: float
+    solution: dict[str, float]
+    inputs: OptimizationInputModel
 
 
 class OptimizationUpdateModel(BaseModel):
 
     id: Optional[int] = None
-    best_value: Optional[float] = None
-    best_solution: Optional[dict[str, float | int | str]] = None
-    optimization_input: Optional[OptimizationInputModel] = None
+    value: Optional[float] = None
+    solution: Optional[dict[str, float | int | str]] = None
+    inputs: Optional[OptimizationInputModel] = None

@@ -43,9 +43,9 @@ class TestOptimizeRouter:
         response = await async_client.post(RoutersPath.OPTIMIZE.value, json=body)
 
         assert response.status_code == expected_status_code
-        assert response.json().keys() >= {"best_value", "best_solution"}
-        assert isinstance(response.json()["best_value"], float)
-        assert isinstance(response.json()["best_solution"], dict)
+        assert response.json().keys() >= {"value", "solution"}
+        assert isinstance(response.json()["value"], float)
+        assert isinstance(response.json()["solution"], dict)
         assert len(get_test_optimizations_repository().get_all()) == 4
 
     async def test_get_optimization_with_id_returns_status_200(
@@ -90,7 +90,7 @@ class TestOptimizeRouter:
         response = await async_client.get(f"{RoutersPath.OPTIMIZE}/latest")
 
         assert response.status_code == status.HTTP_200_OK
-        assert response.json().keys() >= {"best_value", "best_solution"}
+        assert response.json().keys() >= {"value", "solution"}
 
     async def test_get_last_optimization_returns_status_404_when_there_are_no_optimizations(
         self,
@@ -132,10 +132,10 @@ class TestOptimizeRouter:
     ):
 
         url = f"{RoutersPath.OPTIMIZE}/1"
-        response = await async_client.put(url, json={"best_value": 42.0})
+        response = await async_client.put(url, json={"value": 42.0})
 
         assert response.status_code == status.HTTP_201_CREATED
-        assert pytest.approx(response.json()["best_value"]) == 42.0
+        assert pytest.approx(response.json()["value"]) == 42.0
 
     async def test_update_optimization_return_404_for_non_existent_id(
         self,

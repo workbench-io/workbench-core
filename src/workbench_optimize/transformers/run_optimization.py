@@ -70,8 +70,8 @@ class RunOptimization(WorkbenchTransformer):
         self.log_info(self._save_results, f"Parameters of the best solution : {solution_dict}")
 
         data.results = OptimizationResult(
-            best_value=solution_fitness,
-            best_solution=solution_dict,
+            value=solution_fitness,
+            solution=solution_dict,
         )
 
         self.log_info(self._save_results, "Results saved")

@@ -12,12 +12,12 @@ class TestOptimizationResult:
         filepath = tmp_path / "test.json"
 
         try:
-            OptimizationResult(best_value=1.0, best_solution={"a": 1.0}, metadata={"b": 2.0}).save(filepath)
+            OptimizationResult(value=1.0, solution={"a": 1.0}, metadata={"b": 2.0}).save(filepath)
 
             assert (filepath).exists()
 
             result = json.loads(filepath.read_text())
-            assert result == {"best_value": 1.0, "best_solution": {"a": 1.0}, "metadata": {"b": 2.0}}
+            assert result == {"value": 1.0, "solution": {"a": 1.0}, "metadata": {"b": 2.0}}
 
         finally:
             shutil.rmtree(tmp_path)

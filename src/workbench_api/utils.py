@@ -10,18 +10,18 @@ from workbench_utils.export import load_estimator_from_directory
 T = TypeVar("T")
 
 
-def get_predicted_value(prediction_input: PredictionInputModel, model: BaseEstimator) -> float:
+def get_predicted_value(inputs: PredictionInputModel, model: BaseEstimator) -> float:
     """
     Makes a prediction based on the given prediction input.
 
     Parameters:
-    prediction_input (PredictionInputModel): The prediction input model containing the necessary data.
+    inputs (PredictionInputModel): The prediction input model containing the necessary data.
     model (BaseEstimator): The predictive model used for making the prediction.
 
     Returns:
     float: The predicted value.
     """
-    prediction_input_df = pd.DataFrame([prediction_input.model_dump()])
+    prediction_input_df = pd.DataFrame([inputs.model_dump()])
     return model.predict(prediction_input_df)[0][0]
 
 

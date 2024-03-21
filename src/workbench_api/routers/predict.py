@@ -33,7 +33,7 @@ async def make_prediction_target(
             },
         ),
     ],
-    prediction_input: Annotated[
+    inputs: Annotated[
         PredictionInputModel,
         Body(
             ...,
@@ -54,8 +54,8 @@ async def make_prediction_target(
     repo: Annotated[ListRepository, Depends(get_predictions_repository)],
 ):
 
-    logger.debug(f"Making prediction for '{target}' with input: {prediction_input.model_dump()}")
-    predicted_value = get_predicted_value(prediction_input, model)
+    logger.debug(f"Making prediction for '{target}' with input: {inputs.model_dump()}")
+    predicted_value = get_predicted_value(inputs, model)
     logger.debug(f"Predicted value for '{target}': {predicted_value:.2f}")
 
     db_id = repo.get_next_id()
@@ -64,7 +64,7 @@ async def make_prediction_target(
         id=db_id,
         value=predicted_value,
         feature=target,
-        prediction_input=prediction_input,
+        inputs=inputs,
     )
 
     repo.add(db_id, result)
