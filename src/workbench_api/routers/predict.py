@@ -126,7 +126,7 @@ async def delete_prediction(
         ) from error
 
 
-@router.put("/{target}/{db_id}", response_model=PredictionOutputModel)
+@router.put("/{target}/{db_id}", status_code=status.HTTP_201_CREATED, response_model=PredictionUpdateModel)
 async def update_prediction(
     db_id: int,
     prediction_update: Annotated[
@@ -138,10 +138,7 @@ async def update_prediction(
 
     try:
         result = repo.update(db_id, prediction_update)
-        print(result)
-        print(type(result))
-
-        return Response(status_code=status.HTTP_201_CREATED)
+        return result
     except ListRepositoryError as error:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
