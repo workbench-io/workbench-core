@@ -125,3 +125,24 @@ class TestOptimizeRouter:
 
         assert response.status_code == status.HTTP_404_NOT_FOUND
         assert len(get_test_optimizations_repository().get_all()) == 3
+
+    async def test_update_optimization_return_201_for_existent_id(
+        self,
+        async_client: httpx.AsyncClient,
+    ):
+
+        url = f"{RoutersPath.OPTIMIZE}/1"
+        response = await async_client.put(url, json={"best_value": 42.0})
+
+        assert response.status_code == status.HTTP_201_CREATED
+        assert pytest.approx(response.json()["best_value"]) == 42.0
+
+    async def test_update_optimization_return_404_for_non_existent_id(
+        self,
+        async_client: httpx.AsyncClient,
+    ):
+
+        url = f"{RoutersPath.OPTIMIZE}/999"
+        response = await async_client.put(url, json={})
+
+        assert response.status_code == status.HTTP_404_NOT_FOUND
