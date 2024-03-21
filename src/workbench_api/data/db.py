@@ -1,9 +1,9 @@
 from workbench_api.enums import Routers
-from workbench_api.models.optimize import OptimizeOutputModel
+from workbench_api.models.optimize import OptimizationOutputModel
 from workbench_api.models.predict import PredictionOutputModel
 
 predictions: list[PredictionOutputModel] = []
-optimizations: list[OptimizeOutputModel] = []
+optimizations: list[OptimizationOutputModel] = []
 
 databases: dict[Routers, list[object]] = {
     Routers.PREDICT: predictions,

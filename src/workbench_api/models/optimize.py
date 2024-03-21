@@ -3,7 +3,7 @@ from typing import Literal, Optional, Union
 from pydantic import BaseModel, Field
 
 
-class OptimizeInputModel(BaseModel):
+class OptimizationInputModel(BaseModel):
     """Model for the settings of the train step."""
 
     num_genes: Optional[int] = Field(7, ge=1)
@@ -24,9 +24,17 @@ class OptimizeInputModel(BaseModel):
     random_seed: Optional[int | None] = 1
 
 
-class OptimizeOutputModel(BaseModel):
+class OptimizationOutputModel(BaseModel):
 
     id: int
     best_value: float
     best_solution: dict[str, float]
-    optimization_input: OptimizeInputModel
+    optimization_input: OptimizationInputModel
+
+
+class OptimizationUpdateModel(BaseModel):
+
+    id: Optional[int] = None
+    best_value: Optional[float] = None
+    best_solution: Optional[dict[str, float | int | str]] = None
+    optimization_input: Optional[OptimizationInputModel] = None

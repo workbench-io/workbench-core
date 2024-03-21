@@ -6,7 +6,7 @@ from sklearn.base import BaseEstimator
 
 from workbench_api.data.repository import ListRepository, ListRepositoryError, get_optimizations_repository
 from workbench_api.enums import RoutersPath
-from workbench_api.models.optimize import OptimizeInputModel, OptimizeOutputModel
+from workbench_api.models.optimize import OptimizationInputModel, OptimizationOutputModel, OptimizationUpdateModel
 from workbench_api.utils import get_model
 from workbench_optimize.optimize_factory import factory_optimize
 from workbench_train.common import Targets
@@ -17,12 +17,12 @@ router = APIRouter(prefix=RoutersPath.OPTIMIZE.value)
 logger = logging.getLogger(__name__)
 
 
-@router.post("", status_code=status.HTTP_201_CREATED, response_model=OptimizeOutputModel)
+@router.post("", status_code=status.HTTP_201_CREATED, response_model=OptimizationOutputModel)
 async def run_optimization(
-    optimization_input: Annotated[OptimizeInputModel, Body(...)],
+    optimization_input: Annotated[OptimizationInputModel, Body(...)],
     model: Annotated[BaseEstimator, Depends(get_model)],
     repo: Annotated[ListRepository, Depends(get_optimizations_repository)],
-) -> OptimizeOutputModel:
+) -> OptimizationOutputModel:
 
     logic, data, settings = factory_optimize.create_instance(name=WorkbenchSteps.OPTIMIZE)
 
@@ -36,7 +36,7 @@ async def run_optimization(
 
     db_id = repo.get_next_id()
 
-    result = OptimizeOutputModel(
+    result = OptimizationOutputModel(
         id=db_id,
         optimization_input=optimization_input,
         **data.results.model_dump(),
@@ -51,14 +51,14 @@ async def run_optimization(
 @router.get("", status_code=status.HTTP_200_OK)
 async def get_all_optimizations(
     repo: Annotated[ListRepository, Depends(get_optimizations_repository)],
-) -> list[OptimizeOutputModel]:
+) -> list[OptimizationOutputModel]:
     return repo.get_all()
 
 
-@router.get("/latest", status_code=status.HTTP_200_OK, response_model=OptimizeOutputModel)
+@router.get("/latest", status_code=status.HTTP_200_OK, response_model=OptimizationOutputModel)
 async def get_last_optimization(
     repo: Annotated[ListRepository, Depends(get_optimizations_repository)],
-) -> OptimizeOutputModel:
+) -> OptimizationOutputModel:
 
     result = repo.get_latest()
 
@@ -70,11 +70,11 @@ async def get_last_optimization(
     return result
 
 
-@router.get("/{db_id}", status_code=status.HTTP_200_OK, response_model=OptimizeOutputModel)
+@router.get("/{db_id}", status_code=status.HTTP_200_OK, response_model=OptimizationOutputModel)
 async def get_optimization(
     db_id: int,
     repo: Annotated[ListRepository, Depends(get_optimizations_repository)],
-) -> OptimizeOutputModel:
+) -> OptimizationOutputModel:
     result = repo.get(db_id)
 
     if result:
@@ -86,15 +86,35 @@ async def get_optimization(
     )
 
 
-@router.delete("/{db_id}", response_model=OptimizeOutputModel)
+@router.delete("/{db_id}", response_model=OptimizationOutputModel)
 async def delete_optimization(
     db_id: int,
     repo: Annotated[ListRepository, Depends(get_optimizations_repository)],
-) -> OptimizeOutputModel:
+) -> OptimizationOutputModel:
 
     try:
         repo.delete(db_id)
         return Response(status_code=status.HTTP_204_NO_CONTENT)
+    except ListRepositoryError as error:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Item with ID {db_id} not found",
+        ) from error
+
+
+@router.put("/{db_id}", status_code=status.HTTP_201_CREATED, response_model=OptimizationOutputModel)
+async def update_optimization(
+    db_id: int,
+    optimization_update: Annotated[
+        OptimizationUpdateModel,
+        Body(...),
+    ],
+    repo: Annotated[ListRepository, Depends(get_optimizations_repository)],
+):
+
+    try:
+        result = repo.update(db_id, optimization_update)
+        return result
     except ListRepositoryError as error:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

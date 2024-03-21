@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 from workbench_api.data import db
 from workbench_api.enums import Routers
-from workbench_api.models.optimize import OptimizeOutputModel
+from workbench_api.models.optimize import OptimizationOutputModel
 from workbench_api.models.predict import PredictionOutputModel
 from workbench_api.utils import create_list
 from workbench_components.workench_repository.workbench_repository import WorkbenchRepository
@@ -95,7 +95,7 @@ class PredictionsRepository(ListRepository):
 class OptimizationsRepository(ListRepository):
     """Repository for Optimization results"""
 
-    _db: list[OptimizeOutputModel]
+    _db: list[OptimizationOutputModel]
 
 
 def get_predictions_repository() -> ListRepository:
