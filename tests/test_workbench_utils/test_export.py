@@ -2,7 +2,7 @@ import shutil
 
 from anyio import Path
 
-from workbench_components.common.common_configs import REGEX_MODELS_DEFAULT
+from workbench_components.workbench_configs import REGEX_MODELS_DEFAULT
 from workbench_utils.export import (
     get_filepath_from_directory,
     load_estimator_from_directory,

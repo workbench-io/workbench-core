@@ -4,7 +4,7 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from workbench_components.common.common_configs import ENCODING
+from workbench_components.workbench_configs import ENCODING
 from workbench_process.process_data import ProcessData
 from workbench_process.process_settings import ProcessSettings
 from workbench_process.process_settings_model import ProcessSettingsModel

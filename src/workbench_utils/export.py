@@ -5,7 +5,7 @@ import joblib
 from sklearn.base import BaseEstimator
 from sklearn.pipeline import Pipeline
 
-from workbench_components.common.common_configs import REGEX_MODELS_DEFAULT
+from workbench_components.workbench_configs import REGEX_MODELS_DEFAULT
 
 
 def get_filepath_from_directory(directory: Path, regex: str) -> Path:

@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from workbench_components.common.common_configs import ENCODING
+from workbench_components.workbench_configs import ENCODING
 from workbench_train.train_data import TrainData
 from workbench_train.train_settings import TrainSettings
 from workbench_train.train_settings_model import TrainSettingsModel

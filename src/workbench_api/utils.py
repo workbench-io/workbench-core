@@ -4,7 +4,7 @@ import pandas as pd
 from sklearn.base import BaseEstimator
 
 from workbench_api.models.predict import PredictionInputModel
-from workbench_components.common.common_configs import FILEPATH_MODELS_DEFAULT, REGEX_MODELS_DEFAULT
+from workbench_components.workbench_configs import workbench_configs
 from workbench_utils.export import load_estimator_from_directory
 
 T = TypeVar("T")
@@ -35,7 +35,7 @@ def get_model() -> BaseEstimator:
     Raises:
         FileNotFoundError: If the model file is not found.
     """
-    model = load_estimator_from_directory(FILEPATH_MODELS_DEFAULT, REGEX_MODELS_DEFAULT)
+    model = load_estimator_from_directory(workbench_configs.models_filepath, workbench_configs.models_regex)
     return model
 
 

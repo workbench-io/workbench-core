@@ -3,7 +3,7 @@ from typing import Any, Optional
 
 from pydantic import BaseModel, Field
 
-from workbench_components.common.common_configs import ENCODING
+from workbench_components.workbench_configs import ENCODING
 
 DEFAULT_AGE = 28
 

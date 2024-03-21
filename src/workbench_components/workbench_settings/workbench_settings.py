@@ -7,7 +7,7 @@ from typing import Any
 
 from pydantic import BaseModel
 
-from workbench_components.common.common_configs import ENCODING
+from workbench_components.workbench_configs import ENCODING
 from workbench_components.workbench_logging.workbench_logger import WorkbenchLogger
 
 

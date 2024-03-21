@@ -1,11 +1,10 @@
 import json
 import logging
-import os
 import pathlib
 from enum import StrEnum, auto
 from logging.config import dictConfig
 
-from workbench_components.common.common_configs import ENCODING, FILEPATH_LOGS_DEFAULT
+from workbench_components.workbench_configs import workbench_configs
 
 
 class EnvState(StrEnum):
@@ -16,9 +15,7 @@ class EnvState(StrEnum):
     PROD = auto()
 
 
-LOG_FILEPATH = os.environ.get("LOG_FILEPATH", FILEPATH_LOGS_DEFAULT)
-
-LOG_LEVEL_MAP: dict[EnvState, int] = {
+env_to_log_level_map: dict[EnvState, int] = {
     EnvState.DEV: logging.DEBUG,
     EnvState.TEST: logging.DEBUG,
     EnvState.PROD: logging.INFO,
@@ -30,11 +27,11 @@ LOG_MESSAGE_TEMPLATE = "{class_name}.{function_name}: {message}"
 def setup_logging() -> None:
     """Set up the logging configuration."""
 
-    config_file = pathlib.Path(__file__).parent.joinpath("logging_config.json")
+    logging_config_file = pathlib.Path(__file__).parent.joinpath("logging_config.json")
 
-    with open(config_file, encoding=ENCODING) as file:
+    with open(logging_config_file, encoding=workbench_configs.encoding) as file:
         config = json.load(file)
 
     dictConfig(config)
 
-    logging.getLogger().setLevel(LOG_LEVEL_MAP[os.environ.get("ENV_STATE", "dev")])
+    logging.getLogger().setLevel(env_to_log_level_map[workbench_configs.env_state])

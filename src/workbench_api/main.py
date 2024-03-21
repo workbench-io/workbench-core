@@ -7,7 +7,7 @@ from fastapi.exception_handlers import http_exception_handler
 from fastapi.responses import HTMLResponse
 
 from workbench_api.routers import optimize, predict
-from workbench_components.common.common_configs import ENCODING
+from workbench_components.workbench_configs import ENCODING
 from workbench_components.workbench_logging.logging_configs import setup_logging
 
 dir_html = pathlib.Path(__file__).parent.joinpath("www")

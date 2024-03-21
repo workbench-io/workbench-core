@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from workbench_components.common.common_configs import ENCODING
+from workbench_components.workbench_configs import ENCODING
 from workbench_optimize.optimize_data import OptimizeData
 from workbench_optimize.optimize_settings import OptimizeSettings
 from workbench_optimize.optimize_settings_model import OptimizeSettingsModel
