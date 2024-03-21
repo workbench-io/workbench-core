@@ -126,7 +126,7 @@ async def delete_prediction(
         ) from error
 
 
-@router.put("/{target}/{db_id}", status_code=status.HTTP_201_CREATED, response_model=PredictionUpdateModel)
+@router.put("/{target}/{db_id}", status_code=status.HTTP_201_CREATED, response_model=PredictionOutputModel)
 async def update_prediction(
     db_id: int,
     prediction_update: Annotated[

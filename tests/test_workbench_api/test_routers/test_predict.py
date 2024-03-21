@@ -61,6 +61,7 @@ class TestPredictRouter:
 
         assert response.status_code == status.HTTP_200_OK
         assert isinstance(response.json(), dict)
+        assert response.json().keys() >= {"value", "feature", "version"}
 
     async def test_get_prediction_with_id_returns_status_404_for_non_existent_id(
         self,
@@ -71,6 +72,7 @@ class TestPredictRouter:
         response = await async_client.get(url)
 
         assert response.status_code == status.HTTP_404_NOT_FOUND
+        assert response.json() == {"detail": "Item with ID 999 not found"}
 
     async def test_get_all_predictions_returns_status_200(
         self,
@@ -97,6 +99,7 @@ class TestPredictRouter:
         assert response.status_code == status.HTTP_200_OK
         assert isinstance(response.json(), list)
         assert len(response.json()) == 0
+        assert response.json() == []
 
     async def test_get_last_prediction_returns_status_200(
         self,
@@ -130,3 +133,25 @@ class TestPredictRouter:
 
         assert response.status_code == status.HTTP_404_NOT_FOUND
         assert len(get_test_predictions_repository().get_all()) == 3
+        assert response.json() == {"detail": "Item with ID 999 not found"}
+
+    async def test_update_prediction_return_201_for_existent_id(
+        self,
+        async_client: httpx.AsyncClient,
+    ):
+
+        url = f"{RoutersPath.PREDICT}/{Targets.COMPRESSIVE_STRENGTH}/1"
+        response = await async_client.put(url, json={"version": "1.0.0"})
+
+        assert response.status_code == status.HTTP_201_CREATED
+        assert response.json()["version"] == "1.0.0"
+
+    async def test_update_prediction_return_404_for_non_existent_id(
+        self,
+        async_client: httpx.AsyncClient,
+    ):
+
+        url = f"{RoutersPath.PREDICT}/{Targets.COMPRESSIVE_STRENGTH}/999"
+        response = await async_client.put(url, json={})
+
+        assert response.status_code == status.HTTP_404_NOT_FOUND
