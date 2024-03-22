@@ -1,6 +1,7 @@
 from typing import Any, Callable
 
 from pydantic import BaseModel
+from sqlalchemy import Engine
 
 from workbench_api.enums import Routers
 from workbench_api.models.optimize import OptimizationOutputModel
@@ -17,11 +18,8 @@ class ListRepositoryError(Exception):
 # pylint: disable=keyword-arg-before-vararg
 class ListRepository(WorkbenchRepository):
 
-    _initialized = False
-
     def __init__(self, fn_connection: Callable[[None], Any] = create_list, *args, **kwargs) -> None:
         super().__init__()
-        self._initialized = True
         self._db: list[BaseModel] = fn_connection(*args, **kwargs)
 
     def get(self, db_id: int) -> BaseModel:
@@ -84,6 +82,31 @@ class ListRepository(WorkbenchRepository):
         if self._db:
             return self._db[-1].id + 1
         return 1
+
+
+class SQLRepository(WorkbenchRepository):
+
+    def __init__(self, fn_connection: Callable[[None], Any], *args, **kwargs) -> None:
+        super().__init__()
+        self.engine: Engine = fn_connection(*args, **kwargs)
+
+    def get(self, db_id: int) -> BaseModel:
+        pass
+
+    def get_latest(self) -> BaseModel:
+        pass
+
+    def get_all(self) -> list[BaseModel]:
+        pass
+
+    def add(self, db_id: int, item: BaseModel) -> BaseModel:  # pylint: disable=unused-argument
+        pass
+
+    def update(self, db_id: int, new_item: BaseModel) -> BaseModel:
+        pass
+
+    def delete(self, db_id: int) -> None:
+        pass
 
 
 class PredictionsRepository(ListRepository):

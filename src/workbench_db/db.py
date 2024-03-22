@@ -47,11 +47,16 @@ def get_database_engine(db_url: str, *args, **kwargs) -> Engine:
     return engine
 
 
-def create_db_and_tables(engine: Engine, filepath_db: Path | None = None):
+def extract_path_from_db_url(db_url: str) -> Path:
+    return Path(db_url.replace("sqlite:///", ""))
 
-    if filepath_db is not None and filepath_db.exists():
-        filepath_db.unlink()
 
-    filepath_db.parent.mkdir(parents=True, exist_ok=True)
+def create_db_and_tables(engine: Engine, filepath_url: str | None = None):
+
+    if filepath_url is not None and filepath_url.startswith("sqlite"):
+        filepath_db = extract_path_from_db_url(filepath_url)
+
+        if filepath_db.exists():
+            filepath_db.unlink()
 
     SQLModel.metadata.create_all(engine)

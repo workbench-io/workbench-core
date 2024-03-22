@@ -1,11 +1,10 @@
 import logging
-from pathlib import Path
 from typing import Optional
 
 from sqlmodel import Field, SQLModel
 
 from workbench_components.workbench_configs import workbench_configs
-from workbench_db.db import create_db_and_tables, get_database_engine, get_database_url
+from workbench_db.db import create_db_and_tables, get_database_engine
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -29,11 +28,10 @@ class PredictionsTable(SQLModel, table=True):
 
 
 if __name__ == "__main__":
-    url = get_database_url(workbench_configs.database_filepath)
 
     logger.info("Creating database engine")
-    engine = get_database_engine(url)
+    engine = get_database_engine(workbench_configs.database_url)
 
     logger.info("Creating database and tables")
-    create_db_and_tables(engine, Path(workbench_configs.database_filepath))
+    create_db_and_tables(engine, workbench_configs.database_url)
     logger.info("Database and tables created")
