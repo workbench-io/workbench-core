@@ -11,7 +11,7 @@ class WorkbenchConfigs(BaseSettings):
     env_state: Literal["dev", "test", "prod"] = "dev"
     logs_filepath: Path
     models_filepath: Path
-    database_filepath: str
+    database_filepath: Path
     models_regex: str = "*.pkl"
     encoding: str = ENCODING_DEFAULT
 
