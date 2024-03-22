@@ -2,12 +2,12 @@ from typing import Any, Callable
 
 from pydantic import BaseModel
 
-from workbench_api.data import db
 from workbench_api.enums import Routers
 from workbench_api.models.optimize import OptimizationOutputModel
 from workbench_api.models.predict import PredictionOutputModel
 from workbench_api.utils import create_list
 from workbench_components.workench_repository.workbench_repository import WorkbenchRepository
+from workbench_db import db
 
 
 class ListRepositoryError(Exception):

@@ -1,3 +1,8 @@
+from pathlib import Path
+
+from sqlalchemy import Engine
+from sqlmodel import SQLModel, create_engine
+
 from workbench_api.enums import Routers
 from workbench_api.models.optimize import OptimizationOutputModel
 from workbench_api.models.predict import PredictionOutputModel
@@ -29,3 +34,22 @@ def get_database(name: Routers) -> list[object]:
         return databases[name]
 
     raise KeyError(f"Invalid database name: {name}")
+
+
+def get_database_url(filepath_db: str) -> str:
+
+    sqlite_url = f"sqlite:///{filepath_db}"
+    return sqlite_url
+
+
+def get_database_engine(db_url: str, *args, **kwargs) -> Engine:
+    engine = create_engine(db_url, *args, **kwargs)
+    return engine
+
+
+def create_db_and_tables(engine: Engine, filepath_db: Path | None = None):
+
+    if filepath_db is not None and filepath_db.exists():
+        filepath_db.unlink()
+
+    SQLModel.metadata.create_all(engine)

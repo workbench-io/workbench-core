@@ -4,10 +4,10 @@ from typing import Annotated
 from fastapi import APIRouter, Body, Depends, HTTPException, Response, status
 from sklearn.base import BaseEstimator
 
-from workbench_api.data.repository import ListRepository, ListRepositoryError, get_optimizations_repository
 from workbench_api.enums import RoutersPath
 from workbench_api.models.optimize import OptimizationInputModel, OptimizationOutputModel, OptimizationUpdateModel
 from workbench_api.utils import get_model
+from workbench_db.repository import ListRepository, ListRepositoryError, get_optimizations_repository
 from workbench_optimize.optimize_factory import factory_optimize
 from workbench_train.common import Targets
 from workbench_utils.enums import WorkbenchSteps

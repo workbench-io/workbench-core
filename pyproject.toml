@@ -42,6 +42,8 @@ pytest-asyncio = "^0.23.5.post1"
 asgi-lifespan = "^2.1.0"
 pydantic-settings = "^2.2.1"
 python-dotenv = "^1.0.1"
+sqlalchemy = "^2.0.28"
+sqlmodel = "^0.0.16"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.6.0"
