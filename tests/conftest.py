@@ -56,6 +56,7 @@ def test_workbench_configs(tmp_path: Path) -> Generator[BaseSettings, None, None
         env_state: Literal["dev", "test", "prod"] = "test"
         logs_filepath: Path = tmp_path.joinpath("logs")
         models_filepath: Path = tmp_path.joinpath("models")
+        database_url: str = f"sqlite:///{tmp_path.absolute()}/database.db"
         models_regex: str = "*.pkl"
         encoding: str = "utf-8"
 

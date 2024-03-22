@@ -2,8 +2,17 @@ import pytest
 
 from tests.test_workbench_api import examples
 from workbench_api.models.predict import PredictionOutputModel
-from workbench_db.repository import ListRepository, ListRepositoryError
+from workbench_db.db import get_database_engine
+from workbench_db.repository import ListRepository, ListRepositoryError, SQLRepository
 from workbench_train.common import Targets
+
+
+class TestSQLRepository:
+
+    def test_sql_repository_instantiates(self, test_workbench_configs):
+
+        repo = SQLRepository(get_database_engine, test_workbench_configs.database_url)
+        assert repo is not None
 
 
 class TestListRepository:
