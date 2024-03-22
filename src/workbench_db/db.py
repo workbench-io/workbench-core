@@ -52,4 +52,6 @@ def create_db_and_tables(engine: Engine, filepath_db: Path | None = None):
     if filepath_db is not None and filepath_db.exists():
         filepath_db.unlink()
 
+    filepath_db.parent.mkdir(parents=True, exist_ok=True)
+
     SQLModel.metadata.create_all(engine)
