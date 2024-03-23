@@ -115,3 +115,60 @@ class TestSQLRepository:
         assert result.value == 3.0
         assert result.feature == Targets.COMPRESSIVE_STRENGTH
         assert result.inputs == "{'a': 3.0, 'b': 3.0}"
+
+    def test_update_updates_an_item_in_the_database(
+        self,
+        sql_repository: SQLRepository,
+    ):
+
+        updated_item = Prediction(
+            id=1,
+            value=1.5,
+            feature=Targets.COMPRESSIVE_STRENGTH,
+            inputs="{'a': 1.5, 'b': 1.5}",
+        )
+
+        result = sql_repository.update(Prediction, 2, updated_item)
+
+        assert result.id == updated_item.id
+        assert result.value == updated_item.value
+        assert result.feature == updated_item.feature
+        assert result.inputs == updated_item.inputs
+
+    def test_update_updates_an_item_in_the_database_with_partial_update(
+        self,
+        sql_repository: SQLRepository,
+    ):
+
+        updated_item = Prediction(
+            id=1,
+            value=1.5,
+            feature=None,
+            inputs=None,
+        )
+
+        result = sql_repository.update(Prediction, 1, updated_item)
+
+        assert result.id == updated_item.id
+        assert result.value == updated_item.value
+        assert result.feature == Targets.COMPRESSIVE_STRENGTH
+        assert result.inputs == "{'a': 1.0, 'b': 1.0}"
+
+    def test_update_performs_no_update_when_only_id_is_provided(
+        self,
+        sql_repository: SQLRepository,
+    ):
+
+        updated_item = Prediction(
+            id=1,
+            value=None,
+            feature=None,
+            inputs=None,
+        )
+
+        result = sql_repository.update(Prediction, 1, updated_item)
+
+        assert result.id == updated_item.id
+        assert result.value == 1.0
+        assert result.feature == Targets.COMPRESSIVE_STRENGTH
+        assert result.inputs == "{'a': 1.0, 'b': 1.0}"

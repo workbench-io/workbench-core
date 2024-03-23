@@ -32,8 +32,16 @@ class SQLRepository(WorkbenchRepository):
             results = session.exec(statement).all()
             return results
 
-    def update(self, db_id: int, new_item: SQLModel) -> SQLModel:
-        pass
+    def update(self, model: SQLModel, db_id: int, new_item: SQLModel) -> SQLModel:  # pylint: disable=arguments-differ
+
+        with Session(self._engine) as session:
+            item: SQLModel = session.get(model, db_id)
+            item_updated = item.model_copy(update=new_item.model_dump(exclude_unset=True, exclude_none=True))
+
+            session.add(item_updated)
+            session.commit()
+            session.refresh(item_updated)
+            return item_updated
 
     def delete(self, db_id: int) -> None:
         pass
