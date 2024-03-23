@@ -181,7 +181,7 @@ def sql_repository_empty(
 ) -> Generator[SQLRepository, None, None]:
 
     try:
-        repo = SQLRepository(engine_testing)
+        repo = SQLRepository(engine_testing, Prediction)
         yield repo
 
     finally:
@@ -194,7 +194,7 @@ def sql_repository(
 ) -> Generator[SQLRepository, None, None]:
 
     try:
-        repo = SQLRepository(engine_testing)
+        repo = SQLRepository(engine_testing, Prediction)
         yield repo
 
     finally:

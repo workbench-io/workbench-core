@@ -6,9 +6,10 @@ from workbench_components.workench_repository.workbench_repository import Workbe
 
 class SQLRepository(WorkbenchRepository):
 
-    def __init__(self, engine: Engine) -> None:
+    def __init__(self, engine: Engine, model: SQLModel) -> None:
         super().__init__()
         self._engine: Engine = engine
+        self._model: SQLModel = model
 
     def add(self, item: SQLModel) -> SQLModel:  # pylint: disable=arguments-differ
         with Session(self._engine) as session:
@@ -18,26 +19,26 @@ class SQLRepository(WorkbenchRepository):
 
             return item
 
-    def get(self, model: SQLModel, db_id: int) -> SQLModel:  # pylint: disable=arguments-differ
+    def get(self, db_id: int) -> SQLModel:  # pylint: disable=arguments-differ
         with Session(self._engine) as session:
-            return session.get(model, db_id)
+            return session.get(self._model, db_id)
 
-    def get_latest(self, model: SQLModel) -> SQLModel:
+    def get_latest(self) -> SQLModel:
         with Session(self._engine) as session:
-            statement = select(model).order_by(model.id.desc())
+            statement = select(self._model).order_by(self._model.id.desc())
             result = session.exec(statement).first()
             return result
 
-    def get_all(self, model: SQLModel) -> list[SQLModel]:  # pylint: disable=arguments-differ
+    def get_all(self) -> list[SQLModel]:  # pylint: disable=arguments-differ
         with Session(self._engine) as session:
-            statement = select(model)
+            statement = select(self._model)
             results = session.exec(statement).all()
             return results
 
-    def update(self, model: SQLModel, db_id: int, new_item: SQLModel) -> SQLModel:  # pylint: disable=arguments-differ
+    def update(self, db_id: int, new_item: SQLModel) -> SQLModel:  # pylint: disable=arguments-differ
 
         with Session(self._engine) as session:
-            item: SQLModel = session.get(model, db_id)
+            item: SQLModel = session.get(self._model, db_id)
             item_updated = item.model_copy(update=new_item.model_dump(exclude_unset=True, exclude_none=True))
 
             session.add(item_updated)
@@ -45,11 +46,11 @@ class SQLRepository(WorkbenchRepository):
             session.refresh(item_updated)
             return item_updated
 
-    def delete(self, model: SQLModel, db_id: int) -> SQLModel:  # pylint: disable=arguments-differ
+    def delete(self, db_id: int) -> SQLModel:  # pylint: disable=arguments-differ
 
         with Session(self._engine) as session:
 
-            item: SQLModel = session.get(model, db_id)
+            item: SQLModel = session.get(self._model, db_id)
 
             session.delete(item)
             session.commit()
