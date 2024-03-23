@@ -4,7 +4,6 @@ from typing import Generator
 
 import pytest
 from sqlalchemy import Engine, create_engine
-from sqlmodel import SQLModel
 
 from tests.test_workbench_api import examples
 from workbench_api.models.predict import PredictionOutputModel
@@ -93,29 +92,28 @@ def engine_testing(database_url: str) -> Generator[Engine, None, None]:
     engine.dispose()
 
 
+@pytest.fixture
 def db_testing(engine_testing: Engine, database_url: str) -> Generator[Engine, None, None]:
 
-    assert isinstance(Optimization, SQLModel)
-    assert isinstance(Prediction, SQLModel)
+    DIR_RESOURCES.mkdir(parents=True, exist_ok=True)
+    dir_test_db = DIR_RESOURCES.joinpath("test.db")
+    database_url = f"sqlite:///{dir_test_db}"
+
+    assert check_sql_model(Optimization)
+    assert check_sql_model(Prediction)
 
     create_db_and_tables(engine_testing, database_url)
 
 
 @pytest.fixture
-def sql_repository(engine_testing) -> Generator[SQLRepository, None, None]:
+def sql_repository(
+    engine_testing, db_testing, database_url  # pylint: disable=unused-argument
+) -> Generator[SQLRepository, None, None]:
 
     try:
-        dir_test_db = DIR_RESOURCES.joinpath("test.db")
-        database_url = f"sqlite:///{dir_test_db}"
-
-        assert check_sql_model(Optimization)
-        assert check_sql_model(Prediction)
-
-        create_db_and_tables(engine_testing, database_url)
 
         repo = SQLRepository(get_database_engine, database_url)
         yield repo
 
     finally:
         engine_testing.dispose()
-        dir_test_db.unlink()
