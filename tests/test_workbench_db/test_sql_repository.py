@@ -1,3 +1,4 @@
+from sqlalchemy import Engine
 from sqlmodel import Session, select
 
 from workbench_db.models import Prediction
@@ -14,8 +15,8 @@ class TestSQLRepository:
 
     def test_add_inserts_instance_to_database(
         self,
-        sql_repository_empty,
-        engine_testing,
+        sql_repository_empty: SQLRepository,
+        engine_testing: Engine,
         prediction_example_1: Prediction,
     ):
 
@@ -35,8 +36,8 @@ class TestSQLRepository:
 
     def test_add_inserts_instance_to_database_with_data(
         self,
-        engine_testing,
-        sql_repository,
+        engine_testing: Engine,
+        sql_repository: SQLRepository,
         prediction_example_4: Prediction,
     ):
 
@@ -54,8 +55,8 @@ class TestSQLRepository:
 
     def test_add_inserts_multiple_instances_to_database_with_data(
         self,
-        engine_testing,
-        sql_repository,
+        engine_testing: Engine,
+        sql_repository: SQLRepository,
         prediction_example_4: Prediction,
         prediction_example_5: Prediction,
     ):
@@ -78,7 +79,7 @@ class TestSQLRepository:
 
     def test_get_returns_the_right_object_by_id(
         self,
-        sql_repository,
+        sql_repository: SQLRepository,
     ):
 
         result = sql_repository.get(Prediction, 1)
@@ -90,7 +91,7 @@ class TestSQLRepository:
 
     def test_get_all_returns_list_of_all_data_in_database(
         self,
-        sql_repository,
+        sql_repository: SQLRepository,
     ):
 
         result = sql_repository.get_all(Prediction)
@@ -101,3 +102,16 @@ class TestSQLRepository:
         for idx, item in enumerate(result):
             assert item.id == idx + 1
             assert isinstance(item, Prediction)
+
+    def test_get_latest_returns_last_item_to_be_added_to_the_database(
+        self,
+        sql_repository: SQLRepository,
+    ):
+
+        result = sql_repository.get_latest(Prediction)
+
+        assert isinstance(result, Prediction)
+        assert result.id == 3
+        assert result.value == 3.0
+        assert result.feature == Targets.COMPRESSIVE_STRENGTH
+        assert result.inputs == "{'a': 3.0, 'b': 3.0}"
