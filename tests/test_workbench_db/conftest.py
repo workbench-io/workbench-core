@@ -27,6 +27,7 @@ def dir_resources() -> Generator[Path, None, None]:
         dir_path.mkdir(parents=True, exist_ok=True)
 
     yield dir_path
+
     shutil.rmtree(dir_path)
 
 
@@ -81,8 +82,13 @@ def list_repository_empty() -> Generator:
 
 @pytest.fixture(scope="session")
 def database_url(dir_resources: Path) -> str:
+
     # return "sqlite:///:memory:"
-    return f"sqlite:///{dir_resources.joinpath('test.db')}"
+
+    dir_test_db = dir_resources.joinpath("test.db")
+    database_url = f"sqlite:///{dir_test_db}"
+
+    return database_url
 
 
 @pytest.fixture(scope="session")
@@ -94,10 +100,6 @@ def engine_testing(database_url: str) -> Generator[Engine, None, None]:
 
 @pytest.fixture
 def db_testing(engine_testing: Engine, database_url: str) -> Generator[Engine, None, None]:
-
-    DIR_RESOURCES.mkdir(parents=True, exist_ok=True)
-    dir_test_db = DIR_RESOURCES.joinpath("test.db")
-    database_url = f"sqlite:///{dir_test_db}"
 
     assert check_sql_model(Optimization)
     assert check_sql_model(Prediction)
