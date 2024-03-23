@@ -2,6 +2,7 @@ from pathlib import Path
 
 from sqlalchemy import Engine
 from sqlmodel import SQLModel, create_engine
+from sqlmodel.main import SQLModelMetaclass
 
 from workbench_api.enums import Routers
 from workbench_api.models.optimize import OptimizationOutputModel
@@ -60,3 +61,7 @@ def create_db_and_tables(engine: Engine, db_url: str | None = None):
             filepath_db.unlink()
 
     SQLModel.metadata.create_all(engine)
+
+
+def check_sql_model(model: SQLModel) -> bool:
+    return isinstance(model, SQLModelMetaclass)

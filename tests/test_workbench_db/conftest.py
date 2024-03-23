@@ -1,14 +1,14 @@
 import shutil
+from pathlib import Path
 from typing import Generator
 
 import pytest
-from anyio import Path
 from sqlalchemy import Engine, create_engine
 from sqlmodel import SQLModel
 
 from tests.test_workbench_api import examples
 from workbench_api.models.predict import PredictionOutputModel
-from workbench_db.db import create_db_and_tables, get_database_engine
+from workbench_db.db import check_sql_model, create_db_and_tables, get_database_engine
 from workbench_db.list_repository import ListRepository
 from workbench_db.main import Optimization, Prediction
 from workbench_db.sql_repository import SQLRepository
@@ -16,13 +16,19 @@ from workbench_train.common import Targets
 
 # pylint: disable=redefined-outer-name
 
+DIR_RESOURCES = Path(__file__).parent.joinpath("resources")
+
 
 @pytest.fixture(scope="session")
 def dir_resources() -> Generator[Path, None, None]:
 
-    dir_resources = Path(__file__).parent.joinpath("resources")
-    yield dir_resources
-    shutil.rmtree(dir_resources)
+    dir_path = DIR_RESOURCES
+
+    if not dir_path.exists():
+        dir_path.mkdir(parents=True, exist_ok=True)
+
+    yield dir_path
+    shutil.rmtree(dir_path)
 
 
 @pytest.fixture(scope="session")
@@ -74,13 +80,13 @@ def list_repository_empty() -> Generator:
     yield repo
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def database_url(dir_resources: Path) -> str:
     # return "sqlite:///:memory:"
     return f"sqlite:///{dir_resources.joinpath('test.db')}"
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def engine_testing(database_url: str) -> Generator[Engine, None, None]:
     engine: Engine = create_engine(database_url)
     yield engine
@@ -96,6 +102,20 @@ def db_testing(engine_testing: Engine, database_url: str) -> Generator[Engine, N
 
 
 @pytest.fixture
-def sql_repository(database_url: str) -> Generator[SQLRepository, None, None]:
-    repo = SQLRepository(get_database_engine, database_url)
-    yield repo
+def sql_repository(engine_testing) -> Generator[SQLRepository, None, None]:
+
+    try:
+        dir_test_db = DIR_RESOURCES.joinpath("test.db")
+        database_url = f"sqlite:///{dir_test_db}"
+
+        assert check_sql_model(Optimization)
+        assert check_sql_model(Prediction)
+
+        create_db_and_tables(engine_testing, database_url)
+
+        repo = SQLRepository(get_database_engine, database_url)
+        yield repo
+
+    finally:
+        engine_testing.dispose()
+        dir_test_db.unlink()
