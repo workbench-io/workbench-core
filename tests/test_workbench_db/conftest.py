@@ -4,10 +4,11 @@ from typing import Generator
 
 import pytest
 from sqlalchemy import Engine, create_engine
+from sqlmodel import Session
 
 from tests.test_workbench_api import examples
 from workbench_api.models.predict import PredictionOutputModel
-from workbench_db.db import check_sql_model, create_db_and_tables, get_database_engine
+from workbench_db.db import check_sql_model, create_db_and_tables
 from workbench_db.list_repository import ListRepository
 from workbench_db.main import Optimization, Prediction
 from workbench_db.sql_repository import SQLRepository
@@ -18,7 +19,7 @@ from workbench_train.common import Targets
 DIR_RESOURCES = Path(__file__).parent.joinpath("resources")
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def prediction_example_1() -> Prediction:
     return Prediction(
         value=1.0,
@@ -27,7 +28,7 @@ def prediction_example_1() -> Prediction:
     )
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def prediction_example_2() -> Prediction:
     return Prediction(
         value=2.0,
@@ -36,12 +37,30 @@ def prediction_example_2() -> Prediction:
     )
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def prediction_example_3() -> Prediction:
     return Prediction(
         value=3.0,
         feature=Targets.COMPRESSIVE_STRENGTH,
         inputs="{'a': 3.0, 'b': 3.0}",
+    )
+
+
+@pytest.fixture(scope="function")
+def prediction_example_4() -> Prediction:
+    return Prediction(
+        value=4.0,
+        feature=Targets.COMPRESSIVE_STRENGTH,
+        inputs="{'a': 4.0, 'b': 4.0}",
+    )
+
+
+@pytest.fixture(scope="function")
+def prediction_example_5() -> Prediction:
+    return Prediction(
+        value=5.0,
+        feature=Targets.COMPRESSIVE_STRENGTH,
+        inputs="{'a': 5.0, 'b': 5.0}",
     )
 
 
@@ -58,7 +77,7 @@ def dir_resources() -> Generator[Path, None, None]:
     shutil.rmtree(dir_path)
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def prediction_output_model_1() -> PredictionOutputModel:
     return PredictionOutputModel(
         id=1,
@@ -68,7 +87,7 @@ def prediction_output_model_1() -> PredictionOutputModel:
     )
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def prediction_output_model_2() -> PredictionOutputModel:
     return PredictionOutputModel(
         id=2,
@@ -78,7 +97,7 @@ def prediction_output_model_2() -> PredictionOutputModel:
     )
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def prediction_output_model_3() -> PredictionOutputModel:
     return PredictionOutputModel(
         id=3,
@@ -135,13 +154,47 @@ def db_testing_empty(engine_testing: Engine, database_url: str) -> Generator[Eng
 
 
 @pytest.fixture
-def sql_repository(
-    engine_testing, db_testing_empty, database_url  # pylint: disable=unused-argument
+def db_testing_with_data(
+    engine_testing: Engine,
+    database_url: str,
+    prediction_example_1: Prediction,
+    prediction_example_2: Prediction,
+    prediction_example_3: Prediction,
+) -> Generator[Engine, None, None]:
+
+    assert check_sql_model(Optimization)
+    assert check_sql_model(Prediction)
+
+    create_db_and_tables(engine_testing, database_url)
+
+    with Session(engine_testing) as session:
+
+        session.add(prediction_example_1)
+        session.add(prediction_example_2)
+        session.add(prediction_example_3)
+        session.commit()
+
+
+@pytest.fixture
+def sql_repository_empty(
+    engine_testing, db_testing_empty  # pylint: disable=unused-argument
 ) -> Generator[SQLRepository, None, None]:
 
     try:
+        repo = SQLRepository(engine_testing)
+        yield repo
 
-        repo = SQLRepository(get_database_engine, database_url)
+    finally:
+        engine_testing.dispose()
+
+
+@pytest.fixture
+def sql_repository(
+    engine_testing, db_testing_with_data  # pylint: disable=unused-argument
+) -> Generator[SQLRepository, None, None]:
+
+    try:
+        repo = SQLRepository(engine_testing)
         yield repo
 
     finally:

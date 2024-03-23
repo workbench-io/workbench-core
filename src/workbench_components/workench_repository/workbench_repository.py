@@ -1,21 +1,7 @@
-from typing import Any, Callable, Optional, Protocol
+from typing import Any, Optional, Protocol
 
 
 class WorkbenchRepository(Protocol):
-
-    class WorkbenchRepository:
-        def __init__(self, fn_connection: Callable[[None], Any], *args, **kwargs) -> None:
-            """
-            Initializes a new instance of the WorkbenchRepository class.
-
-            Args:
-                fn_connection (Callable[[None], Any]): A function that returns a database connection.
-
-            Returns:
-                None
-            """
-            super().__init__()
-            self._db: list[object] = fn_connection(*args, **kwargs)
 
     def get(self, db_id: int) -> Optional[Any]:
         """
