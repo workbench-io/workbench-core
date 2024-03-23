@@ -16,6 +16,8 @@ class SQLRepository(WorkbenchRepository):
             session.commit()
             session.refresh(item)
 
+            return item
+
     def get(self, model: SQLModel, db_id: int) -> SQLModel:  # pylint: disable=arguments-differ
         with Session(self._engine) as session:
             return session.get(model, db_id)
@@ -43,5 +45,13 @@ class SQLRepository(WorkbenchRepository):
             session.refresh(item_updated)
             return item_updated
 
-    def delete(self, db_id: int) -> None:
-        pass
+    def delete(self, model: SQLModel, db_id: int) -> SQLModel:  # pylint: disable=arguments-differ
+
+        with Session(self._engine) as session:
+
+            item: SQLModel = session.get(model, db_id)
+
+            session.delete(item)
+            session.commit()
+
+            return item

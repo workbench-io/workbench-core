@@ -20,7 +20,10 @@ class TestSQLRepository:
         prediction_example_1: Prediction,
     ):
 
-        sql_repository_empty.add(prediction_example_1)
+        result = sql_repository_empty.add(prediction_example_1)
+
+        assert isinstance(result, Prediction)
+        assert result.id == 1
 
         with Session(engine_testing) as session:
             statement = select(Prediction)
@@ -41,7 +44,10 @@ class TestSQLRepository:
         prediction_example_4: Prediction,
     ):
 
-        sql_repository.add(prediction_example_4)
+        result = sql_repository.add(prediction_example_4)
+
+        assert isinstance(result, Prediction)
+        assert result.id == 4
 
         with Session(engine_testing) as new_session:
             statement = select(Prediction)
@@ -172,3 +178,22 @@ class TestSQLRepository:
         assert result.value == 1.0
         assert result.feature == Targets.COMPRESSIVE_STRENGTH
         assert result.inputs == "{'a': 1.0, 'b': 1.0}"
+
+    def test_delete_removes_an_item_from_the_database(
+        self,
+        sql_repository: SQLRepository,
+        engine_testing: Engine,
+    ):
+
+        result = sql_repository.delete(Prediction, 1)
+
+        assert result.id == 1
+        assert result.value == 1.0
+        assert result.feature == Targets.COMPRESSIVE_STRENGTH
+        assert result.inputs == "{'a': 1.0, 'b': 1.0}"
+
+        with Session(engine_testing) as session:
+            statement = select(Prediction).where(Prediction.id == 1)
+            query = session.exec(statement).first()
+
+            assert query is None
