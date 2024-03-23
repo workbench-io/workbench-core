@@ -7,7 +7,7 @@ from workbench_api.enums import RoutersPath
 from workbench_api.models.predict import PredictionInputModel, PredictionOutputModel, PredictionUpdateModel
 from workbench_api.utils import get_predicted_value
 from workbench_components.workbench_configs import workbench_configs
-from workbench_db.repository import ListRepository, ListRepositoryError, get_predictions_repository
+from workbench_db.list_repository import ListRepository, ListRepositoryError, get_predictions_repository
 from workbench_train.common import Targets
 from workbench_utils.export import get_filepath_from_directory, load_pipeline
 

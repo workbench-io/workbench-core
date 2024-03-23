@@ -1,8 +1,7 @@
-from abc import ABC, abstractmethod
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Optional, Protocol
 
 
-class WorkbenchRepository(ABC):
+class WorkbenchRepository(Protocol):
 
     class WorkbenchRepository:
         def __init__(self, fn_connection: Callable[[None], Any], *args, **kwargs) -> None:
@@ -18,7 +17,6 @@ class WorkbenchRepository(ABC):
             super().__init__()
             self._db: list[object] = fn_connection(*args, **kwargs)
 
-    @abstractmethod
     def get(self, db_id: int) -> Optional[Any]:
         """
         Retrieves an item from the repository based on the given database ID.
@@ -31,7 +29,6 @@ class WorkbenchRepository(ABC):
         """
         raise NotImplementedError
 
-    @abstractmethod
     def get_all(self) -> list[Any]:
         """
         Retrieves all items from the repository.
@@ -41,7 +38,6 @@ class WorkbenchRepository(ABC):
         """
         raise NotImplementedError
 
-    @abstractmethod
     def add(self, db_id: int, item: Any) -> None:
         """
         Adds an item to the repository.
@@ -55,7 +51,6 @@ class WorkbenchRepository(ABC):
         """
         raise NotImplementedError
 
-    @abstractmethod
     def update(self, db_id: int, new_item: Any) -> None:
         """
         Updates an item in the repository based on the given database ID.
@@ -69,7 +64,6 @@ class WorkbenchRepository(ABC):
         """
         raise NotImplementedError
 
-    @abstractmethod
     def delete(self, db_id: int) -> None:
         """
         Deletes an item from the repository based on the given database ID.

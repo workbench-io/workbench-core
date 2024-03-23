@@ -36,3 +36,12 @@ def test_extract_path_from_db_url():
     result = extract_path_from_db_url(db_url)
 
     assert result == Path(expected_path)
+
+
+def test_extract_path_from_db_url_for_in_memory_db():
+    db_url = "sqlite:///:memory:"
+    expected_path = ":memory:"
+
+    result = extract_path_from_db_url(db_url)
+
+    assert result == Path(expected_path)

@@ -51,10 +51,10 @@ def extract_path_from_db_url(db_url: str) -> Path:
     return Path(db_url.replace("sqlite:///", ""))
 
 
-def create_db_and_tables(engine: Engine, filepath_url: str | None = None):
+def create_db_and_tables(engine: Engine, db_url: str | None = None):
 
-    if filepath_url is not None and filepath_url.startswith("sqlite"):
-        filepath_db = extract_path_from_db_url(filepath_url)
+    if db_url is not None and db_url.startswith("sqlite"):
+        filepath_db = extract_path_from_db_url(db_url)
 
         if filepath_db.exists():
             filepath_db.unlink()

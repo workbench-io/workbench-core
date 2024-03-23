@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
-class OptimizationsTable(SQLModel, table=True):
+class Optimization(SQLModel, table=True):
 
     id: Optional[int] = Field(default=None, primary_key=True)
     value: float
@@ -18,7 +18,7 @@ class OptimizationsTable(SQLModel, table=True):
     inputs: str
 
 
-class PredictionsTable(SQLModel, table=True):
+class Prediction(SQLModel, table=True):
 
     id: Optional[int] = Field(default=None, primary_key=True)
     value: float
