@@ -10,7 +10,11 @@ from fastapi.testclient import TestClient
 from workbench_api.enums import RoutersPath
 from workbench_api.main import app
 from workbench_components.workbench_logging.logging_configs import EnvState
-from workbench_db.list_repository import ListRepository, get_optimizations_repository, get_predictions_repository
+from workbench_db.repositories.list_repository import (
+    ListRepository,
+    get_optimizations_repository,
+    get_predictions_repository,
+)
 from workbench_train.common import Targets
 
 os.environ["ENV_STATE"] = EnvState.TEST

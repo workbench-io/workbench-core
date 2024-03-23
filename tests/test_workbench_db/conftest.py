@@ -9,9 +9,9 @@ from sqlmodel import Session
 from tests.test_workbench_api import examples
 from workbench_api.models.predict import PredictionOutputModel
 from workbench_db.db import check_sql_model, create_db_and_tables
-from workbench_db.list_repository import ListRepository
 from workbench_db.main import Optimization, Prediction
-from workbench_db.sql_repository import SQLRepository
+from workbench_db.repositories.list_repository import ListRepository
+from workbench_db.repositories.sql_repository import SQLRepository
 from workbench_train.common import Targets
 
 # pylint: disable=redefined-outer-name

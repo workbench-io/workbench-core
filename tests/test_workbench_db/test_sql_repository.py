@@ -2,7 +2,7 @@ from sqlalchemy import Engine
 from sqlmodel import Session, select
 
 from workbench_db.models import Prediction
-from workbench_db.sql_repository import SQLRepository
+from workbench_db.repositories.sql_repository import SQLRepository
 from workbench_train.common import Targets
 
 

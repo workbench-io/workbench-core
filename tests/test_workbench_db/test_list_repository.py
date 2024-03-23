@@ -2,7 +2,7 @@ import pytest
 
 from tests.test_workbench_api import examples
 from workbench_api.models.predict import PredictionOutputModel
-from workbench_db.list_repository import ListRepository, ListRepositoryError
+from workbench_db.repositories.list_repository import ListRepository, ListRepositoryError
 from workbench_train.common import Targets
 
 

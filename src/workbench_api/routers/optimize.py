@@ -7,7 +7,7 @@ from sklearn.base import BaseEstimator
 from workbench_api.enums import RoutersPath
 from workbench_api.models.optimize import OptimizationInputModel, OptimizationOutputModel, OptimizationUpdateModel
 from workbench_api.utils import get_model
-from workbench_db.list_repository import ListRepository, ListRepositoryError, get_optimizations_repository
+from workbench_db.repositories.list_repository import ListRepository, ListRepositoryError, get_optimizations_repository
 from workbench_optimize.optimize_factory import factory_optimize
 from workbench_train.common import Targets
 from workbench_utils.enums import WorkbenchSteps
