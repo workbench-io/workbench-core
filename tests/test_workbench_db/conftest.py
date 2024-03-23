@@ -19,6 +19,33 @@ DIR_RESOURCES = Path(__file__).parent.joinpath("resources")
 
 
 @pytest.fixture(scope="session")
+def prediction_example_1() -> Prediction:
+    return Prediction(
+        value=1.0,
+        feature=Targets.COMPRESSIVE_STRENGTH,
+        inputs="{'a': 1.0, 'b': 1.0}",
+    )
+
+
+@pytest.fixture(scope="session")
+def prediction_example_2() -> Prediction:
+    return Prediction(
+        value=2.0,
+        feature=Targets.COMPRESSIVE_STRENGTH,
+        inputs="{'a': 2.0, 'b': 2.0}",
+    )
+
+
+@pytest.fixture(scope="session")
+def prediction_example_3() -> Prediction:
+    return Prediction(
+        value=3.0,
+        feature=Targets.COMPRESSIVE_STRENGTH,
+        inputs="{'a': 3.0, 'b': 3.0}",
+    )
+
+
+@pytest.fixture(scope="session")
 def dir_resources() -> Generator[Path, None, None]:
 
     dir_path = DIR_RESOURCES
@@ -99,7 +126,7 @@ def engine_testing(database_url: str) -> Generator[Engine, None, None]:
 
 
 @pytest.fixture
-def db_testing(engine_testing: Engine, database_url: str) -> Generator[Engine, None, None]:
+def db_testing_empty(engine_testing: Engine, database_url: str) -> Generator[Engine, None, None]:
 
     assert check_sql_model(Optimization)
     assert check_sql_model(Prediction)
@@ -109,7 +136,7 @@ def db_testing(engine_testing: Engine, database_url: str) -> Generator[Engine, N
 
 @pytest.fixture
 def sql_repository(
-    engine_testing, db_testing, database_url  # pylint: disable=unused-argument
+    engine_testing, db_testing_empty, database_url  # pylint: disable=unused-argument
 ) -> Generator[SQLRepository, None, None]:
 
     try:
