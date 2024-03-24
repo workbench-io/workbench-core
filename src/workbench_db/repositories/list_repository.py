@@ -95,23 +95,23 @@ class OptimizationsRepository(ListRepository):
     _db: list[OptimizationOutputModel]
 
 
-def get_predictions_repository() -> ListRepository:
+def get_predictions_repository() -> WorkbenchRepository:
     """
     Get the predictions repository.
 
     Returns:
-        ListRepository: The predictions repository.
+        WorkbenchRepository: The predictions repository.
     """
     repo = ListRepository(db.get_database, name=Routers.PREDICT)
     return repo
 
 
-def get_optimizations_repository() -> ListRepository:
+def get_optimizations_repository() -> WorkbenchRepository:
     """
     Get the optimizations repository.
 
     Returns:
-        ListRepository: The optimizations repository.
+        WorkbenchRepository: The optimizations repository.
     """
     repo = ListRepository(db.get_database, name=Routers.OPTIMIZE)
     return repo
