@@ -2,12 +2,9 @@ from typing import Any, Callable
 
 from pydantic import BaseModel
 
-from workbench_api.enums import Routers
-from workbench_api.models.optimize import OptimizationOutputModel
-from workbench_api.models.predict import PredictionOutputModel
-from workbench_api.utils import create_list
 from workbench_components.workench_repository.workbench_repository import WorkbenchRepository
-from workbench_db import db
+from workbench_db.models import Optimization, Prediction
+from workbench_utils.misc import create_list
 
 
 class ListRepositoryError(Exception):
@@ -86,32 +83,10 @@ class ListRepository(WorkbenchRepository):
 class PredictionsRepository(ListRepository):
     """Repository for Prediction results"""
 
-    _db: list[PredictionOutputModel]
+    _db: list[Prediction]
 
 
 class OptimizationsRepository(ListRepository):
     """Repository for Optimization results"""
 
-    _db: list[OptimizationOutputModel]
-
-
-def get_predictions_repository() -> WorkbenchRepository:
-    """
-    Get the predictions repository.
-
-    Returns:
-        WorkbenchRepository: The predictions repository.
-    """
-    repo = ListRepository(db.get_database, name=Routers.PREDICT)
-    return repo
-
-
-def get_optimizations_repository() -> WorkbenchRepository:
-    """
-    Get the optimizations repository.
-
-    Returns:
-        WorkbenchRepository: The optimizations repository.
-    """
-    repo = ListRepository(db.get_database, name=Routers.OPTIMIZE)
-    return repo
+    _db: list[Optimization]

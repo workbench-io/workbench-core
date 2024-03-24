@@ -88,7 +88,3 @@ def get_index_of_db_entry_by_id(db: list[T], db_id: int) -> T:
             return index
 
     return None
-
-
-def create_list() -> list:
-    return []

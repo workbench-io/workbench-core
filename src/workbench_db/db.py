@@ -7,6 +7,9 @@ from sqlmodel.main import SQLModelMetaclass
 from workbench_api.enums import Routers
 from workbench_api.models.optimize import OptimizationOutputModel
 from workbench_api.models.predict import PredictionOutputModel
+from workbench_components.workench_repository.workbench_repository import WorkbenchRepository
+from workbench_db.enums import Repositories
+from workbench_db.repositories.repository_factory import factory_repository
 
 predictions: list[PredictionOutputModel] = []
 optimizations: list[OptimizationOutputModel] = []
@@ -65,3 +68,25 @@ def create_db_and_tables(engine: Engine, db_url: str | None = None):
 
 def check_sql_model(model: SQLModel) -> bool:
     return isinstance(model, SQLModelMetaclass)
+
+
+def get_predictions_repository() -> WorkbenchRepository:
+    """
+    Get the predictions repository.
+
+    Returns:
+        WorkbenchRepository: The predictions repository.
+    """
+    repo = factory_repository.create(Repositories.PREDICTIONS)
+    return repo
+
+
+def get_optimizations_repository() -> WorkbenchRepository:
+    """
+    Get the optimizations repository.
+
+    Returns:
+        WorkbenchRepository: The optimizations repository.
+    """
+    repo = factory_repository.create(Repositories.OPTIMIZATIONS)
+    return repo
