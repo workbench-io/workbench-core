@@ -11,7 +11,7 @@ from workbench_api.models.predict import PredictionOutputModel
 from workbench_db.db import check_sql_model, create_db_and_tables
 from workbench_db.main import Optimization, Prediction
 from workbench_db.repositories.list_repository import ListRepository
-from workbench_db.repositories.sql_repository import SQLRepository
+from workbench_db.repositories.sql_repository import PredictionsRepository
 from workbench_train.common import Targets
 
 # pylint: disable=redefined-outer-name
@@ -176,12 +176,12 @@ def db_testing_with_data(
 
 
 @pytest.fixture
-def sql_repository_empty(
+def predictions_repository_empty(
     engine_testing, db_testing_empty  # pylint: disable=unused-argument
-) -> Generator[SQLRepository, None, None]:
+) -> Generator[PredictionsRepository, None, None]:
 
     try:
-        repo = SQLRepository(engine_testing, Prediction)
+        repo = PredictionsRepository(engine_testing)
         yield repo
 
     finally:
@@ -189,12 +189,12 @@ def sql_repository_empty(
 
 
 @pytest.fixture
-def sql_repository(
+def predictions_repository(
     engine_testing, db_testing_with_data  # pylint: disable=unused-argument
-) -> Generator[SQLRepository, None, None]:
+) -> Generator[PredictionsRepository, None, None]:
 
     try:
-        repo = SQLRepository(engine_testing, Prediction)
+        repo = PredictionsRepository(engine_testing)
         yield repo
 
     finally:

@@ -86,3 +86,9 @@ class WorkbenchFactory(WorkbenchLogger):
 
     def __repr__(self) -> str:
         return self.__str__()
+
+    def __len__(self) -> int:
+        return len(self._items)
+
+    def __iter__(self):
+        return iter(self._items)

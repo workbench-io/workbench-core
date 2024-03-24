@@ -15,6 +15,11 @@ class TestWorkbenchFactory:
         assert isinstance(workbench_factory, WorkbenchFactory)
         assert not workbench_factory._items  # pylint: disable=protected-access
 
+    def test___len__(self, workbench_factory: WorkbenchFactory):
+        workbench_factory = WorkbenchFactory()
+
+        assert len(workbench_factory) == 0
+
     def test_register(self, workbench_factory: WorkbenchFactory, workbench_object: WorkbenchObject):
         workbench_factory.register(name="name", item=workbench_object)
 

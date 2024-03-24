@@ -1,33 +1,26 @@
-import pytest
 from sqlalchemy import Engine
-from sqlmodel import Session, SQLModel, select
+from sqlmodel import Session, select
 
-from workbench_db.models import Optimization, Prediction
-from workbench_db.repositories.sql_repository import SQLRepository
+from workbench_db.models import Prediction
+from workbench_db.repositories.sql_repository import PredictionsRepository
 from workbench_train.common import Targets
 
 
 class TestSQLRepository:
 
-    @pytest.mark.parametrize(
-        [
-            "model",
-        ],
-        [(Prediction,), (Optimization,)],
-    )
-    def test_sql_repository_instantiates(self, model: SQLModel, engine_testing):
+    def test_sql_repository_instantiates(self, engine_testing):
 
-        repo = SQLRepository(engine_testing, model)
+        repo = PredictionsRepository(engine_testing)
         assert repo is not None
 
     def test_add_inserts_instance_to_database(
         self,
-        sql_repository_empty: SQLRepository,
+        predictions_repository_empty: PredictionsRepository,
         engine_testing: Engine,
         prediction_example_1: Prediction,
     ):
 
-        result = sql_repository_empty.add(prediction_example_1)
+        result = predictions_repository_empty.add(prediction_example_1)
 
         assert isinstance(result, Prediction)
         assert result.id == 1
@@ -47,11 +40,11 @@ class TestSQLRepository:
     def test_add_inserts_instance_to_database_with_data(
         self,
         engine_testing: Engine,
-        sql_repository: SQLRepository,
+        predictions_repository: PredictionsRepository,
         prediction_example_4: Prediction,
     ):
 
-        result = sql_repository.add(prediction_example_4)
+        result = predictions_repository.add(prediction_example_4)
 
         assert isinstance(result, Prediction)
         assert result.id == 4
@@ -69,13 +62,13 @@ class TestSQLRepository:
     def test_add_inserts_multiple_instances_to_database_with_data(
         self,
         engine_testing: Engine,
-        sql_repository: SQLRepository,
+        predictions_repository: PredictionsRepository,
         prediction_example_4: Prediction,
         prediction_example_5: Prediction,
     ):
 
-        sql_repository.add(prediction_example_4)
-        sql_repository.add(prediction_example_5)
+        predictions_repository.add(prediction_example_4)
+        predictions_repository.add(prediction_example_5)
 
         with Session(engine_testing) as new_session:
             statement = select(Prediction)
@@ -92,10 +85,10 @@ class TestSQLRepository:
 
     def test_get_returns_the_right_object_by_id(
         self,
-        sql_repository: SQLRepository,
+        predictions_repository: PredictionsRepository,
     ):
 
-        result = sql_repository.get(1)
+        result = predictions_repository.get(1)
 
         assert result.id == 1
         assert result.value == 1.0
@@ -104,10 +97,10 @@ class TestSQLRepository:
 
     def test_get_all_returns_list_of_all_data_in_database(
         self,
-        sql_repository: SQLRepository,
+        predictions_repository: PredictionsRepository,
     ):
 
-        result = sql_repository.get_all()
+        result = predictions_repository.get_all()
 
         assert isinstance(result, list)
         assert len(result) == 3
@@ -118,10 +111,10 @@ class TestSQLRepository:
 
     def test_get_latest_returns_last_item_to_be_added_to_the_database(
         self,
-        sql_repository: SQLRepository,
+        predictions_repository: PredictionsRepository,
     ):
 
-        result = sql_repository.get_latest()
+        result = predictions_repository.get_latest()
 
         assert isinstance(result, Prediction)
         assert result.id == 3
@@ -131,7 +124,7 @@ class TestSQLRepository:
 
     def test_update_updates_an_item_in_the_database(
         self,
-        sql_repository: SQLRepository,
+        predictions_repository: PredictionsRepository,
     ):
 
         updated_item = Prediction(
@@ -141,7 +134,7 @@ class TestSQLRepository:
             inputs="{'a': 1.5, 'b': 1.5}",
         )
 
-        result = sql_repository.update(2, updated_item)
+        result = predictions_repository.update(2, updated_item)
 
         assert result.id == updated_item.id
         assert result.value == updated_item.value
@@ -150,7 +143,7 @@ class TestSQLRepository:
 
     def test_update_updates_an_item_in_the_database_with_partial_update(
         self,
-        sql_repository: SQLRepository,
+        predictions_repository: PredictionsRepository,
     ):
 
         updated_item = Prediction(
@@ -160,7 +153,7 @@ class TestSQLRepository:
             inputs=None,
         )
 
-        result = sql_repository.update(1, updated_item)
+        result = predictions_repository.update(1, updated_item)
 
         assert result.id == updated_item.id
         assert result.value == updated_item.value
@@ -169,7 +162,7 @@ class TestSQLRepository:
 
     def test_update_performs_no_update_when_only_id_is_provided(
         self,
-        sql_repository: SQLRepository,
+        predictions_repository: PredictionsRepository,
     ):
 
         updated_item = Prediction(
@@ -179,7 +172,7 @@ class TestSQLRepository:
             inputs=None,
         )
 
-        result = sql_repository.update(1, updated_item)
+        result = predictions_repository.update(1, updated_item)
 
         assert result.id == updated_item.id
         assert result.value == 1.0
@@ -188,11 +181,11 @@ class TestSQLRepository:
 
     def test_delete_removes_an_item_from_the_database(
         self,
-        sql_repository: SQLRepository,
+        predictions_repository: PredictionsRepository,
         engine_testing: Engine,
     ):
 
-        result = sql_repository.delete(1)
+        result = predictions_repository.delete(1)
 
         assert result.id == 1
         assert result.value == 1.0

@@ -2,14 +2,16 @@ from sqlalchemy import Engine
 from sqlmodel import Session, SQLModel, select
 
 from workbench_components.workench_repository.workbench_repository import WorkbenchRepository
+from workbench_db.models import Optimization, Prediction
 
 
 class SQLRepository(WorkbenchRepository):
 
-    def __init__(self, engine: Engine, model: SQLModel) -> None:
+    _model: SQLModel
+
+    def __init__(self, engine: Engine) -> None:
         super().__init__()
         self._engine: Engine = engine
-        self._model: SQLModel = model
 
     def add(self, item: SQLModel) -> SQLModel:  # pylint: disable=arguments-differ
         with Session(self._engine) as session:
@@ -56,3 +58,15 @@ class SQLRepository(WorkbenchRepository):
             session.commit()
 
             return item
+
+
+class PredictionsRepository(SQLRepository):
+    """Repository class for Prediction objects."""
+
+    _model = Prediction
+
+
+class OptimizationsRepository(SQLRepository):
+    """Repository class for Optimization objects."""
+
+    _model = Optimization
