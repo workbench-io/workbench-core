@@ -40,7 +40,7 @@ class PredictionInputModel(BaseModel):
 class PredictionOutputModel(BaseModel):
     """Output model for prediction."""
 
-    id: int
+    id: Optional[int]
     value: float
     feature: Targets
     inputs: PredictionInputModel
@@ -50,7 +50,6 @@ class PredictionOutputModel(BaseModel):
 class PredictionUpdateModel(BaseModel):
     """Update model for prediction."""
 
-    id: Optional[int] = None
     value: Optional[float] = None
     feature: Optional[Targets] = None
     inputs: Optional[PredictionInputModel] = None

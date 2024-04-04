@@ -13,7 +13,7 @@ class SQLRepository(WorkbenchRepository):
         super().__init__()
         self._engine: Engine = engine
 
-    def add(self, item: SQLModel) -> SQLModel:  # pylint: disable=arguments-differ
+    def add(self, item: SQLModel) -> SQLModel:
         with Session(self._engine) as session:
             session.add(item)
             session.commit()
@@ -21,7 +21,7 @@ class SQLRepository(WorkbenchRepository):
 
             return item
 
-    def get(self, db_id: int) -> SQLModel:  # pylint: disable=arguments-differ
+    def get(self, db_id: int) -> SQLModel:
         with Session(self._engine) as session:
             return session.get(self._model, db_id)
 
@@ -31,13 +31,13 @@ class SQLRepository(WorkbenchRepository):
             result = session.exec(statement).first()
             return result
 
-    def get_all(self) -> list[SQLModel]:  # pylint: disable=arguments-differ
+    def get_all(self) -> list[SQLModel]:
         with Session(self._engine) as session:
             statement = select(self._model)
             results = session.exec(statement).all()
             return results
 
-    def update(self, db_id: int, new_item: SQLModel) -> SQLModel:  # pylint: disable=arguments-differ
+    def update(self, db_id: int, new_item: SQLModel) -> SQLModel:
 
         with Session(self._engine) as session:
             item: SQLModel = session.get(self._model, db_id)
@@ -48,7 +48,7 @@ class SQLRepository(WorkbenchRepository):
             session.refresh(item_updated)
             return item_updated
 
-    def delete(self, db_id: int) -> SQLModel:  # pylint: disable=arguments-differ
+    def delete(self, db_id: int) -> SQLModel:
 
         with Session(self._engine) as session:
 

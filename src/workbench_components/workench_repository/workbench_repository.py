@@ -1,6 +1,10 @@
 from typing import Any, Optional, Protocol
 
 
+class WorkbenchRepositoryError(Exception):
+    """WorkbenchRepository error."""
+
+
 class WorkbenchRepository(Protocol):
 
     def get(self, db_id: int) -> Optional[Any]:
@@ -24,12 +28,11 @@ class WorkbenchRepository(Protocol):
         """
         raise NotImplementedError
 
-    def add(self, db_id: int, item: Any) -> None:
+    def add(self, item: Any) -> None:
         """
         Adds an item to the repository.
 
         Args:
-            db_id (int): The database ID of the item to add.
             item (Any): The item to add to the repository.
 
         Returns:

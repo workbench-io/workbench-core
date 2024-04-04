@@ -50,7 +50,7 @@ class TestListRepository:
             feature=Targets.COMPRESSIVE_STRENGTH,
             inputs=examples.prediction_body_1,
         )
-        list_repository_empty.add(db_id, prediction_output_model_42)
+        list_repository_empty.add(prediction_output_model_42)
 
         result = list_repository_empty.get(db_id)
 

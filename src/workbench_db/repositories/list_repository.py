@@ -34,7 +34,7 @@ class ListRepository(WorkbenchRepository):
     def get_all(self) -> list[BaseModel]:
         return self._db
 
-    def add(self, db_id: int, item: BaseModel) -> BaseModel:  # pylint: disable=unused-argument
+    def add(self, item: BaseModel) -> BaseModel:
         self._db.append(item)
         return item
 

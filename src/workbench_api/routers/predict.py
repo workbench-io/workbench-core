@@ -69,7 +69,7 @@ async def make_prediction_target(
         inputs=inputs,
     )
 
-    repo.add(db_id, result)
+    repo.add(result)
 
     return result
 

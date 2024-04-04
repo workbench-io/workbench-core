@@ -44,7 +44,7 @@ async def run_optimization(
     )
 
     logger.debug(f"Saving result to database {result} with id {db_id}")
-    repo.add(db_id, result)
+    repo.add(result)
 
     return result
 

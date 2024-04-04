@@ -70,23 +70,23 @@ def check_sql_model(model: SQLModel) -> bool:
     return isinstance(model, SQLModelMetaclass)
 
 
-def get_predictions_repository() -> WorkbenchRepository:
+def get_predictions_repository(*args, **kwargs) -> WorkbenchRepository:
     """
     Get the predictions repository.
 
     Returns:
         WorkbenchRepository: The predictions repository.
     """
-    repo = factory_repository.create(Repositories.PREDICTIONS)
+    repo = factory_repository.create_instance(Repositories.PREDICTIONS, *args, **kwargs)
     return repo
 
 
-def get_optimizations_repository() -> WorkbenchRepository:
+def get_optimizations_repository(*args, **kwargs) -> WorkbenchRepository:
     """
     Get the optimizations repository.
 
     Returns:
         WorkbenchRepository: The optimizations repository.
     """
-    repo = factory_repository.create(Repositories.OPTIMIZATIONS)
+    repo = factory_repository.create_instance(Repositories.OPTIMIZATIONS, *args, **kwargs)
     return repo
