@@ -81,7 +81,7 @@ def workbench_process() -> WorkbenchLogic:
 
 
 @pytest.fixture
-def workbench_process_factory() -> WorkbenchLogicFactory:
+def workbench_logic_factory() -> WorkbenchLogicFactory:
     return WorkbenchLogicFactory()
 
 
