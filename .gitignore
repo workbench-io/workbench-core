@@ -215,5 +215,4 @@ logs/*
 *.ipynb
 .ipynb
 
-output/
-output/*
+output/models/*

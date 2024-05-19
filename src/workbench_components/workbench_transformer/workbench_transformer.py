@@ -8,7 +8,12 @@ from workbench_components.workbench_settings.workbench_settings import Workbench
 
 
 class WorkbenchTransformer(ABC, WorkbenchLogger):
-    """Base class for transformers"""
+    """
+    Base class for transformers.
+
+    Each `WorkbenchTransformer` object is used to apply a specific transformation
+    to the provided `WorkbenchData` object.
+    """
 
     def __init__(self) -> None:
         self.create_logger()

@@ -12,8 +12,20 @@ def run_all_logic(
     filepath_settings_train: Path,
     filepath_settings_optimize: Path,
 ) -> None:
-    """Run all the logic"""
+    """
+    Run all the logic to:
+    - load and process data
+    - train, validates and selects the best predictive model among a set of models
+    - Use the best model to create a solution that optimizes a given metric given a set of constraints
 
+    Args:
+        filepath_settings_process (Path): The file path to the process settings file.
+        filepath_settings_train (Path): The file path to the model training settings file.
+        filepath_settings_optimize (Path): The file path to the solution optimization settings file.
+
+    Returns:
+        None
+    """
     process_logic, process_data, process_settings = factory_process.create_instance(name=WorkbenchSteps.PROCESS)
     process_settings.load_settings_from_file(filepath_settings_process)
     process_logic.run(process_data, process_settings)

@@ -1,0 +1,52 @@
+{
+    "sources": {
+        "compressive_strength": {
+            "path": "tests/test_workbench_process/resources/concrete+compressive+strength.zip",
+            "pattern": "*.xls",
+            "columns": {
+                "cement": "Cement (component 1)(kg in a m^3 mixture)",
+                "slag": "Blast Furnace Slag (component 2)(kg in a m^3 mixture)",
+                "fly_ash": "Fly Ash (component 3)(kg in a m^3 mixture)",
+                "water": "Water  (component 4)(kg in a m^3 mixture)",
+                "superplasticizer": "Superplasticizer (component 5)(kg in a m^3 mixture)",
+                "coarse_aggregate": "Coarse Aggregate  (component 6)(kg in a m^3 mixture)",
+                "fine_aggregate": "Fine Aggregate (component 7)(kg in a m^3 mixture)",
+                "age": "Age (day)",
+                "compressive_strength": "Concrete compressive strength(MPa, megapascals) "
+            }
+        }
+    },
+    "features": {
+        "targets": [
+            "compressive_strength"
+        ],
+        "numerical": [
+            "cement",
+            "slag",
+            "fly_ash",
+            "water",
+            "superplasticizer",
+            "coarse_aggregate",
+            "fine_aggregate",
+            "age"
+        ],
+        "categorical": [],
+        "discrete": [
+            "age"
+        ],
+        "text": [],
+        "date": [],
+        "ignore": [],
+        "id": [],
+        "geo": [],
+        "composition": [
+            "cement",
+            "slag",
+            "fly_ash",
+            "water",
+            "superplasticizer",
+            "coarse_aggregate",
+            "fine_aggregate"
+        ]
+    }
+}

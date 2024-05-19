@@ -1,0 +1,16 @@
+{
+    "num_genes": 7,
+    "num_generations": 500,
+    "sol_per_pop": 100,
+    "num_parents_mating": 50,
+    "keep_parents": 20,
+    "gene_space": {"low": 0, "high": 100},
+    "init_range_low": 0,
+    "init_range_high": 100,
+    "parent_selection_type": "sss",
+    "crossover_type": "single_point",
+    "crossover_probability": 0.10,
+    "mutation_type": "random",
+    "mutation_probability": 0.20,
+    "random_seed": 1
+}

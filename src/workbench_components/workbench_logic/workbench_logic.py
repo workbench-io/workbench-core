@@ -8,7 +8,12 @@ from workbench_components.workbench_settings.workbench_settings import Workbench
 
 
 class WorkbenchLogic(ABC, WorkbenchLogger):
-    """Base class for logic."""
+    """
+    Base class for logic.
+
+    Used to process data in the provided `WorkbenchData` object
+    according to the settings in the provided `WorkbenchSettings` object.
+    """
 
     def __init__(self) -> None:
         self.create_logger()
