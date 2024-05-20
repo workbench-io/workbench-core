@@ -14,8 +14,13 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
 ]
 packages = [
+    { include = "workbench_api", from = "src" },
     { include = "workbench_components", from = "src" },
+    { include = "workbench_db", from = "src" },
+    { include = "workbench_optimize", from = "src" },
     { include = "workbench_process", from = "src" },
+    { include = "workbench_train", from = "src" },
+    { include = "workbench_utils", from = "src" },
 ]
 
 [tool.poetry.dependencies]
@@ -143,7 +148,15 @@ commands =
 
 [tool.coverage.run]
 branch = true
-source = ["workbench_components", "workbench_process"]
+source = [
+    "workbench_api",
+    "workbench_components",
+    "workbench_db",
+    "workbench_optimize",
+    "workbench_process",
+    "workbench_train",
+    "workbench_utils",
+]
 
 [tool.coverage.paths]
 source = ["src", ".tox/*/site-packages"]
