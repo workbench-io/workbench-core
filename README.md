@@ -88,16 +88,197 @@ The API has one endpoint to predict the compressive strength of a concrete mixtu
 
 ## Installation
 
+You can clone the repository with:
 
+```bash
+git clone https://github.com/workbench-io/workbench-core.git
+```
+
+Then, navigate to the repository with:
+```bash
+cd workbench_core
+```
+
+This package is being developed with python 3.11.7. You can use `pyenv` to manage your python versions and install python 3.11.7 with:
+```bash
+pyenv install 3.11.7
+```
+
+You can set the local python version to 3.11.7 with:
+```bash
+pyenv local 3.11.7
+
+```
+The package is setup with poetry. You can install the package with:
+```bash
+poetry install
+```
+
+---
 
 ## Development setup
 
-After cloning the repository, you can easily install the development environment and tools
-([black](https://github.com/psf/black), [pylint](https://www.pylint.org), [mypy](http://mypy-lang.org), [pytest](https://pytest.org), [tox](https://tox.readthedocs.io))
-with:
+To setup the development environment, you first have to follow the installation steps above. Once you have the package installed, you can create a virtual environment with poetry. 
+
+You can activate the virtual environment with:
+```bash
+poetry shell
+```
+
+You can install the dependencies with:
+```bash
+poetry install
+```
+
+Once all the dependencies are installed, you can run the tests with:
+```bash
+poetry run pytest
+```
+
+You can also run the tests with coverage with:
+```bash
+poetry run pytest --cov=workbench_core
+```
+
+---
+
+## Usage
+
+### Running the processing, training and optimization logic
+
+If you would like to run the logic to load and process the data, train the models, and optimize the concrete mixtures, you can use the `main.py` script in the root directory.
+
+You can run the script with:
+```bash
+poetry run python main.py
+```
+
+This script will run the entire pipeline, from loading the data to optimizing the concrete mixtures. It may take more than 5 minutes to run depending on your machine and the settings you have set for each step. The settings for each step are defined in the JSON files in `./settings` 
 
 ```
-git clone https://github.com/workbench-io/workbench-core.git
-cd workbench_core
-pip install -e .[dev]
+settings
+├── process_settings.json  # Settings for data loading and  processing
+├── train_settings.json    # Settings for model training and selection
+└── optimize_settings.json # Settings for the optimization process
 ```
+
+### Running the API
+
+#### Running the API locally
+
+You can run the API locally with the following command:
+
+```bash
+poetry run uvicorn src.workbench_api.main:app --reload
+```
+
+#### Generating predictions
+
+You can find below an example of how to generate predictions using the API. You can use `curl` or any other tool to make HTTP requests.
+
+```bash
+curl -X 'POST' \
+  'http://127.0.0.1:8000/predict/compressive_strength' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "water": 8.33,
+  "coarse_aggregate": 42.23,
+  "slag": 0,
+  "cement": 12.09,
+  "superplasticizer": 0,
+  "fine_aggregate": 37.35,
+  "fly_ash": 0,
+  "age": 28
+}'
+```
+
+The response will be a JSON object with the predicted compressive strength.
+```
+{
+  "id": 2,
+  "value": 26.52264422267783,
+  "feature": "compressive_strength",
+  "inputs": {
+    "cement": 12.09,
+    "slag": 0,
+    "fly_ash": 0,
+    "water": 8.33,
+    "superplasticizer": 0,
+    "coarse_aggregate": 42.23,
+    "fine_aggregate": 37.35,
+    "age": 28
+  },
+  "version": null
+}
+```
+
+
+#### Optimizing concrete mixtures
+
+You can find below an example of how to generate optimized concrete mixtures using the API. You can use `curl` or any other tool to make HTTP requests.
+
+```bash
+curl -X 'POST' \
+  'http://127.0.0.1:8000/optimize' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "num_genes": 7,
+  "num_generations": 10,
+  "sol_per_pop": 10,
+  "num_parents_mating": 5,
+  "keep_parents": 0,
+  "init_range_low": 0,
+  "init_range_high": 100,
+  "gene_space": {
+    "low": 0,
+    "high": 100
+  },
+  "parent_selection_type": "sss",
+  "crossover_type": "single_point",
+  "crossover_probability": 0.2,
+  "mutation_type": "random",
+  "mutation_probability": 0.2,
+  "random_seed": 1
+}'
+```
+
+The response will be a JSON object with the optimized concrete mixture.
+```
+{
+  "id": 1,
+  "value": 61.68289803952541,
+  "solution": {
+    "superplasticizer": 54.66200250647524,
+    "cement": 63.65402903614014,
+    "slag": 92.09472156251303,
+    "fine_aggregate": 68.84132523859434,
+    "coarse_aggregate": 14.038693859523377,
+    "fly_ash": 19.22500168221477,
+    "water": 7.838689985494796,
+    "age": 28
+  },
+  "inputs": {
+    "num_genes": 7,
+    "num_generations": 10,
+    "sol_per_pop": 10,
+    "num_parents_mating": 5,
+    "keep_parents": 0,
+    "init_range_low": 0,
+    "init_range_high": 100,
+    "gene_space": {
+      "low": 0,
+      "high": 100
+    },
+    "parent_selection_type": "sss",
+    "crossover_type": "single_point",
+    "crossover_probability": 0.2,
+    "mutation_type": "random",
+    "mutation_probability": 0.2,
+    "random_seed": 1
+  }
+}
+```
+
+---

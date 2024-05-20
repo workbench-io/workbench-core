@@ -209,8 +209,8 @@ notes.txt
 *.png
 *.db
 
-logs/
 logs/*
+!logs/.gitkeep
 
 *.ipynb
 .ipynb

@@ -1,11 +1,13 @@
 from pathlib import Path
 
 from workbench_components.workbench_logging.logging_configs import setup_logging
+from workbench_components.workbench_logging.workbench_logger import WorkbenchLogger
 from workbench_optimize.optimize_factory import factory_optimize
 from workbench_process.process_factory import factory_process
 from workbench_train.train_factory import factory_train
 from workbench_utils.enums import WorkbenchSteps
 
+DIR_SETTINGS = Path(__file__).parent.joinpath("settings")
 
 def run_all_logic(
     filepath_settings_process: Path,
@@ -43,12 +45,18 @@ def run_all_logic(
 def main() -> None:
 
     setup_logging()
+    
+    logger = WorkbenchLogger()
+    logger.create_logger()
+    logger.log_info(method=main, message="Starting running all logic.")
+    
     run_all_logic(
-        filepath_settings_process=Path("./output/process_settings.json"),
-        filepath_settings_train=Path("./output/train_settings.json"),
-        filepath_settings_optimize=Path("./output/optimize_settings.json"),
+        filepath_settings_process=Path(DIR_SETTINGS.joinpath("process_settings.json")),
+        filepath_settings_train=Path(DIR_SETTINGS.joinpath("train_settings.json")),
+        filepath_settings_optimize=Path(DIR_SETTINGS.joinpath("optimize_settings.json")),
     )
 
+    logger.log_info(method=main, message="Finished running all logic.")
 
 if __name__ == "__main__":
     main()
