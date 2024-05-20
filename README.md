@@ -118,7 +118,7 @@ poetry install
 
 ## Development setup
 
-To setup the development environment, you first have to follow the installation steps above. Once you have the package installed, you can create a virtual environment with poetry. 
+To setup the development environment, you first have to follow the installation steps above. Once you have the package installed, you can create a virtual environment with poetry.
 
 You can activate the virtual environment with:
 ```bash
@@ -153,7 +153,7 @@ You can run the script with:
 poetry run python main.py
 ```
 
-This script will run the entire pipeline, from loading the data to optimizing the concrete mixtures. It may take more than 5 minutes to run depending on your machine and the settings you have set for each step. The settings for each step are defined in the JSON files in `./settings` 
+This script will run the entire pipeline, from loading the data to optimizing the concrete mixtures. It may take more than 5 minutes to run depending on your machine and the settings you have set for each step. The settings for each step are defined in the JSON files in `./settings`
 
 ```
 settings

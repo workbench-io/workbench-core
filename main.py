@@ -9,6 +9,7 @@ from workbench_utils.enums import WorkbenchSteps
 
 DIR_SETTINGS = Path(__file__).parent.joinpath("settings")
 
+
 def run_all_logic(
     filepath_settings_process: Path,
     filepath_settings_train: Path,
@@ -45,11 +46,11 @@ def run_all_logic(
 def main() -> None:
 
     setup_logging()
-    
+
     logger = WorkbenchLogger()
     logger.create_logger()
     logger.log_info(method=main, message="Starting running all logic.")
-    
+
     run_all_logic(
         filepath_settings_process=Path(DIR_SETTINGS.joinpath("process_settings.json")),
         filepath_settings_train=Path(DIR_SETTINGS.joinpath("train_settings.json")),
@@ -57,6 +58,7 @@ def main() -> None:
     )
 
     logger.log_info(method=main, message="Finished running all logic.")
+
 
 if __name__ == "__main__":
     main()
