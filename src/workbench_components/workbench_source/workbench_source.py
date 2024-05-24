@@ -8,7 +8,11 @@ from workbench_components.workbench_settings.workbench_settings import Workbench
 
 
 class WorkbenchSource(ABC, WorkbenchLogger):
-    """Base class for data source objects."""
+    """
+    Base class for data source objects.
+
+    Used to connect to data sources and retrieve data.
+    """
 
     def __init__(self) -> None:
         self.create_logger()

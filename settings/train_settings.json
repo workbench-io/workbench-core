@@ -1,0 +1,39 @@
+{
+    "seed": 1,
+    "verbose": false,
+    "preprocessing": {
+        "boolean_impute_missing": true,
+        "numeric_add_missing_indicator": true,
+        "numeric_impute_missing_median": true,
+        "numeric_yeojohnson": true,
+        "numeric_zscore_scaling": true,
+        "numeric_remove_correlated": true,
+        "all_drop_duplicate": true,
+        "all_drop_constant": true,
+        "all_drop_missing": true
+    },
+    "training": {
+        "test_size": 0.2,
+        "search_iterations": 500,
+        "n_jobs": -1,
+        "models": ["pls", "lasso", "elasticnet", "random_forest", "gbm", "neural_network"],
+        "cross_validation":{
+            "metric": "rmse",
+            "folds": 10,
+            "scores": ["rmse", "mae", "max_error", "r2"]
+        }
+    },
+    "selecting": {
+        "metric": "rmse",
+        "n_models": 1
+    },
+    "exporting": {
+        "path": "./output/models/",
+        "remove_previous": true
+    },
+    "mlflow":{
+        "use": false,
+        "dir": "./mlruns/",
+        "tracking_uri": "http://localhost:5000"
+    }
+}

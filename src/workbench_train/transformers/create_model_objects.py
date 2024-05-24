@@ -22,7 +22,7 @@ MODEL_TO_MODEL_REGRESSOR_MAP = {
             random_state=1,
         ),
         "params": {
-            "model__regressor__max_iter": [250, 500, 1000],
+            "model__regressor__max_iter": [100, 250, 500, 1000],
             "model__regressor__alpha": np.logspace(-6, 6, 13),
         },
     },
@@ -41,7 +41,7 @@ MODEL_TO_MODEL_REGRESSOR_MAP = {
         "params": {
             "model__regressor__kernel": ["linear", "poly", "rbf"],
             "model__regressor__degree": [2, 3, 4],
-            "model__regressor__C": np.logspace(-3, 3, 5),
+            "model__regressor__C": np.logspace(-3, 3, 7),
             "model__regressor__tol": np.logspace(-3, -1, 3),
             "model__regressor__epsilon": np.logspace(-2, 2, 5),
         },
@@ -67,7 +67,7 @@ MODEL_TO_MODEL_REGRESSOR_MAP = {
             verbose=False,
         ),
         "params": {
-            "model__regressor__n_estimators": [50, 100],
+            "model__regressor__n_estimators": [25, 50, 100],
             "model__regressor__learning_rate": np.logspace(-3, 3, num=5),
             "model__regressor__max_depth": [3, 5, 10],
             "model__regressor__max_features": [0.3, 0.7, None],

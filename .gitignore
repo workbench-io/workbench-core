@@ -209,11 +209,10 @@ notes.txt
 *.png
 *.db
 
-logs/
 logs/*
+!logs/.gitkeep
 
 *.ipynb
 .ipynb
 
-output/
-output/*
+output/models/*

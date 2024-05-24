@@ -14,8 +14,13 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
 ]
 packages = [
+    { include = "workbench_api", from = "src" },
     { include = "workbench_components", from = "src" },
+    { include = "workbench_db", from = "src" },
+    { include = "workbench_optimize", from = "src" },
     { include = "workbench_process", from = "src" },
+    { include = "workbench_train", from = "src" },
+    { include = "workbench_utils", from = "src" },
 ]
 
 [tool.poetry.dependencies]
@@ -26,7 +31,7 @@ pandas = "^2.2.1"
 wget = "^3.2"
 xlrd = "^2.0.1"
 numpy = "^1.26.4"
-scikit-learn = "^1.4.1.post1"
+scikit-learn = ">=1.4,<1.4.2"
 feature-engine = "^1.6.2"
 matplotlib = "^3.8.3"
 seaborn = "^0.13.2"
@@ -143,7 +148,15 @@ commands =
 
 [tool.coverage.run]
 branch = true
-source = ["workbench_components", "workbench_process"]
+source = [
+    "workbench_api",
+    "workbench_components",
+    "workbench_db",
+    "workbench_optimize",
+    "workbench_process",
+    "workbench_train",
+    "workbench_utils",
+]
 
 [tool.coverage.paths]
 source = ["src", ".tox/*/site-packages"]

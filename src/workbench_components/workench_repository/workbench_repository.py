@@ -6,6 +6,7 @@ class WorkbenchRepositoryError(Exception):
 
 
 class WorkbenchRepository(Protocol):
+    """Repository class used to connect to data storage and perform CRUD operations."""
 
     def get(self, db_id: int) -> Optional[Any]:
         """
