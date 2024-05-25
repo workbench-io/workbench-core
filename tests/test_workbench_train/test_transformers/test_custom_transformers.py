@@ -1,6 +1,12 @@
 import pandas as pd
+import pytest
 
-from workbench_train.transformers.custom_transformers import ProductTransformer, RatioTransformer, SumTransformer
+from workbench_train.transformers.custom_transformers import (
+    PercentageTransformer,
+    ProductTransformer,
+    RatioTransformer,
+    SumTransformer,
+)
 
 
 def test_sum_transformer(dataframe: pd.DataFrame):
@@ -28,3 +34,15 @@ def test_ratio_transformer(dataframe: pd.DataFrame):
 
     assert isinstance(result, pd.DataFrame)
     assert (result["output"] == pd.Series([0.5, 0.7, 0.9])).all()
+
+
+def test_percentage_transformer(dataframe: pd.DataFrame):
+    transformer = PercentageTransformer(col_numerator=["a", "b"])
+    transformer.fit(dataframe)
+    result = transformer.transform(dataframe)
+
+    assert isinstance(result, pd.DataFrame)
+    assert result["a"].dtype == float
+    assert result["b"].dtype == float
+    assert pytest.approx(result.loc[0, "a"]) == 20.0
+    assert pytest.approx(result.loc[0, "b"]) == 80.0
