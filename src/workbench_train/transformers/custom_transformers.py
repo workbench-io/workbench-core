@@ -34,7 +34,7 @@ class ProductTransformer(BaseEstimator, TransformerMixin):
     Create feature with the product of the values of selected columns
     """
 
-    def __init__(self, variables: list[str], col_name: str = "total") -> None:
+    def __init__(self, variables: list[str], col_name: str = "product") -> None:
 
         if not isinstance(variables, list):
             raise ValueError("variables must be a list")
@@ -89,7 +89,7 @@ class RatioTransformer(BaseEstimator, TransformerMixin):
     Calculates ratios between one or more columns of a DataFrame
     """
 
-    def __init__(self, col_numerator: list, col_denominator: list, name: str = "ratio") -> None:
+    def __init__(self, col_numerator: list[str], col_denominator: list[str], col_name: str = "ratio") -> None:
 
         if not isinstance(col_numerator, list):
             raise ValueError("col_numerator must be a list")
@@ -99,7 +99,7 @@ class RatioTransformer(BaseEstimator, TransformerMixin):
 
         self.col_numerator = col_numerator
         self.col_denominator = col_denominator
-        self.name = name
+        self.col_name = col_name
 
     def fit(self, X: pd.DataFrame, y=None):  # pylint: disable=unused-argument, invalid-name
         return self
@@ -111,6 +111,6 @@ class RatioTransformer(BaseEstimator, TransformerMixin):
         numerator = X[self.col_numerator].sum(axis=1)
         denomitator = X[self.col_denominator].sum(axis=1)
 
-        X[self.name] = np.divide(numerator, denomitator)
+        X[self.col_name] = np.divide(numerator, denomitator)
 
         return X

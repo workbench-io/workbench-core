@@ -64,3 +64,17 @@ def test_workbench_configs(tmp_path: Path) -> Generator[BaseSettings, None, None
     yield configs
 
     shutil.rmtree(tmp_path)
+
+
+@pytest.fixture
+def dataframe() -> pd.DataFrame:
+
+    df = pd.DataFrame(
+        {
+            "a": [1, 2, 3],
+            "b": [4, 5, 6],
+            "c": [7, 8, 9],
+            "d": [10, 10, 10],
+        }
+    )
+    return df
