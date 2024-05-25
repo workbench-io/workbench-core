@@ -1,41 +1,54 @@
-from feature_engine.imputation import AddMissingIndicator, DropMissingData, MeanMedianImputer
-from feature_engine.selection import DropConstantFeatures, DropDuplicateFeatures, SmartCorrelatedSelection
+from feature_engine.encoding import OneHotEncoder, RareLabelEncoder
+from feature_engine.imputation import AddMissingIndicator, CategoricalImputer, DropMissingData, MeanMedianImputer
+from feature_engine.outliers import OutlierTrimmer, Winsorizer
+from feature_engine.selection import DropConstantFeatures, DropDuplicateFeatures, DropFeatures, SmartCorrelatedSelection
 from feature_engine.transformation import YeoJohnsonTransformer
 from feature_engine.wrappers import SklearnTransformerWrapper
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
 from workbench_components.workbench_transformer.workbench_transformer import WorkbenchTransformer
+from workbench_train.enums import Transformers
 from workbench_train.train_data import TrainData
 from workbench_train.train_settings import TrainSettings
 
 STEP_TO_TRANSFORMER_MAP: dict[str, dict] = {
-    "boolean_impute_missing": {
+    Transformers.BOOLEAN_IMPUTE_MISSING: {
         "transformer": MeanMedianImputer,
         "feature_type": "bool",
         "args": {"imputation_method": "median"},
     },
-    "numeric_add_missing_indicator": {
+    Transformers.NUMERIC_ADD_MISSING_INDICATOR: {
         "transformer": AddMissingIndicator,
         "feature_type": ["int", "float"],
         "args": {"missing_only": True},
     },
-    "numeric_impute_missing_median": {
+    Transformers.NUMERIC_IMPUTE_MISSING_MEDIAN: {
         "transformer": MeanMedianImputer,
         "feature_type": ["int", "float"],
         "args": {"imputation_method": "median"},
     },
-    "numeric_yeojohnson": {
+    Transformers.NUMERIC_IMPUTE_MISSING_MEAN: {
+        "transformer": MeanMedianImputer,
+        "feature_type": ["int", "float"],
+        "args": {"imputation_method": "mean"},
+    },
+    Transformers.NUMERIC_YEOJOHNSON: {
         "transformer": YeoJohnsonTransformer,
         "feature_type": ["int", "float"],
         "args": {},
     },
-    "numeric_zscore_scaling": {
+    Transformers.NUMERIC_ZSCORE_SCALING: {
         "transformer": SklearnTransformerWrapper,
         "feature_type": ["int", "float"],
         "args": {"transformer": StandardScaler()},
     },
-    "numeric_remove_correlated": {
+    Transformers.NUMERIC_MINMAX_SCALING: {
+        "transformer": SklearnTransformerWrapper,
+        "feature_types": ["int", "float"],
+        "args": {"transformer": MinMaxScaler()},
+    },
+    Transformers.NUMERIC_REMOVE_CORRELATED: {
         "transformer": SmartCorrelatedSelection,
         "feature_type": ["int", "float"],
         "args": {
@@ -45,19 +58,64 @@ STEP_TO_TRANSFORMER_MAP: dict[str, dict] = {
             "missing_values": "ignore",
         },
     },
-    "all_drop_duplicate": {
+    Transformers.CATEGORICAL_RARE_LABEL_ENCODER: {
+        "transformer": RareLabelEncoder,
+        "feature_types": ["object", "category"],
+        "args": {
+            "n_categories": 5,
+            "tol": 0.05,
+        },
+    },
+    Transformers.NUMERIC_WINSORIZER: {
+        "transformer": Winsorizer,
+        "feature_types": ["int", "float"],
+        "args": {
+            "capping_method": "gaussian",
+            "fold": 3,
+            "tail": "both",
+            "missing_values": "ignore",
+        },
+    },
+    Transformers.NUMERIC_OUTLIER_TRIMMER: {
+        "transformer": OutlierTrimmer,
+        "feature_types": ["int", "float"],
+        "args": {
+            "capping_method": "gaussian",
+            "fold": 3,
+            "tail": "both",
+        },
+    },
+    Transformers.CATEGORICAL_IMPUTE_MISSING: {
+        "transformer": CategoricalImputer,
+        "feature_types": ["object", "category"],
+        "args": {"imputation_method": "frequent"},
+    },
+    Transformers.CATEGORICAL_ONE_HOT_ENCODER: {
+        "transformer": OneHotEncoder,
+        "feature_types": ["object", "category"],
+        "args": {
+            "drop_last": True,
+            "drop_last_binary": True,
+        },
+    },
+    Transformers.ALL_DROP_DUPLICATE: {
         "transformer": DropDuplicateFeatures,
         "feature_type": None,
         "args": {"missing_values": "ignore"},
     },
-    "all_drop_constant": {
+    Transformers.ALL_DROP_CONSTANT: {
         "transformer": DropConstantFeatures,
         "feature_type": None,
         "args": {"missing_values": "ignore"},
     },
-    "all_drop_missing": {
+    Transformers.ALL_DROP_MISSING: {
         "transformer": DropMissingData,
         "feature_type": None,
+        "args": {},
+    },
+    Transformers.OBJECT_DROP_COLUMNS: {
+        "transformer": DropFeatures,
+        "feature_types": ["object"],
         "args": {},
     },
 }

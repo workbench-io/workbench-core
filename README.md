@@ -90,27 +90,27 @@ The API has one endpoint to predict the compressive strength of a concrete mixtu
 
 You can clone the repository with:
 
-```bash
+```
 git clone https://github.com/workbench-io/workbench-core.git
 ```
 
 Then, navigate to the repository with:
-```bash
+```
 cd workbench_core
 ```
 
 This package is being developed with python 3.11.7. You can use `pyenv` to manage your python versions and install python 3.11.7 with:
-```bash
+```
 pyenv install 3.11.7
 ```
 
 You can set the local python version to 3.11.7 with:
-```bash
-pyenv local 3.11.7
-
 ```
+pyenv local 3.11.7
+```
+
 The package is setup with poetry. You can install the package with:
-```bash
+```
 poetry install
 ```
 
@@ -121,22 +121,22 @@ poetry install
 To setup the development environment, you first have to follow the installation steps above. Once you have the package installed, you can create a virtual environment with poetry.
 
 You can activate the virtual environment with:
-```bash
+```
 poetry shell
 ```
 
 You can install the dependencies with:
-```bash
+```
 poetry install
 ```
 
 Once all the dependencies are installed, you can run the tests with:
-```bash
+```
 poetry run pytest
 ```
 
 You can also run the tests with coverage with:
-```bash
+```
 poetry run pytest --cov=workbench_core
 ```
 
@@ -149,7 +149,7 @@ poetry run pytest --cov=workbench_core
 If you would like to run the logic to load and process the data, train the models, and optimize the concrete mixtures, you can use the `main.py` script in the root directory.
 
 You can run the script with:
-```bash
+```
 poetry run python main.py
 ```
 
@@ -168,7 +168,7 @@ settings
 
 You can run the API locally with the following command:
 
-```bash
+```
 poetry run uvicorn src.workbench_api.main:app --reload
 ```
 
@@ -176,7 +176,7 @@ poetry run uvicorn src.workbench_api.main:app --reload
 
 You can find below an example of how to generate predictions using the API. You can use `curl` or any other tool to make HTTP requests.
 
-```bash
+```
 curl -X 'POST' \
   'http://127.0.0.1:8000/predict/compressive_strength' \
   -H 'accept: application/json' \
@@ -218,7 +218,7 @@ The response will be a JSON object with the predicted compressive strength.
 
 You can find below an example of how to generate optimized concrete mixtures using the API. You can use `curl` or any other tool to make HTTP requests.
 
-```bash
+```
 curl -X 'POST' \
   'http://127.0.0.1:8000/optimize' \
   -H 'accept: application/json' \
